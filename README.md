@@ -4,7 +4,7 @@ This is a FastAPI-based microservice for fetching real-time Indian stock market 
 
 ## Features
 
-The API includes background data fetching for subscribed stocks, in-memory caching for performance, and support for multiple data providers. It offers endpoints for health checks, retrieving all quotes, individual stock quotes, on-demand fetching, subscription management, and historical data retrieval.
+The API includes background data fetching for subscribed stocks, in-memory caching for performance, and support for multiple data providers. It offers endpoints for health checks, retrieving all quotes, individual stock quotes, on-demand fetching, subscription management, historical data retrieval, and cryptocurrency price data from Binance.
 
 ## Installation
 
@@ -12,7 +12,7 @@ To run locally, create a virtual environment and install dependencies from requi
 
 ## Usage
 
-Access the interactive API documentation at /docs. The main endpoints include /health for status checks, /quotes for all cached quotes, /quote/{symbol} for individual stocks, /fetch/{symbol} for on-demand data, and /historical/{symbol} for price history.
+Access the interactive API documentation at /docs. The main endpoints include /health for status checks, /quotes for all cached quotes, /quote/{symbol} for individual stocks, /fetch/{symbol} for on-demand data, /historical/{symbol} for price history, /crypto/{symbol} for cryptocurrency prices, and /crypto-historical/{symbol} for crypto price history.
 
 ## Configuration
 

@@ -41,6 +41,20 @@ GET /historical/{symbol}?period=1d
 - Response: {"symbol": "RELIANCE.NS", "period": "1d", "data": [...]}
 - Example: /historical/RELIANCE.NS?period=5d
 
+## Get Crypto Price
+GET /crypto/{symbol}
+- Description: Get real-time cryptocurrency price from Binance
+- Parameters: symbol (e.g., BTCUSDT, ETHUSDT)
+- Response: {"symbol": "BTCUSDT", "price": "45000.50", "timestamp": "2025-09-05T10:30:00"}
+- Example: /crypto/BTCUSDT
+
+## Get Crypto Historical Data
+GET /crypto-historical/{symbol}?interval=1d&limit=100
+- Description: Get historical cryptocurrency data from Binance
+- Parameters: symbol (e.g., BTCUSDT), interval (1m, 5m, 1h, 1d, etc.), limit (max 1000)
+- Response: {"symbol": "BTCUSDT", "interval": "1d", "limit": 100, "data": [...]}
+- Example: /crypto-historical/BTCUSDT?interval=1h&limit=24
+
 ## Interactive Documentation
 GET /docs
 - Description: Swagger UI for testing endpoints

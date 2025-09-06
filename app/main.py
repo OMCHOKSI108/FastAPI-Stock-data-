@@ -6,7 +6,7 @@ from typing import Dict, List
 from .cache import InMemoryCache
 from .schemas import Quote, SubscribeRequest
 from .fetcher import background_fetcher, load_subscriptions
-from .providers import yfinance_provider, finnhub_provider, alphavantage_provider
+from .providers import yfinance_provider, finnhub_provider, alphavantage_provider, binance_provider
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -95,3 +95,29 @@ async def get_available_stocks():
     popular = ["RELIANCE.NS", "INFY.NS", "TCS.NS", "HDFCBANK.NS", "ICICIBANK.NS"]
     all_stocks = list(set(subscribed + popular))
     return all_stocks
+
+@app.get("/crypto/{symbol}")
+async def get_crypto_price(symbol: str):
+    """Get cryptocurrency price from Binance"""
+    try:
+        data = await binance_provider.get_crypto_price(symbol.upper())
+        if data:
+            return data
+        else:
+            raise HTTPException(status_code=404, detail="Cryptocurrency not found")
+    except Exception as e:
+        logger.error(f"Error fetching crypto price for {symbol}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch crypto price")
+
+@app.get("/crypto-historical/{symbol}")
+async def get_crypto_historical(symbol: str, interval: str = "1d", limit: int = 100):
+    """Get cryptocurrency historical data from Binance"""
+    try:
+        data = await binance_provider.get_crypto_historical(symbol.upper(), interval, limit)
+        if data:
+            return {"symbol": symbol.upper(), "interval": interval, "limit": limit, "data": data}
+        else:
+            raise HTTPException(status_code=404, detail="No historical data found")
+    except Exception as e:
+        logger.error(f"Error fetching crypto historical data for {symbol}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch crypto historical data")
