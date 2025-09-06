@@ -2,6 +2,7 @@ import os
 import asyncio
 import logging
 from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict, List
 from .cache import InMemoryCache
 from .schemas import Quote, SubscribeRequest
@@ -19,6 +20,19 @@ PROVIDER_MAP = {
 }
 
 app = FastAPI(title="FastStockAPI")
+
+origins = [
+    "http://localhost:5173",  # React local dev
+    "https://your-production-frontend.com"  # Replace with your production domain
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 async def startup():
