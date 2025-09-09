@@ -2,7 +2,7 @@
 
 This page lists all supported NSE (National Stock Exchange of India) stock symbols available through our API.
 
-## 📊 Supported NSE Stocks
+## Supported NSE Stocks
 
 Our API supports 200+ NSE stocks. Here are the major categories:
 
@@ -89,7 +89,7 @@ Our API supports 200+ NSE stocks. Here are the major categories:
 | `FORTIS.NS` | Fortis Healthcare Ltd |
 | `NH.NS` | Narayana Hrudayalaya Ltd |
 
-## 🔍 Symbol Format
+## Symbol Format
 
 All NSE stock symbols must include the `.NS` suffix:
 
@@ -103,7 +103,7 @@ All NSE stock symbols must include the `.NS` suffix:
     - `TCS` ❌
     - `HDFCBANK` ❌
 
-## 📈 Available Endpoints
+## Available Endpoints
 
 ### Stock Data Endpoints
 
@@ -143,7 +143,7 @@ Response:
 curl "https://fastapi-stock-data.onrender.com/historical/RELIANCE.NS?period=5d&interval=1d"
 ```
 
-## 📊 Historical Data Parameters
+## Historical Data Parameters
 
 ### Periods
 - `1d` - 1 day
@@ -173,7 +173,7 @@ curl "https://fastapi-stock-data.onrender.com/historical/RELIANCE.NS?period=5d&i
 - `1mo` - 1 month
 - `3mo` - 3 months
 
-## 🏛️ Market Indices
+## Market Indices
 
 In addition to individual stocks, we support major NSE indices:
 
@@ -197,7 +197,7 @@ GET /historical/^NSENIFTY?period=1d&interval=1d
 !!! note "Index Symbols"
     For historical data, use the Yahoo Finance format: `^NSENIFTY`, `^NSEBANK`
 
-## 📱 Integration Examples
+## Integration Examples
 
 ### Python
 
@@ -231,7 +231,7 @@ getStockPrice("TCS.NS").then(data => {
 });
 ```
 
-## ⚠️ Important Notes
+## Important Notes
 
 ### Market Hours
 - **Pre-market**: 9:00 AM - 9:15 AM IST
@@ -248,7 +248,7 @@ getStockPrice("TCS.NS").then(data => {
 - Always verify the current symbol on NSE website
 - Our API may not reflect real-time symbol changes
 
-## 🔄 Real-time Updates
+## Real-time Updates
 
 For real-time stock updates:
 
@@ -256,7 +256,7 @@ For real-time stock updates:
 2. **WebSocket**: Use NSE WebSocket API directly
 3. **Caching**: Implement client-side caching
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 

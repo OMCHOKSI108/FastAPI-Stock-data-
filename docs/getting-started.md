@@ -2,7 +2,7 @@
 
 This guide will help you get started with the FastAPI Stock & Crypto Data API.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. API Base URL
 
@@ -23,7 +23,7 @@ Response:
 {"status": "ok"}
 ```
 
-## 📊 Basic Endpoints
+## Basic Endpoints
 
 ### Get Stock Price
 
@@ -49,7 +49,7 @@ curl "https://fastapi-stock-data.onrender.com/crypto-price/BTCUSDT"
 curl "https://fastapi-stock-data.onrender.com/crypto-stats/BTCUSDT"
 ```
 
-## 🐍 Python Examples
+## Python Examples
 
 ### Using requests library
 
@@ -85,7 +85,7 @@ async def get_data():
 asyncio.run(get_data())
 ```
 
-## 🌐 JavaScript Examples
+## JavaScript Examples
 
 ### Fetch API
 
@@ -117,7 +117,7 @@ axios.get('https://fastapi-stock-data.onrender.com/api/v1/market/price/stock?sym
     });
 ```
 
-## 📱 Mobile Apps
+## Mobile Applications
 
 ### React Native
 
@@ -141,7 +141,7 @@ function CryptoPrice() {
 }
 ```
 
-## 🔧 Error Handling
+## Error Handling
 
 ### Common HTTP Status Codes
 
@@ -170,13 +170,13 @@ def safe_api_call(url):
         return None
 ```
 
-## 📊 Rate Limiting
+## Rate Limiting
 
 - **Production**: No rate limiting (for now)
 - **Development**: Test responsibly
 - **Best Practice**: Implement caching on your end
 
-## 🔍 Testing
+## Testing
 
 Use our test script to verify all endpoints:
 
@@ -184,7 +184,7 @@ Use our test script to verify all endpoints:
 python test_api_fixes.py
 ```
 
-## 📚 Next Steps
+## Next Steps
 
 - [API Reference](api/stock.md) - Complete endpoint documentation
 - [Symbol Reference](symbols/nse-stocks.md) - Available symbols

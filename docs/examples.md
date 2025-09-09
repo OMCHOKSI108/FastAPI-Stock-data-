@@ -2,7 +2,7 @@
 
 This page provides comprehensive code examples for using the FastAPI Stock & Crypto Data API in different programming languages and frameworks.
 
-## 🐍 Python Examples
+## Python Examples
 
 ### Basic Usage with requests
 
@@ -272,7 +272,7 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-## 🌐 JavaScript Examples
+## JavaScript Examples
 
 ### Browser JavaScript (ES6+)
 
@@ -534,7 +534,7 @@ if (require.main === module) {
 module.exports = StockCryptoAPI;
 ```
 
-## 📱 React Example
+## React Example
 
 ```jsx
 import React, { useState, useEffect } from 'react';
@@ -603,7 +603,7 @@ function CryptoDashboard() {
 export default CryptoDashboard;
 ```
 
-## 📊 cURL Examples
+## cURL Examples
 
 ```bash
 # Health check
@@ -687,7 +687,7 @@ get_crypto_price "BTCUSDT"
 # monitor_prices "RELIANCE.NS" "BTCUSDT" "ETHUSDT"
 ```
 
-## 🔧 Error Handling Examples
+## Error Handling Examples
 
 ### Python Error Handling
 

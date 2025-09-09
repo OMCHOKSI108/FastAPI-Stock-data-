@@ -2,7 +2,7 @@
 
 This page lists all supported cryptocurrency symbols available through our API.
 
-## 📊 Supported Cryptocurrencies
+## Supported Cryptocurrencies
 
 Our API supports the following cryptocurrency pairs traded on Binance:
 
@@ -47,7 +47,7 @@ Our API supports the following cryptocurrency pairs traded on Binance:
 | `SXPUSDT` | Swipe | Payment protocol |
 | `ALICEUSDT` | My Neighbor Alice | Gaming metaverse |
 
-## 🔍 Symbol Format
+## Symbol Format
 
 All cryptocurrency symbols follow the format: `{BASE}{QUOTE}`
 
@@ -59,7 +59,7 @@ All cryptocurrency symbols follow the format: `{BASE}{QUOTE}`
     - `ETHUSDT` = Ethereum priced in USDT
     - `ADAUSDT` = Cardano priced in USDT
 
-## 📈 Available Endpoints
+## Available Endpoints
 
 ### Price Endpoints
 
@@ -99,7 +99,7 @@ curl "https://fastapi-stock-data.onrender.com/crypto-stats/BTCUSDT"
 curl "https://fastapi-stock-data.onrender.com/crypto-historical/BTCUSDT?interval=1d&limit=30"
 ```
 
-## 📊 Historical Data Intervals
+## Historical Data Intervals
 
 Supported intervals for historical data:
 
@@ -119,7 +119,7 @@ Supported intervals for historical data:
 - `1w` - 1 week
 - `1M` - 1 month
 
-## ⚠️ Important Notes
+## Important Notes
 
 ### Symbol Availability
 - All symbols are subject to Binance's availability
@@ -136,7 +136,7 @@ Supported intervals for historical data:
 - Historical data may have slight delays
 - Always verify critical data from multiple sources
 
-## 🔄 Real-time Updates
+## Real-time Updates
 
 For real-time price updates, consider:
 
@@ -144,7 +144,7 @@ For real-time price updates, consider:
 2. **WebSocket**: Use Binance WebSocket API directly
 3. **Caching**: Implement client-side caching
 
-## 📱 Mobile Integration
+## Mobile Integration
 
 When using in mobile apps:
 
@@ -164,7 +164,7 @@ const getCryptoPrice = async (symbol) => {
 };
 ```
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
