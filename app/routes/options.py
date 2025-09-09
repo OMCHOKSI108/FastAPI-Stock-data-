@@ -145,6 +145,42 @@ async def fetch_options_expiry(
         message="Options fetch job for specific expiry queued successfully"
     )
 
+# Temporary public endpoint for testing (remove after debugging)
+@router.post("/fetch/expiry/public", response_model=JobResponse)
+async def fetch_options_expiry_public(
+    request: FetchOptionsExpiryRequest,
+    background_tasks: BackgroundTasks
+):
+    """
+    PUBLIC endpoint for testing - NO AUTH REQUIRED.
+    Fetch & save for a specific expiry.
+    """
+    job_id = str(uuid.uuid4())
+
+    # Store job status
+    jobs[job_id] = {
+        "status": "pending",
+        "job_type": "fetch_options_expiry_public",
+        "user_id": 0,  # Public user
+        "params": request.dict(),
+        "created_at": datetime.utcnow()
+    }
+
+    # Add background task
+    background_tasks.add_task(
+        _background_fetch_options_expiry,
+        job_id,
+        request.index,
+        request.expiry,
+        request.num_strikes
+    )
+
+    return JobResponse(
+        job_id=job_id,
+        status="accepted",
+        message="Options fetch job for specific expiry queued successfully (public)"
+    )
+
 @router.get("/latest", response_model=OptionsSnapshotResponse)
 async def get_latest_options(
     index: str,
@@ -292,3 +328,23 @@ async def _background_fetch_options_expiry(job_id: str, index: str, expiry: str,
     except Exception as e:
         jobs[job_id]["status"] = "failed"
         jobs[job_id]["error_message"] = str(e)
+
+# Job status endpoint
+@router.get("/job/{job_id}")
+async def get_job_status(job_id: str):
+    """
+    Get the status of a background job.
+    """
+    if job_id not in jobs:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    job = jobs[job_id]
+    return {
+        "job_id": job_id,
+        "status": job["status"],
+        "job_type": job.get("job_type", "unknown"),
+        "created_at": job.get("created_at"),
+        "completed_at": job.get("completed_at"),
+        "error_message": job.get("error_message"),
+        "params": job.get("params")
+    }
