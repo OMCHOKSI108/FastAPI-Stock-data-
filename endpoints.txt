@@ -35,11 +35,20 @@ DELETE /unsubscribe/{symbol}
 - Response: {"detail": "unsubscribed", "symbol": "INFY.NS"}
 
 ## Get Historical Data
-GET /historical/{symbol}?period=1d
-- Description: Get historical price data for a symbol
-- Parameters: symbol (e.g., RELIANCE.NS), period (1d, 5d, 1mo, etc.)
-- Response: {"symbol": "RELIANCE.NS", "period": "1d", "data": [...]}
-- Example: /historical/RELIANCE.NS?period=5d
+GET /historical/{symbol}?period=1d&interval=1d&start=2025-01-01&end=2025-09-09
+- Description: Get historical price data for a symbol with flexible time periods and intervals
+- Parameters:
+  - symbol (required) - Stock symbol (e.g., RELIANCE.NS, AAPL)
+  - period (optional, default: 1d) - Time period: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max
+  - interval (optional, default: 1d) - Data interval: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
+  - start (optional) - Start date in YYYY-MM-DD format
+  - end (optional) - End date in YYYY-MM-DD format
+- Response: {"symbol": "AAPL", "period": "1mo", "interval": "1d", "start": null, "end": null, "data": [...]}
+- Examples:
+  - /historical/AAPL?period=1mo&interval=1d (1 month of daily data)
+  - /historical/RELIANCE.NS?period=6mo&interval=1wk (6 months of weekly data)
+  - /historical/AAPL?period=5d&interval=1h (5 days of hourly data)
+  - /historical/AAPL?start=2025-01-01&end=2025-09-09&interval=1d (Custom date range)
 
 ## Get Crypto Price
 GET /crypto/{symbol}

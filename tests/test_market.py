@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, AsyncMock
 from fastapi.testclient import TestClient
 from app.main import app
 
@@ -66,3 +66,71 @@ class TestMarketEndpoints:
 
         assert response.status_code == 404
         assert 'error' in response.json()['detail']
+
+class TestHistoricalEndpoint:
+    """Test cases for historical data endpoint"""
+
+    @patch('app.main.PROVIDER_MAP')
+    def test_get_historical_success(self, mock_provider_map):
+        """Test successful historical data fetch"""
+        # Mock the provider
+        mock_provider = MagicMock()
+        mock_provider_map.get.return_value = mock_provider
+        mock_provider.get_historical = AsyncMock(return_value=[
+            {
+                "timestamp": "2025-09-09T10:00:00",
+                "open": 150.0,
+                "high": 155.0,
+                "low": 149.0,
+                "close": 152.5,
+                "volume": 1000000
+            }
+        ])
+
+        response = client.get("/historical/AAPL?period=1mo&interval=1d")
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data['symbol'] == 'AAPL'
+        assert data['period'] == '1mo'
+        assert data['interval'] == '1d'
+        assert len(data['data']) == 1
+
+    def test_get_historical_invalid_period(self):
+        """Test historical data with invalid period"""
+        response = client.get("/historical/AAPL?period=invalid")
+
+        assert response.status_code == 400
+        assert 'Invalid period' in response.json()['detail']
+
+    def test_get_historical_invalid_interval(self):
+        """Test historical data with invalid interval"""
+        response = client.get("/historical/AAPL?interval=invalid")
+
+        assert response.status_code == 400
+        assert 'Invalid interval' in response.json()['detail']
+
+    @patch('app.main.PROVIDER_MAP')
+    def test_get_historical_no_data(self, mock_provider_map):
+        """Test historical data fetch with no data returned"""
+        mock_provider = MagicMock()
+        mock_provider_map.get.return_value = mock_provider
+        mock_provider.get_historical = AsyncMock(return_value=None)
+
+        response = client.get("/historical/AAPL")
+
+        assert response.status_code == 404
+        assert 'No historical data found' in response.json()['detail']
+
+    @patch('app.main.PROVIDER_MAP')
+    def test_get_historical_provider_no_support(self, mock_provider_map):
+        """Test historical data with provider that doesn't support it"""
+        mock_provider = MagicMock()
+        mock_provider_map.get.return_value = mock_provider
+        # Remove get_historical method to simulate no support
+        del mock_provider.get_historical
+
+        response = client.get("/historical/AAPL")
+
+        assert response.status_code == 501
+        assert 'not supported by current provider' in response.json()['detail']

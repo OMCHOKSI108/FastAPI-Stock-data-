@@ -99,14 +99,59 @@ async def fetch_quote(symbol: str):
         raise HTTPException(status_code=404, detail="Failed to fetch quote")
 
 @app.get("/historical/{symbol}")
-async def get_historical(symbol: str, period: str = "1d"):
+async def get_historical(
+    symbol: str,
+    period: str = "1d",
+    interval: str = "1d",
+    start: str = None,
+    end: str = None
+):
+    """
+    Get historical price data for a symbol with flexible time periods.
+
+    Supported periods: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max
+    Supported intervals: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
+
+    Examples:
+    - /historical/AAPL?period=1mo&interval=1d (1 month daily data)
+    - /historical/AAPL?period=1y&interval=1wk (1 year weekly data)
+    - /historical/AAPL?period=5d&interval=1h (5 days hourly data)
+    """
     provider_module = PROVIDER_MAP.get(PROVIDER, yfinance_provider)
+
+    # Validate period parameter
+    valid_periods = ["1d", "5d", "1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "ytd", "max"]
+    if period not in valid_periods:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid period '{period}'. Supported periods: {', '.join(valid_periods)}"
+        )
+
+    # Validate interval parameter
+    valid_intervals = ["1m", "2m", "5m", "15m", "30m", "60m", "90m", "1h", "1d", "5d", "1wk", "1mo", "3mo"]
+    if interval not in valid_intervals:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid interval '{interval}'. Supported intervals: {', '.join(valid_intervals)}"
+        )
+
     if hasattr(provider_module, 'get_historical'):
-        data = await provider_module.get_historical(symbol, period)
-        if data:
-            return {"symbol": symbol.upper(), "period": period, "data": data}
-        else:
-            raise HTTPException(status_code=404, detail="No historical data found")
+        try:
+            data = await provider_module.get_historical(symbol, period, interval, start, end)
+            if data:
+                return {
+                    "symbol": symbol.upper(),
+                    "period": period,
+                    "interval": interval,
+                    "start": start,
+                    "end": end,
+                    "data": data
+                }
+            else:
+                raise HTTPException(status_code=404, detail="No historical data found")
+        except Exception as e:
+            logger.error(f"Error fetching historical data for {symbol}: {e}")
+            raise HTTPException(status_code=500, detail=f"Failed to fetch historical data: {str(e)}")
     else:
         raise HTTPException(status_code=501, detail="Historical data not supported by current provider")
 

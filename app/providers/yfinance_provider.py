@@ -25,17 +25,36 @@ def _sync_yf(symbol: str):
     except Exception as e:
         logger.error(f"Quote fetch error for {symbol}: {e}")
         return None
-async def get_historical(symbol: str, period: str = "1d") -> Optional[list]:
-    """Fetch historical data for a symbol."""
+async def get_historical(
+    symbol: str,
+    period: str = "1d",
+    interval: str = "1d",
+    start: str = None,
+    end: str = None
+) -> Optional[list]:
+    """Fetch historical data for a symbol with flexible parameters."""
     loop = asyncio.get_event_loop()
-    return await loop.run_in_executor(None, _sync_historical, symbol, period)
+    return await loop.run_in_executor(None, _sync_historical, symbol, period, interval, start, end)
 
-def _sync_historical(symbol: str, period: str) -> Optional[list]:
+def _sync_historical(
+    symbol: str,
+    period: str,
+    interval: str = "1d",
+    start: str = None,
+    end: str = None
+) -> Optional[list]:
     try:
         ticker = yf.Ticker(symbol)
-        data = ticker.history(period=period)
+
+        # Use start/end if provided, otherwise use period
+        if start and end:
+            data = ticker.history(start=start, end=end, interval=interval)
+        else:
+            data = ticker.history(period=period, interval=interval)
+
         if data.empty:
             return None
+
         # Convert to list of dicts
         historical = []
         for idx, row in data.iterrows():
@@ -48,6 +67,9 @@ def _sync_historical(symbol: str, period: str) -> Optional[list]:
                 "volume": int(row['Volume'])
             })
         return historical
+    except Exception as e:
+        logger.error(f"Historical data fetch error for {symbol}: {e}")
+        return None
     except Exception as e:
         logger.error(f"Historical data error for {symbol}: {e}")
         return None
