@@ -66,20 +66,53 @@ def fetch_index_price(index_name: str) -> dict:
         if not quote:
             return {'error': f"No data found for index '{index_name}'. NSE quote returned None."}
 
-        if 'lastPrice' not in quote:
-            return {'error': f"No lastPrice found in NSE quote for '{index_name}'. Available keys: {list(quote.keys()) if isinstance(quote, dict) else 'Not a dict'}"}
+        # Determine last price: different NSE responses use different keys for indices vs stocks
+        last_price_str = None
+        if isinstance(quote, dict):
+            # preferred key
+            if 'lastPrice' in quote:
+                last_price_str = quote['lastPrice']
+            # index responses often include 'underlyingValue'
+            elif 'underlyingValue' in quote:
+                last_price_str = quote['underlyingValue']
+            # some responses nest info under 'underlyingInfo'
+            elif isinstance(quote.get('underlyingInfo'), dict) and 'lastPrice' in quote.get('underlyingInfo'):
+                last_price_str = quote['underlyingInfo']['lastPrice']
+
+        if last_price_str is None:
+            return {'error': f"No lastPrice or underlyingValue found in NSE quote for '{index_name}'. Available keys: {list(quote.keys()) if isinstance(quote, dict) else 'Not a dict'}"}
 
         # Handle comma-separated prices
-        last_price_str = quote['lastPrice']
+        # last_price_str may already be numeric
         if isinstance(last_price_str, str):
             last_price_str = last_price_str.replace(',', '')
 
+        # normalize to float
+        try:
+            if isinstance(last_price_str, str):
+                last_price_str = last_price_str.replace(',', '')
+            last_price = float(last_price_str)
+        except Exception:
+            return {'error': f"Unable to parse last price for '{index_name}': {last_price_str!r}"}
+
+        # pChange and change may not be present for index responses; provide safe defaults
+        pchange_raw = quote.get('pChange', quote.get('pChangeInPercent', 0)) if isinstance(quote, dict) else 0
+        change_raw = quote.get('change', 0) if isinstance(quote, dict) else 0
+        timestamp_val = None
+        # common timestamp keys
+        for k in ('secDate', 'fut_timestamp', 'opt_timestamp', 'timestamp'):
+            if isinstance(quote, dict) and k in quote:
+                timestamp_val = quote.get(k)
+                break
+        if not timestamp_val:
+            timestamp_val = datetime.now().strftime("%d %b %Y %H:%M:%S")
+
         price_data = {
             'symbol': index_name,
-            'lastPrice': float(last_price_str),
-            'pChange': float(quote.get('pChange', 0)),
-            'change': float(quote.get('change', 0)),
-            'timestamp': quote.get('secDate', datetime.now().strftime("%d %b %Y %H:%M:%S"))
+            'lastPrice': last_price,
+            'pChange': float(pchange_raw) if isinstance(pchange_raw, (int, float, str)) else 0,
+            'change': float(change_raw) if isinstance(change_raw, (int, float, str)) else 0,
+            'timestamp': timestamp_val
         }
         return price_data
     except Exception as e:
