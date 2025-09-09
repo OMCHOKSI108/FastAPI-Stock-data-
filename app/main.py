@@ -135,3 +135,87 @@ async def get_crypto_historical(symbol: str, interval: str = "1d", limit: int = 
     except Exception as e:
         logger.error(f"Error fetching crypto historical data for {symbol}: {e}")
         raise HTTPException(status_code=500, detail="Failed to fetch crypto historical data")
+
+@app.get("/crypto-historical-extended/{symbol}")
+async def get_crypto_historical_extended(
+    symbol: str,
+    interval: str = "1d",
+    start_str: str = "30 days ago UTC",
+    max_records: int = 1000
+):
+    """Get extended cryptocurrency historical data with pagination (up to 5000 records)"""
+    try:
+        data = await binance_provider.get_crypto_historical_paginated(
+            symbol.upper(), interval, start_str, max_records
+        )
+        if data:
+            return {
+                "symbol": symbol.upper(),
+                "interval": interval,
+                "start_date": start_str,
+                "total_records": len(data),
+                "data": data
+            }
+        else:
+            raise HTTPException(status_code=404, detail="No historical data found")
+    except Exception as e:
+        logger.error(f"Error fetching extended crypto historical data for {symbol}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch extended crypto historical data")
+
+@app.get("/crypto-stats/{symbol}")
+async def get_crypto_stats(symbol: str):
+    """Get 24hr cryptocurrency statistics from Binance"""
+    try:
+        data = await binance_provider.get_24hr_ticker_stats(symbol.upper())
+        if data:
+            return data
+        else:
+            raise HTTPException(status_code=404, detail="Cryptocurrency stats not found")
+    except Exception as e:
+        logger.error(f"Error fetching crypto stats for {symbol}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch crypto stats")
+
+@app.get("/crypto-multiple")
+async def get_multiple_crypto_prices(symbols: str):
+    """Get multiple cryptocurrency prices in a single request"""
+    try:
+        symbol_list = [s.strip().upper() for s in symbols.split(",")]
+        if len(symbol_list) > 100:
+            raise HTTPException(status_code=400, detail="Maximum 100 symbols allowed")
+
+        data = await binance_provider.get_multiple_crypto_prices(symbol_list)
+        if data:
+            return {
+                "symbols_requested": symbol_list,
+                "symbols_found": len(data),
+                "data": data
+            }
+        else:
+            raise HTTPException(status_code=404, detail="No cryptocurrency data found")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching multiple crypto prices: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch multiple crypto prices")
+
+@app.get("/crypto-comprehensive/{symbol}")
+async def get_crypto_comprehensive(symbol: str):
+    """Get comprehensive cryptocurrency data (price + 24hr stats)"""
+    try:
+        price_data = await binance_provider.get_crypto_price(symbol.upper())
+        stats_data = await binance_provider.get_24hr_ticker_stats(symbol.upper())
+
+        if not price_data or not stats_data:
+            raise HTTPException(status_code=404, detail="Cryptocurrency data not found")
+
+        return {
+            "symbol": symbol.upper(),
+            "current_price": price_data,
+            "statistics_24h": stats_data,
+            "timestamp": price_data["timestamp"]
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching comprehensive crypto data for {symbol}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch comprehensive crypto data")
