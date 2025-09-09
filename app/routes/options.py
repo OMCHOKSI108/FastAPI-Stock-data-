@@ -75,6 +75,41 @@ async def fetch_options(
         message="Options fetch job queued successfully"
     )
 
+# Temporary public endpoint for testing (remove after debugging)
+@router.post("/fetch/public", response_model=JobResponse)
+async def fetch_options_public(
+    request: FetchOptionsRequest,
+    background_tasks: BackgroundTasks
+):
+    """
+    PUBLIC endpoint for testing - NO AUTH REQUIRED.
+    Trigger immediate fetch for the nearest expiry and persist a snapshot.
+    """
+    job_id = str(uuid.uuid4())
+
+    # Store job status
+    jobs[job_id] = {
+        "status": "pending",
+        "job_type": "fetch_options_public",
+        "user_id": 0,  # Public user
+        "params": request.dict(),
+        "created_at": datetime.utcnow()
+    }
+
+    # Add background task
+    background_tasks.add_task(
+        _background_fetch_options,
+        job_id,
+        request.index,
+        request.num_strikes
+    )
+
+    return JobResponse(
+        job_id=job_id,
+        status="accepted",
+        message="Options fetch job queued successfully (public)"
+    )
+
 @router.post("/fetch/expiry", response_model=JobResponse)
 async def fetch_options_expiry(
     request: FetchOptionsExpiryRequest,
@@ -117,6 +152,65 @@ async def get_latest_options(
     current_user: User = Depends(get_current_user)
 ):
     """
+    Return most recent snapshot rows for an index (nearest expiry by default).
+    """
+    try:
+        # TODO: Load from database instead of file system
+        output_dir = "option_chain_data"
+        if not os.path.exists(output_dir):
+            raise HTTPException(status_code=404, detail="No option data available")
+
+        # Find latest CSV file for the index
+        files = [f for f in os.listdir(output_dir) if f.startswith(f"{index.lower()}_") and f.endswith('.csv')]
+        if not files:
+            raise HTTPException(status_code=404, detail=f"No data found for index {index}")
+
+        latest_file = sorted(files, reverse=True)[0]
+        csv_path = os.path.join(output_dir, latest_file)
+
+        # Read the CSV
+        df = pd.read_csv(csv_path)
+
+        # Convert to response format
+        rows = []
+        for _, row in df.iterrows():
+            rows.append(OptionStrikeData(
+                strikePrice=row['strikePrice'],
+                expiryDate=row['expiryDate'],
+                CE_openInterest=row.get('CE_openInterest'),
+                CE_lastPrice=row.get('CE_lastPrice'),
+                CE_totalTradedVolume=row.get('CE_totalTradedVolume'),
+                PE_openInterest=row.get('PE_openInterest'),
+                PE_lastPrice=row.get('PE_lastPrice'),
+                PE_totalTradedVolume=row.get('PE_totalTradedVolume')
+            ))
+
+        # Limit results if specified
+        if limit:
+            rows = rows[:limit]
+
+        # TODO: Load proper metadata
+        meta = {
+            "index": index.upper(),
+            "total_rows": len(rows),
+            "createdAtUTC": datetime.utcnow().isoformat()
+        }
+
+        return OptionsSnapshotResponse(meta=meta, rows=rows)
+
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="No option data available")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to load latest options: {str(e)}")
+
+# Temporary public endpoint for testing (remove after debugging)
+@router.get("/latest/public", response_model=OptionsSnapshotResponse)
+async def get_latest_options_public(
+    index: str,
+    limit: Optional[int] = None
+):
+    """
+    PUBLIC endpoint for testing - NO AUTH REQUIRED.
     Return most recent snapshot rows for an index (nearest expiry by default).
     """
     try:

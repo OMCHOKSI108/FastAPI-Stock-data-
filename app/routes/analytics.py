@@ -71,6 +71,38 @@ async def get_pcr(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to calculate PCR: {str(e)}")
 
+# Temporary public endpoint for testing (remove after debugging)
+@router.get("/pcr/public", response_model=PCRResponse)
+async def get_pcr_public(
+    index: str,
+    expiry: Optional[str] = None
+):
+    """
+    Public PCR endpoint for testing - NO AUTH REQUIRED.
+    Calculate Put-Call Ratio for the given index.
+    """
+    try:
+        df = _load_latest_dataframe(index)
+
+        # Filter by expiry if specified
+        if expiry:
+            df = df[df['expiryDate'] == expiry]
+
+        if df.empty:
+            raise HTTPException(status_code=404, detail="No data found for the specified parameters")
+
+        pcr_data = calculate_pcr(df)
+
+        return PCRResponse(
+            pcr_by_oi=pcr_data['pcr_by_oi'],
+            pcr_by_volume=pcr_data['pcr_by_volume']
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to calculate PCR: {str(e)}")
+
 @router.get("/top-oi", response_model=TopOIResponse)
 async def get_top_oi(
     index: str,
