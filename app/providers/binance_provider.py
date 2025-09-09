@@ -133,23 +133,37 @@ async def get_24hr_ticker_stats(symbol: str) -> Optional[dict]:
             response = await client.get(url, params=params)
             response.raise_for_status()
             data = response.json()
+
+            # Safely extract values with defaults for missing fields
+            def safe_float(value, default=0.0):
+                try:
+                    return float(value) if value is not None else default
+                except (ValueError, TypeError):
+                    return default
+
+            def safe_int(value, default=0):
+                try:
+                    return int(value) if value is not None else default
+                except (ValueError, TypeError):
+                    return default
+
             return {
-                "symbol": data["symbol"],
-                "price_change": float(data["priceChange"]),
-                "price_change_percent": float(data["priceChangePercent"]),
-                "weighted_avg_price": float(data["weightedAvgPrice"]),
-                "prev_close_price": float(data["prevClosePrice"]),
-                "last_price": float(data["lastPrice"]),
-                "bid_price": float(data["bidPrice"]),
-                "ask_price": float(data["askPrice"]),
-                "open_price": float(data["openPrice"]),
-                "high_price": float(data["highPrice"]),
-                "low_price": float(data["lowPrice"]),
-                "volume": float(data["volume"]),
-                "quote_asset_volume": float(data["quoteAssetVolume"]),
-                "open_time": data["openTime"] / 1000,
-                "close_time": data["closeTime"] / 1000,
-                "count": int(data["count"])
+                "symbol": data.get("symbol", symbol.upper()),
+                "price_change": safe_float(data.get("priceChange")),
+                "price_change_percent": safe_float(data.get("priceChangePercent")),
+                "weighted_avg_price": safe_float(data.get("weightedAvgPrice")),
+                "prev_close_price": safe_float(data.get("prevClosePrice")),
+                "last_price": safe_float(data.get("lastPrice")),
+                "bid_price": safe_float(data.get("bidPrice")),
+                "ask_price": safe_float(data.get("askPrice")),
+                "open_price": safe_float(data.get("openPrice")),
+                "high_price": safe_float(data.get("highPrice")),
+                "low_price": safe_float(data.get("lowPrice")),
+                "volume": safe_float(data.get("volume")),
+                "quote_asset_volume": safe_float(data.get("quoteAssetVolume")),
+                "open_time": safe_float(data.get("openTime", 0)) / 1000,
+                "close_time": safe_float(data.get("closeTime", 0)) / 1000,
+                "count": safe_int(data.get("count"))
             }
         except Exception as e:
             logger.error(f"Binance 24hr stats error for {symbol}: {e}")

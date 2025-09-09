@@ -8,7 +8,7 @@ from datetime import datetime
 
 # Add the parent directory to sys.path to import data_gather_stocks
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from data_gather_stocks import (
+from app.data_gather_stocks import (
     get_available_expiries,
     fetch_and_save_option_chain,
     fetch_specific_expiry_option_chain

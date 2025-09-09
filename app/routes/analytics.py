@@ -6,7 +6,7 @@ import pandas as pd
 
 # Add the parent directory to sys.path to import data_gather_stocks
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from data_gather_stocks import (
+from app.data_gather_stocks import (
     calculate_pcr,
     find_high_oi_strikes,
     calculate_max_pain,

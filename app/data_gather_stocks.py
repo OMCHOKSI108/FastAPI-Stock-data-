@@ -59,18 +59,31 @@ def fetch_index_price(index_name: str) -> dict:
     try:
         print(f"Fetching latest price for index: {index_name}...")
         quote = nse_quote(index_name)
-        if not quote or 'lastPrice' not in quote:
-            return {'error': f"No data found for index '{index_name}'. Ensure it is a valid NSE index symbol."}
-        
+
+        # Debug logging
+        print(f"NSE Quote response for {index_name}: {quote}")
+
+        if not quote:
+            return {'error': f"No data found for index '{index_name}'. NSE quote returned None."}
+
+        if 'lastPrice' not in quote:
+            return {'error': f"No lastPrice found in NSE quote for '{index_name}'. Available keys: {list(quote.keys()) if isinstance(quote, dict) else 'Not a dict'}"}
+
+        # Handle comma-separated prices
+        last_price_str = quote['lastPrice']
+        if isinstance(last_price_str, str):
+            last_price_str = last_price_str.replace(',', '')
+
         price_data = {
             'symbol': index_name,
-            'lastPrice': float(quote['lastPrice'].replace(',', '')),
-            'pChange': float(quote['pChange']),
-            'change': float(quote['change']),
+            'lastPrice': float(last_price_str),
+            'pChange': float(quote.get('pChange', 0)),
+            'change': float(quote.get('change', 0)),
             'timestamp': quote.get('secDate', datetime.now().strftime("%d %b %Y %H:%M:%S"))
         }
         return price_data
     except Exception as e:
+        print(f"Error in fetch_index_price for {index_name}: {e}")
         return {'error': f"An error occurred while fetching index price for '{index_name}': {e}"}
 
 def fetch_stock_price(stock_symbol: str) -> dict:
