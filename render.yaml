@@ -4,7 +4,7 @@ services:
 - type: web
 name: faststockapi
 env: python
-repo: https://github.com/<YOUR-USER>/<YOUR-REPO>
+repo: https://github.com/OMCHOKSI108/FastAPI-Stock-data-
 branch: main
 buildCommand: pip install -r requirements.txt
 startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT

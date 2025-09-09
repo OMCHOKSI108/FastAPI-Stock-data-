@@ -55,6 +55,128 @@ GET /crypto-historical/{symbol}?interval=1d&limit=100
 - Response: {"symbol": "BTCUSDT", "interval": "1d", "limit": 100, "data": [...]}
 - Example: /crypto-historical/BTCUSDT?interval=1h&limit=24
 
+## Get Crypto Stats (24hr)
+GET /crypto-stats/{symbol}
+- Description: Get 24-hour cryptocurrency statistics from Binance
+- Parameters: symbol (e.g., BTCUSDT)
+- Response: {"symbol": "BTCUSDT", "priceChangePercent": 2.5, "highPrice": "46000", "lowPrice": "44000", ...}
+- Example: /crypto-stats/BTCUSDT
+
+## Get Multiple Crypto Prices
+GET /crypto-multiple?symbols=BTCUSDT,ETHUSDT
+- Description: Get multiple cryptocurrency prices in a single request
+- Parameters: symbols (comma-separated list)
+- Response: {"symbols_requested": ["BTCUSDT", "ETHUSDT"], "symbols_found": 2, "data": [...]}
+- Example: /crypto-multiple?symbols=BTCUSDT,ETHUSDT,ADAUSDT
+
+## Get Crypto Comprehensive Data
+GET /crypto-comprehensive/{symbol}
+- Description: Get comprehensive cryptocurrency data (price + 24hr stats)
+- Parameters: symbol (e.g., BTCUSDT)
+- Response: {"symbol": "BTCUSDT", "current_price": {...}, "statistics_24h": {...}, "timestamp": "..."}
+- Example: /crypto-comprehensive/BTCUSDT
+
+## Get Crypto Extended Historical Data
+GET /crypto-historical-extended/{symbol}?interval=1d&start_str=30%20days%20ago%20UTC&max_records=1000
+- Description: Get extended historical cryptocurrency data with pagination
+- Parameters: symbol, interval, start_str, max_records (up to 5000)
+- Response: {"symbol": "BTCUSDT", "interval": "1d", "start_date": "30 days ago UTC", "total_records": 1000, "data": [...]}
+- Example: /crypto-historical-extended/BTCUSDT?interval=1h&start_str=7%20days%20ago%20UTC&max_records=2000
+
+## Get Available Stocks List
+GET /stocks/list
+- Description: Get list of all available Indian stocks for enterprise use
+- Response: ["RELIANCE.NS", "INFY.NS", "TCS.NS", "HDFCBANK.NS", ...]
+- Example: /stocks/list
+
+# NEW ENDPOINTS - Options Analytics & Market Data
+
+## Market Data Endpoints
+
+### Get Index Price
+GET /api/v1/market/price/index?index=NIFTY
+- Description: Get real-time price data for NSE indices
+- Parameters: index (required) - NIFTY, BANKNIFTY, etc.
+- Response: {"symbol": "NIFTY", "lastPrice": 18876.25, "pChange": 0.45, "change": 85.5, "timestamp": "2025-09-09T10:30:00"}
+- Example: /api/v1/market/price/index?index=NIFTY
+- Authentication: Optional (recommended for production)
+
+### Get Stock Price
+GET /api/v1/market/price/stock?symbol=RELIANCE
+- Description: Get real-time price data for NSE stocks
+- Parameters: symbol (required) - RELIANCE, INFY, TCS, etc.
+- Response: {"symbol": "RELIANCE", "companyName": "Reliance Industries Ltd.", "lastPrice": 2500.5, "pChange": 1.25, "change": 31.0, "timestamp": "2025-09-09T10:30:00"}
+- Example: /api/v1/market/price/stock?symbol=RELIANCE
+- Authentication: Optional (recommended for production)
+
+## Options Data Endpoints
+
+### Get Available Expiries
+GET /api/v1/options/expiries?index=NIFTY
+- Description: Get available expiry dates for options trading
+- Parameters: index (required) - NIFTY, BANKNIFTY, etc.
+- Response: {"index": "NIFTY", "expiries": ["11-Sep-2025", "18-Sep-2025", "25-Sep-2025"]}
+- Example: /api/v1/options/expiries?index=NIFTY
+- Authentication: Optional
+
+### Fetch Options (Nearest Expiry)
+POST /api/v1/options/fetch
+- Description: Trigger background fetch for nearest expiry options data
+- Body: {"index": "NIFTY", "num_strikes": 50}
+- Response: {"job_id": "uuid-string", "status": "accepted", "message": "Options fetch job queued successfully"}
+- Example: POST /api/v1/options/fetch with body {"index": "NIFTY", "num_strikes": 30}
+- Authentication: Required
+
+### Fetch Options (Specific Expiry)
+POST /api/v1/options/fetch/expiry
+- Description: Trigger background fetch for specific expiry options data
+- Body: {"index": "NIFTY", "expiry": "25-Sep-2025", "num_strikes": 30}
+- Response: {"job_id": "uuid-string", "status": "accepted", "message": "Options fetch job for specific expiry queued successfully"}
+- Example: POST /api/v1/options/fetch/expiry with body {"index": "NIFTY", "expiry": "18-Sep-2025", "num_strikes": 25}
+- Authentication: Required
+
+### Get Latest Options Snapshot
+GET /api/v1/options/latest?index=NIFTY&limit=20
+- Description: Get most recent options chain data for an index
+- Parameters: index (required), expiry (optional), limit (optional, default: all)
+- Response: {"meta": {...}, "rows": [{"strikePrice": 18800, "CE_openInterest": 1000, "CE_lastPrice": 150.5, ...}]}
+- Example: /api/v1/options/latest?index=NIFTY&limit=10
+- Authentication: Required
+
+## Analytics Endpoints
+
+### Get Put-Call Ratio (PCR)
+GET /api/v1/analytics/pcr?index=NIFTY&expiry=11-Sep-2025
+- Description: Calculate Put-Call Ratio for sentiment analysis
+- Parameters: index (required), expiry (optional), by (optional: oi|volume)
+- Response: {"pcr_by_oi": 1.12, "pcr_by_volume": 0.98}
+- Example: /api/v1/analytics/pcr?index=NIFTY&by=oi
+- Authentication: Required
+
+### Get Top Open Interest Strikes
+GET /api/v1/analytics/top-oi?index=NIFTY&top_n=5
+- Description: Get top open interest strikes for calls (resistance) and puts (support)
+- Parameters: index (required), expiry (optional), top_n (optional, default: 5)
+- Response: {"resistance_strikes": [{"strikePrice": 19000, "openInterest": 123000}], "support_strikes": [{"strikePrice": 18800, "openInterest": 115000}]}
+- Example: /api/v1/analytics/top-oi?index=NIFTY&top_n=10
+- Authentication: Required
+
+### Get Maximum Pain
+GET /api/v1/analytics/max-pain?index=NIFTY
+- Description: Calculate maximum pain strike price
+- Parameters: index (required), expiry (optional)
+- Response: {"max_pain_strike": 18900, "total_loss_value": 2500000}
+- Example: /api/v1/analytics/max-pain?index=NIFTY
+- Authentication: Required
+
+### Get Analytics Summary
+GET /api/v1/analytics/summary?index=NIFTY
+- Description: Get comprehensive analytics summary (PCR, Top OI, Max Pain, Underlying Price)
+- Parameters: index (required), expiry (optional)
+- Response: {"pcr": {...}, "top_oi": {...}, "max_pain": {...}, "underlying_price": 18876.25}
+- Example: /api/v1/analytics/summary?index=NIFTY
+- Authentication: Required
+
 ## Interactive Documentation
 GET /docs
 - Description: Swagger UI for testing endpoints
@@ -70,3 +192,6 @@ GET /openapi.json
 - PROVIDER: Data provider (YFINANCE, FINNHUB, ALPHAVANTAGE)
 - FETCH_SYMBOLS: Default symbols to subscribe to
 - API Keys: FINNHUB_KEY, ALPHAVANTAGE_KEY (for paid providers)
+- NSEPYTHON: For Indian market data and options analytics
+- SQLAlchemy: Database models for snapshots, alerts, and jobs
+- Authentication: JWT-based auth system (stub implementation)

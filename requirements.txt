@@ -5,3 +5,8 @@ pandas
 python-dotenv
 httpx
 python-multipart
+nsepython
+sqlalchemy
+pytest
+pytest-asyncio
+httpx

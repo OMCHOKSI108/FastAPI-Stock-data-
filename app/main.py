@@ -8,6 +8,7 @@ from .cache import InMemoryCache
 from .schemas import Quote, SubscribeRequest
 from .fetcher import background_fetcher, load_subscriptions
 from .providers import yfinance_provider, finnhub_provider, alphavantage_provider, binance_provider
+from .routes import market, options, analytics
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -32,6 +33,25 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+# Include new routers
+app.include_router(
+    market.router,
+    prefix="/api/v1/market",
+    tags=["market"]
+)
+
+app.include_router(
+    options.router,
+    prefix="/api/v1/options",
+    tags=["options"]
+)
+
+app.include_router(
+    analytics.router,
+    prefix="/api/v1/analytics",
+    tags=["analytics"]
 )
 
 @app.on_event("startup")
