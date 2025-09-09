@@ -534,7 +534,7 @@ if (require.main === module) {
 module.exports = StockCryptoAPI;
 ```
 
-## React Example
+## 📱 React Example
 
 ```jsx
 import React, { useState, useEffect } from 'react';
@@ -603,7 +603,7 @@ function CryptoDashboard() {
 export default CryptoDashboard;
 ```
 
-## cURL Examples
+## 📊 cURL Examples
 
 ```bash
 # Health check
@@ -687,7 +687,7 @@ get_crypto_price "BTCUSDT"
 # monitor_prices "RELIANCE.NS" "BTCUSDT" "ETHUSDT"
 ```
 
-## Error Handling Examples
+## 🔧 Error Handling Examples
 
 ### Python Error Handling
 
