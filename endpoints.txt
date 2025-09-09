@@ -189,12 +189,12 @@ GET /api/v1/analytics/summary?index=NIFTY
 ## Interactive Documentation
 GET /docs
 - Description: Swagger UI for testing endpoints
-- Access: http://localhost:8000/docs
+- Access: https://fastapi-stock-data.onrender.com/docs
 
 ## OpenAPI Schema
 GET /openapi.json
 - Description: OpenAPI JSON schema
-- Access: http://localhost:8000/openapi.json
+- Access: https://fastapi-stock-data.onrender.com/openapi.json
 
 ## Configuration
 - FETCH_INTERVAL: Interval in seconds for background fetching (default: 60)

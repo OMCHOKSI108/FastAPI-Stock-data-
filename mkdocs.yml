@@ -51,6 +51,7 @@ nav:
       - Cryptocurrencies: symbols/cryptocurrencies.md
       - Indices: symbols/indices.md
   - Examples: examples.md
+  - Usage Guide: usage.md
   - Deployment: deployment.md
 
 # Plugins
