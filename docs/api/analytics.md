@@ -1,52 +1,347 @@
 # Analytics API
 
-This section documents analytics and options data endpoints in the FastAPI Stock & Crypto Data API.
+This section documents the advanced analytics endpoints in FastStockAPI, providing sophisticated options trading analytics including PCR, Max Pain, and Open Interest analysis.
 
-## 📊 Overview
+## Overview
 
-The analytics API provides advanced market analysis including Put-Call Ratio (PCR), Open Interest analysis, Max Pain calculations, and options data.
+The analytics API provides powerful trading analytics tools for options data, helping traders make informed decisions with data-driven insights.
 
 ## 🔗 Base URL
 
 ```
-https://fastapi-stock-data.onrender.com
+http://localhost:8000  (local development)
+https://your-domain.com  (production)
 ```
 
-## 📋 Endpoints
+## Endpoints
 
-### 1. Put-Call Ratio (PCR)
+### 1. Get Put-Call Ratio (PCR)
 
-Get the Put-Call Ratio for NIFTY options.
+Calculate the Put-Call Ratio for options data.
 
-**Endpoint:** `GET /api/v1/analytics/pcr?index=NIFTY`
+**Endpoint:** `GET /analytics/pcr`
 
 **Parameters:**
-- `index` (query, optional): Index name (default: `NIFTY`)
+- `index` (query): Index symbol (e.g., `NIFTY`, `BANKNIFTY`)
+- `expiry` (query, optional): Expiry date in DDMMYY format
 
 **Example Request:**
 ```bash
-curl "https://fastapi-stock-data.onrender.com/api/v1/analytics/pcr?index=NIFTY"
+curl "http://localhost:8000/analytics/pcr?index=NIFTY&expiry=160925"
 ```
 
 **Example Response:**
 ```json
 {
-    "index": "NIFTY",
     "pcr": 1.25,
-    "put_oi": 12500000,
-    "call_oi": 10000000,
-    "timestamp": "2024-12-09T15:30:00Z",
-    "interpretation": "Bullish (PCR > 1.0)"
+    "total_ce_oi": 125000000,
+    "total_pe_oi": 100000000,
+    "index": "NIFTY",
+    "expiry": "16-Sep-2025"
 }
 ```
 
----
+### 2. Calculate Max Pain
 
-### 2. Top Open Interest Strikes
+Find the maximum pain strike price for options.
 
-Get strikes with highest open interest for options.
+**Endpoint:** `GET /analytics/max-pain`
 
-**Endpoint:** `GET /api/v1/analytics/top-oi?index=NIFTY`
+**Parameters:**
+- `index` (query): Index symbol
+- `expiry` (query, optional): Expiry date in DDMMYY format
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/analytics/max-pain?index=NIFTY&expiry=160925"
+```
+
+**Example Response:**
+```json
+{
+    "max_pain_strike": 24500,
+    "total_ce_oi": 125000000,
+    "total_pe_oi": 100000000,
+    "total_oi": 225000000,
+    "index": "NIFTY",
+    "expiry": "16-Sep-2025"
+}
+```
+
+### 3. Get Top Open Interest
+
+Find strikes with highest open interest.
+
+**Endpoint:** `GET /analytics/top-oi`
+
+**Parameters:**
+- `index` (query): Index symbol
+- `expiry` (query, optional): Expiry date in DDMMYY format
+- `top_n` (query, optional): Number of top strikes to return (default: 5)
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/analytics/top-oi?index=NIFTY&expiry=160925&top_n=5"
+```
+
+**Example Response:**
+```json
+{
+    "top_strikes": [
+        {
+            "strike": 24000,
+            "oi_ce": 2450000,
+            "oi_pe": 1850000,
+            "total_oi": 4300000,
+            "oi_ce_percentage": 12.5,
+            "oi_pe_percentage": 9.2
+        },
+        {
+            "strike": 24500,
+            "oi_ce": 2100000,
+            "oi_pe": 1950000,
+            "total_oi": 4050000,
+            "oi_ce_percentage": 10.7,
+            "oi_pe_percentage": 9.8
+        }
+    ],
+    "index": "NIFTY",
+    "expiry": "16-Sep-2025"
+}
+```
+
+### 4. Get Complete Analytics Summary
+
+Get comprehensive analytics for options data.
+
+**Endpoint:** `GET /analytics/summary`
+
+**Parameters:**
+- `index` (query): Index symbol
+- `expiry` (query, optional): Expiry date in DDMMYY format
+- `limit` (query, optional): Number of records to analyze
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/analytics/summary?index=NIFTY&expiry=160925&limit=500"
+```
+
+**Example Response:**
+```json
+{
+    "meta": {
+        "createdAtUTC": "2024-12-09T15:30:00Z",
+        "indexName": "NIFTY",
+        "nearestExpiry": "16-Sep-2025",
+        "underlyingValue": 24500.75,
+        "atmStrike": 24500,
+        "selectedStrikesRange": [23500, 25500],
+        "totalStrikesFetched": 41
+    },
+    "pcr": 1.25,
+    "max_pain": {
+        "max_pain_strike": 24500,
+        "total_ce_oi": 125000000,
+        "total_pe_oi": 100000000,
+        "total_oi": 225000000
+    },
+    "top_oi": [
+        {
+            "strike": 24000,
+            "oi_ce": 2450000,
+            "oi_pe": 1850000,
+            "total_oi": 4300000
+        }
+    ],
+    "atm_analysis": {
+        "atm_strike": 24500,
+        "atm_ce_price": 125.50,
+        "atm_pe_price": 95.25,
+        "atm_ce_oi": 2100000,
+        "atm_pe_oi": 1950000
+    }
+}
+```
+
+## Analytics Explained
+
+### Put-Call Ratio (PCR)
+- **Formula**: Total PE Open Interest / Total CE Open Interest
+- **Interpretation**:
+  - PCR > 1: Bearish sentiment (more puts)
+  - PCR < 1: Bullish sentiment (more calls)
+  - PCR = 1: Neutral sentiment
+
+### Maximum Pain
+- **Definition**: Strike price where the total value of expiring options is minimized
+- **Calculation**: Sums open interest for calls above and puts below each strike
+- **Significance**: Price level where option writers (market makers) suffer least loss
+
+### Open Interest Analysis
+- **Top OI Strikes**: Most actively traded strike prices
+- **OI Distribution**: Shows where market participants have positioned
+- **Volume vs OI**: Fresh positions vs existing positions
+
+## 💡 Usage Examples
+
+### Python Example - Complete Analysis
+```python
+import requests
+
+def analyze_options(index, expiry):
+    # Get PCR
+    pcr_response = requests.get(
+        "http://localhost:8000/analytics/pcr",
+        params={"index": index, "expiry": expiry}
+    )
+    pcr_data = pcr_response.json()
+
+    # Get Max Pain
+    max_pain_response = requests.get(
+        "http://localhost:8000/analytics/max-pain",
+        params={"index": index, "expiry": expiry}
+    )
+    max_pain_data = max_pain_response.json()
+
+    # Get Top OI
+    top_oi_response = requests.get(
+        "http://localhost:8000/analytics/top-oi",
+        params={"index": index, "expiry": expiry, "top_n": 3}
+    )
+    top_oi_data = top_oi_response.json()
+
+    print(f"📊 {index} Analysis for {expiry}")
+    print(f"PCR: {pcr_data['pcr']:.2f}")
+    print(f"Max Pain: ₹{max_pain_data['max_pain_strike']}")
+
+    print("\n🏆 Top OI Strikes:")
+    for strike in top_oi_data['top_strikes']:
+        print(f"₹{strike['strike']}: {strike['total_oi']:,} contracts")
+
+# Usage
+analyze_options("NIFTY", "160925")
+```
+
+### JavaScript Example - Real-time Dashboard
+```javascript
+async function updateAnalytics(index, expiry) {
+    try {
+        // Get all analytics in parallel
+        const [pcrRes, maxPainRes, topOiRes] = await Promise.all([
+            fetch(`/analytics/pcr?index=${index}&expiry=${expiry}`),
+            fetch(`/analytics/max-pain?index=${index}&expiry=${expiry}`),
+            fetch(`/analytics/top-oi?index=${index}&expiry=${expiry}&top_n=5`)
+        ]);
+
+        const [pcr, maxPain, topOi] = await Promise.all([
+            pcrRes.json(),
+            maxPainRes.json(),
+            topOiRes.json()
+        ]);
+
+        // Update UI
+        document.getElementById('pcr-value').textContent = pcr.pcr.toFixed(2);
+        document.getElementById('max-pain').textContent = `₹${maxPain.max_pain_strike}`;
+
+        // Update top OI table
+        const tableBody = document.getElementById('top-oi-table');
+        tableBody.innerHTML = topOi.top_strikes.map(strike => `
+            <tr>
+                <td>₹${strike.strike}</td>
+                <td>${strike.total_oi.toLocaleString()}</td>
+                <td>${strike.oi_ce_percentage.toFixed(1)}%</td>
+                <td>${strike.oi_pe_percentage.toFixed(1)}%</td>
+            </tr>
+        `).join('');
+
+    } catch (error) {
+        console.error('Error updating analytics:', error);
+    }
+}
+
+// Update every 30 seconds
+setInterval(() => updateAnalytics('NIFTY', '160925'), 30000);
+```
+
+## Trading Insights
+
+### PCR Interpretation
+```javascript
+function interpretPCR(pcr) {
+    if (pcr > 1.5) return "🔴 Extremely Bearish";
+    if (pcr > 1.2) return "🟠 Bearish";
+    if (pcr > 0.8) return "🟡 Neutral";
+    if (pcr > 0.5) return "🟢 Bullish";
+    return "🟢 Extremely Bullish";
+}
+```
+
+### Max Pain Strategy
+```javascript
+function maxPainStrategy(currentPrice, maxPain) {
+    const diff = Math.abs(currentPrice - maxPain) / currentPrice * 100;
+
+    if (diff < 1) return "🎯 At Max Pain - High manipulation risk";
+    if (diff < 3) return "⚠️ Near Max Pain - Watch closely";
+    return "✅ Away from Max Pain - Natural movement";
+}
+```
+
+## ⚠️ Important Notes
+
+- **Data Freshness**: Analytics are based on last fetched options data
+- **Market Hours**: NSE options data available during market hours
+- **Expiry Effects**: Analytics most relevant close to expiry
+- **Liquidity**: Higher OI strikes provide better liquidity
+- **Volatility**: PCR and OI patterns change with market volatility
+
+## 🔄 Rate Limits
+
+- PCR requests: 50 per minute
+- Max Pain requests: 50 per minute
+- Top OI requests: 30 per minute
+- Summary requests: 20 per minute
+
+## Supported Indices
+
+- **NIFTY**: Primary index analytics
+- **BANKNIFTY**: Banking sector
+- **NIFTYIT**: Information Technology
+- **NIFTYPHARMA**: Pharmaceuticals
+- **NIFTYAUTO**: Automobile sector
+
+## Best Practices
+
+1. **Use Recent Data**: Fetch fresh options data before analytics
+2. **Compare Timeframes**: Analyze PCR trends over time
+3. **Combine Metrics**: Use PCR + Max Pain + OI together
+4. **Context Matters**: Consider overall market sentiment
+5. **Risk Management**: Don't rely solely on technical indicators
+6. **Multiple Expiries**: Compare near-term vs far-term analytics
+
+## Advanced Usage
+
+### Custom PCR Calculation
+```python
+def custom_pcr(ce_oi, pe_oi, min_strike=None, max_strike=None):
+    """Calculate PCR for specific strike range"""
+    if min_strike and max_strike:
+        # Filter strikes within range
+        filtered_ce = sum(oi for strike, oi in ce_oi.items()
+                         if min_strike <= strike <= max_strike)
+        filtered_pe = sum(oi for strike, oi in pe_oi.items()
+                         if min_strike <= strike <= max_strike)
+        return filtered_pe / filtered_ce if filtered_ce > 0 else 0
+    return sum(pe_oi.values()) / sum(ce_oi.values()) if sum(ce_oi.values()) > 0 else 0
+```
+
+### OI Concentration Analysis
+```python
+def oi_concentration(top_oi_strikes, total_oi):
+    """Calculate OI concentration in top strikes"""
+    top_total = sum(strike['total_oi'] for strike in top_oi_strikes)
+    return (top_total / total_oi) * 100 if total_oi > 0 else 0
+```
 
 **Parameters:**
 - `index` (query, optional): Index name (default: `NIFTY`)
@@ -282,7 +577,7 @@ curl -X POST "https://fastapi-stock-data.onrender.com/api/v1/options/fetch-expir
 }
 ```
 
-## 📊 Response Formats
+## Response Formats
 
 ### PCR Response
 
@@ -353,7 +648,7 @@ curl -X POST "https://fastapi-stock-data.onrender.com/api/v1/options/fetch-expir
 - Use job IDs to track progress
 - Results are cached for faster subsequent access
 
-## 📱 Integration Examples
+## Integration Examples
 
 ### Python
 
@@ -448,7 +743,7 @@ getAnalytics('NIFTY').then(data => {
 }
 ```
 
-## 📊 Analytics Interpretation
+## Analytics Interpretation
 
 ### PCR Values
 - **> 1.0**: Bullish sentiment (more puts being bought)

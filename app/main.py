@@ -1,24 +1,12 @@
 import os
 import asyncio
 import logging
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Dict, List
-from .cache import InMemoryCache
-from .schemas import Quote, SubscribeRequest
-from .fetcher import background_fetcher, load_subscriptions
-from .providers import yfinance_provider, finnhub_provider, alphavantage_provider, binance_provider
-from .routes import market, options, analytics
+from .routes import stocks, crypto, options, analytics, forex
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-PROVIDER = os.getenv("PROVIDER", "YFINANCE").upper()
-PROVIDER_MAP = {
-    "YFINANCE": yfinance_provider,
-    "FINNHUB": finnhub_provider,
-    "ALPHAVANTAGE": alphavantage_provider,
-}
 
 app = FastAPI(title="FastStockAPI")
 
@@ -35,252 +23,65 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include new routers
-app.include_router(
-    market.router,
-    prefix="/api/v1/market",
-    tags=["market"]
-)
-
-app.include_router(
-    options.router,
-    prefix="/api/v1/options",
-    tags=["options"]
-)
-
-app.include_router(
-    analytics.router,
-    prefix="/api/v1/analytics",
-    tags=["analytics"]
-)
-
 @app.on_event("startup")
 async def startup():
-    # init cache
-    app.state.cache = InMemoryCache()
-    # ensure subscriptions exist
-    app.state.subscriptions = await load_subscriptions()
-    # start background fetcher
-    app.state.fetch_task = asyncio.create_task(background_fetcher(app))
+    pass  # Add any startup logic if needed
 
 @app.on_event("shutdown")
 async def shutdown():
-    task = getattr(app.state, "fetch_task", None)
-    if task:
-        task.cancel()
-        try:
-            await task
-        except asyncio.CancelledError:
-            pass
+    pass  # Add any shutdown logic if needed
+
+@app.get("/")
+async def root():
+    """Welcome to FastStockAPI - A comprehensive stock market data API"""
+    return {
+        "message": "Welcome to FastStockAPI",
+        "description": "A comprehensive FastAPI for stock market data including Indian/US stocks, crypto, options, and indices",
+        "version": "1.0.0",
+        "endpoints": {
+            "stocks": {
+                "IND": "/stocks/IND/{symbol} - Indian stock data",
+                "US": "/stocks/US/{symbol} - US stock data",
+                "IND/quote": "/stocks/IND/quote?symbols=RELIANCE,TCS - Multiple Indian stocks",
+                "US/quote": "/stocks/US/quote?symbols=AAPL,GOOGL - Multiple US stocks"
+            },
+            "crypto": {
+                "price": "/crypto/price?symbol=BTC - Cryptocurrency price",
+                "historical": "/crypto/historical/{symbol}?period=1d - Historical crypto data"
+            },
+            "options": {
+                "expiries": "/options/expiries?index=NIFTY - Available expiries",
+                "index-price": "/options/index-price?index=NIFTY - Index price",
+                "stock-price": "/options/stock-price?symbol=RELIANCE - Stock price",
+                "fetch": "/options/fetch (POST) - Fetch and save option chain",
+                "fetch/expiry": "/options/fetch/expiry (POST) - Fetch specific expiry",
+                "analytics": "/options/analytics?index=NIFTY - PCR, max pain, top OI",
+                "option-price": "/options/option-price?index=NIFTY&strike=24000&expiry=160925&option_type=CE - Specific option price",
+                "direct-data": "/options/direct-data?index=NIFTY&expiry=160925&num_strikes=25 - Direct options data",
+                "strike-data": "/options/strike-data?index=NIFTY&strike=24000&expiry=160925&option_type=BOTH - Strike-specific data",
+                "historical": "/options/historical/{symbol}?strike=24000&expiry=160925&option_type=CE&period=1d - Historical option data"
+            },
+            "analytics": {
+                "pcr": "/analytics/pcr?index=NIFTY&expiry=160925 - Put-Call Ratio",
+                "max-pain": "/analytics/max-pain?index=NIFTY&expiry=160925 - Max Pain calculation",
+                "top-oi": "/analytics/top-oi?index=NIFTY&expiry=160925 - Top Open Interest"
+            },
+            "indices": {
+                "US": "/stocks/US/index/{symbol} - US index data (DJI, SPX, IXIC)",
+                "BSE": "/stocks/IND/index/{symbol} - BSE index data (SENSEX, BSE100)"
+            }
+        },
+        "documentation": "/docs - Interactive API documentation",
+        "health": "/health - API health check"
+    }
+
+# Include routers
+app.include_router(stocks.router, prefix="/stocks", tags=["stocks"])
+app.include_router(crypto.router, prefix="/crypto", tags=["crypto"])
+app.include_router(options.router, prefix="/options", tags=["options"])
+app.include_router(analytics.router, prefix="/analytics", tags=["analytics"])
+app.include_router(forex.router, prefix="/forex", tags=["forex"])
 
 @app.get("/health")
 async def health():
     return {"status": "ok"}
-
-@app.get("/quotes", response_model=Dict[str, Quote])
-async def get_all_quotes():
-    return await app.state.cache.get_all()
-
-@app.get("/quote/{symbol}", response_model=Quote)
-async def get_quote(symbol: str):
-    data = await app.state.cache.get(symbol)
-    if not data:
-        raise HTTPException(status_code=404, detail="Symbol not found in cache")
-    return data
-
-@app.get("/fetch/{symbol}", response_model=Quote)
-async def fetch_quote(symbol: str):
-    provider_module = PROVIDER_MAP.get(PROVIDER, yfinance_provider)
-    q = await provider_module.get_quote(symbol)
-    if q:
-        await app.state.cache.set(symbol, q)
-        return q
-    else:
-        raise HTTPException(status_code=404, detail="Failed to fetch quote")
-
-@app.get("/historical/{symbol}")
-async def get_historical(
-    symbol: str,
-    period: str = "1d",
-    interval: str = "1d",
-    start: str = None,
-    end: str = None
-):
-    """
-    Get historical price data for a symbol with flexible time periods.
-
-    Supported periods: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max
-    Supported intervals: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
-
-    Examples:
-    - /historical/AAPL?period=1mo&interval=1d (1 month daily data)
-    - /historical/AAPL?period=1y&interval=1wk (1 year weekly data)
-    - /historical/AAPL?period=5d&interval=1h (5 days hourly data)
-    """
-    provider_module = PROVIDER_MAP.get(PROVIDER, yfinance_provider)
-
-    # Validate period parameter
-    valid_periods = ["1d", "5d", "1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "ytd", "max"]
-    if period not in valid_periods:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Invalid period '{period}'. Supported periods: {', '.join(valid_periods)}"
-        )
-
-    # Validate interval parameter
-    valid_intervals = ["1m", "2m", "5m", "15m", "30m", "60m", "90m", "1h", "1d", "5d", "1wk", "1mo", "3mo"]
-    if interval not in valid_intervals:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Invalid interval '{interval}'. Supported intervals: {', '.join(valid_intervals)}"
-        )
-
-    if hasattr(provider_module, 'get_historical'):
-        try:
-            data = await provider_module.get_historical(symbol, period, interval, start, end)
-            if data:
-                return {
-                    "symbol": symbol.upper(),
-                    "period": period,
-                    "interval": interval,
-                    "start": start,
-                    "end": end,
-                    "data": data
-                }
-            else:
-                raise HTTPException(status_code=404, detail="No historical data found")
-        except Exception as e:
-            logger.error(f"Error fetching historical data for {symbol}: {e}")
-            raise HTTPException(status_code=500, detail=f"Failed to fetch historical data: {str(e)}")
-    else:
-        raise HTTPException(status_code=501, detail="Historical data not supported by current provider")
-
-@app.post("/subscribe")
-async def subscribe(req: SubscribeRequest):
-    s = req.symbol.strip().upper()
-    subs = getattr(app.state, "subscriptions", [])
-    if s in subs:
-        return {"detail": "already subscribed", "symbol": s}
-    subs.append(s)
-    app.state.subscriptions = subs
-    return {"detail": "subscribed", "symbol": s}
-
-@app.get("/stocks/list", response_model=List[str])
-async def get_available_stocks():
-    """Get list of all available Indian stocks (for enterprise use)"""
-    # In enterprise, load from database or API
-    # For now, return subscribed + some popular ones
-    subscribed = getattr(app.state, "subscriptions", [])
-    popular = ["RELIANCE.NS", "INFY.NS", "TCS.NS", "HDFCBANK.NS", "ICICIBANK.NS"]
-    all_stocks = list(set(subscribed + popular))
-    return all_stocks
-
-@app.get("/crypto/{symbol}")
-async def get_crypto_price(symbol: str):
-    """Get cryptocurrency price from Binance"""
-    try:
-        data = await binance_provider.get_crypto_price(symbol.upper())
-        if data:
-            return data
-        else:
-            raise HTTPException(status_code=404, detail="Cryptocurrency not found")
-    except Exception as e:
-        logger.error(f"Error fetching crypto price for {symbol}: {e}")
-        raise HTTPException(status_code=500, detail="Failed to fetch crypto price")
-
-@app.get("/crypto-historical/{symbol}")
-async def get_crypto_historical(symbol: str, interval: str = "1d", limit: int = 100):
-    """Get cryptocurrency historical data from Binance"""
-    try:
-        data = await binance_provider.get_crypto_historical(symbol.upper(), interval, limit)
-        if data:
-            return {"symbol": symbol.upper(), "interval": interval, "limit": limit, "data": data}
-        else:
-            raise HTTPException(status_code=404, detail="No historical data found")
-    except Exception as e:
-        logger.error(f"Error fetching crypto historical data for {symbol}: {e}")
-        raise HTTPException(status_code=500, detail="Failed to fetch crypto historical data")
-
-@app.get("/crypto-historical-extended/{symbol}")
-async def get_crypto_historical_extended(
-    symbol: str,
-    interval: str = "1d",
-    start_str: str = "30 days ago UTC",
-    max_records: int = 1000
-):
-    """Get extended cryptocurrency historical data with pagination (up to 5000 records)"""
-    try:
-        data = await binance_provider.get_crypto_historical_paginated(
-            symbol.upper(), interval, start_str, max_records
-        )
-        if data:
-            return {
-                "symbol": symbol.upper(),
-                "interval": interval,
-                "start_date": start_str,
-                "total_records": len(data),
-                "data": data
-            }
-        else:
-            raise HTTPException(status_code=404, detail="No historical data found")
-    except Exception as e:
-        logger.error(f"Error fetching extended crypto historical data for {symbol}: {e}")
-        raise HTTPException(status_code=500, detail="Failed to fetch extended crypto historical data")
-
-@app.get("/crypto-stats/{symbol}")
-async def get_crypto_stats(symbol: str):
-    """Get 24hr cryptocurrency statistics from Binance"""
-    try:
-        data = await binance_provider.get_24hr_ticker_stats(symbol.upper())
-        if data:
-            return data
-        else:
-            raise HTTPException(status_code=404, detail="Cryptocurrency stats not found")
-    except Exception as e:
-        logger.error(f"Error fetching crypto stats for {symbol}: {e}")
-        raise HTTPException(status_code=500, detail="Failed to fetch crypto stats")
-
-@app.get("/crypto-multiple")
-async def get_multiple_crypto_prices(symbols: str):
-    """Get multiple cryptocurrency prices in a single request"""
-    try:
-        symbol_list = [s.strip().upper() for s in symbols.split(",")]
-        if len(symbol_list) > 100:
-            raise HTTPException(status_code=400, detail="Maximum 100 symbols allowed")
-
-        data = await binance_provider.get_multiple_crypto_prices(symbol_list)
-        if data:
-            return {
-                "symbols_requested": symbol_list,
-                "symbols_found": len(data),
-                "data": data
-            }
-        else:
-            raise HTTPException(status_code=404, detail="No cryptocurrency data found")
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Error fetching multiple crypto prices: {e}")
-        raise HTTPException(status_code=500, detail="Failed to fetch multiple crypto prices")
-
-@app.get("/crypto-comprehensive/{symbol}")
-async def get_crypto_comprehensive(symbol: str):
-    """Get comprehensive cryptocurrency data (price + 24hr stats)"""
-    try:
-        price_data = await binance_provider.get_crypto_price(symbol.upper())
-        stats_data = await binance_provider.get_24hr_ticker_stats(symbol.upper())
-
-        if not price_data or not stats_data:
-            raise HTTPException(status_code=404, detail="Cryptocurrency data not found")
-
-        return {
-            "symbol": symbol.upper(),
-            "current_price": price_data,
-            "statistics_24h": stats_data,
-            "timestamp": price_data["timestamp"]
-        }
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Error fetching comprehensive crypto data for {symbol}: {e}")
-        raise HTTPException(status_code=500, detail="Failed to fetch comprehensive crypto data")

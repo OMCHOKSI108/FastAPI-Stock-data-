@@ -1,0 +1,12 @@
+{
+  "createdAtUTC": "2025-09-10T03:52:00.431204",
+  "indexName": "BANKNIFTY",
+  "nearestExpiry": "30-Sep-2025",
+  "underlyingValue": 54467.25,
+  "atmStrike": 54500,
+  "selectedStrikesRange": [
+    52000,
+    57000
+  ],
+  "totalStrikesFetched": 51
+}

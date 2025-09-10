@@ -1,53 +1,382 @@
 # Cryptocurrency API
 
-This section documents all cryptocurrency-related endpoints in the FastAPI Stock & Crypto Data API.
+This section documents the cryptocurrency data endpoints in FastStockAPI, providing real-time and historical crypto market data.
 
-## 📊 Overview
+## Overview
 
-Our cryptocurrency API provides real-time and historical data from Binance, including prices, statistics, and market data for 30+ major cryptocurrencies.
+The crypto API provides comprehensive cryptocurrency data including real-time prices, historical data, and market statistics from multiple exchanges.
 
 ## 🔗 Base URL
 
 ```
-https://fastapi-stock-data.onrender.com
+http://localhost:8000  (local development)
+https://your-domain.com  (production)
 ```
 
-## 📋 Endpoints
+## Endpoints
 
-### 1. Get Single Crypto Price
+### 1. Get Cryptocurrency Quote
 
-Get the current price of a specific cryptocurrency.
+Get current price and market data for a specific cryptocurrency.
 
-**Endpoint:** `GET /crypto-price/{symbol}`
+**Endpoint:** `GET /crypto/quote/{symbol}`
 
 **Parameters:**
-- `symbol` (path): Cryptocurrency symbol (e.g., `BTCUSDT`, `ETHUSDT`)
+- `symbol` (path): Cryptocurrency symbol (e.g., `BTC`, `ETH`, `ADA`)
 
 **Example Request:**
 ```bash
-curl "https://fastapi-stock-data.onrender.com/crypto-price/BTCUSDT"
+curl "http://localhost:8000/crypto/quote/BTC"
 ```
 
 **Example Response:**
 ```json
 {
-    "symbol": "BTCUSDT",
-    "price": "45123.45",
-    "timestamp": "1733779200.123"
+    "symbol": "BTC",
+    "name": "Bitcoin",
+    "price": 45123.45,
+    "change24h": 2.5,
+    "changePercent24h": 2.5,
+    "volume24h": 28500000000,
+    "marketCap": 890000000000,
+    "lastUpdated": "2024-12-09T15:30:00Z"
 }
 ```
 
-**Error Responses:**
-- `404`: Symbol not found
-- `500`: Server error
+### 2. Get Historical Cryptocurrency Data
 
----
+Get historical price data for cryptocurrencies.
 
-### 2. Get Multiple Crypto Prices
+**Endpoint:** `GET /crypto/historical/{symbol}`
 
-Get current prices for multiple cryptocurrencies in a single request.
+**Parameters:**
+- `symbol` (path): Cryptocurrency symbol
+- `period` (query, optional): Time period (1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max)
 
-**Endpoint:** `GET /crypto-multiple`
+**Example Request:**
+```bash
+curl "http://localhost:8000/crypto/historical/BTC?period=1mo"
+```
+
+**Example Response:**
+```json
+{
+    "symbol": "BTC",
+    "period": "1mo",
+    "data": [
+        {
+            "date": "2024-11-09",
+            "open": 45000.00,
+            "high": 46000.00,
+            "low": 44500.00,
+            "close": 45500.00,
+            "volume": 28500000000
+        }
+    ]
+}
+```
+
+### 3. Get Available Cryptocurrencies
+
+Get list of available cryptocurrency symbols.
+
+**Endpoint:** `GET /crypto/list`
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/crypto/list"
+```
+
+**Example Response:**
+```json
+[
+    "BTC",
+    "ETH",
+    "ADA",
+    "SOL",
+    "DOT",
+    "LINK",
+    "UNI",
+    "AAVE"
+]
+```
+
+## Response Formats
+
+### Crypto Quote Response
+```json
+{
+    "symbol": "string",
+    "name": "string",
+    "price": "number",
+    "change24h": "number",
+    "changePercent24h": "number",
+    "volume24h": "number",
+    "marketCap": "number",
+    "lastUpdated": "string"
+}
+```
+
+### Historical Data Response
+```json
+{
+    "symbol": "string",
+    "period": "string",
+    "data": [
+        {
+            "date": "string",
+            "open": "number",
+            "high": "number",
+            "low": "number",
+            "close": "number",
+            "volume": "number"
+        }
+    ]
+}
+```
+
+## 💡 Usage Examples
+
+### Python Example - Get Crypto Prices
+```python
+import requests
+
+# Get single crypto price
+response = requests.get("http://localhost:8000/crypto/quote/BTC")
+btc_data = response.json()
+print(f"BTC Price: ${btc_data['price']}")
+
+# Get historical data
+response = requests.get("http://localhost:8000/crypto/historical/ETH?period=1mo")
+eth_history = response.json()
+print(f"ETH Historical Data Points: {len(eth_history['data'])}")
+
+# Get available symbols
+response = requests.get("http://localhost:8000/crypto/list")
+symbols = response.json()
+print(f"Available Symbols: {symbols[:5]}")
+```
+
+### JavaScript Example - Crypto Dashboard
+```javascript
+async function getCryptoData() {
+    try {
+        // Get multiple crypto prices
+        const symbols = ['BTC', 'ETH', 'ADA'];
+        const promises = symbols.map(symbol =>
+            fetch(`http://localhost:8000/crypto/quote/${symbol}`)
+                .then(res => res.json())
+        );
+
+        const results = await Promise.all(promises);
+
+        results.forEach(crypto => {
+            console.log(`${crypto.symbol}: $${crypto.price} (${crypto.changePercent24h}%)`);
+        });
+
+    } catch (error) {
+        console.error('Error fetching crypto data:', error);
+    }
+}
+
+// Get historical data for chart
+async function getCryptoHistory(symbol, period = '1mo') {
+    try {
+        const response = await fetch(`http://localhost:8000/crypto/historical/${symbol}?period=${period}`);
+        const data = await response.json();
+
+        // Process data for charting
+        const chartData = data.data.map(item => ({
+            x: new Date(item.date),
+            y: item.close
+        }));
+
+        return chartData;
+    } catch (error) {
+        console.error('Error fetching historical data:', error);
+        return [];
+    }
+}
+```
+
+## Supported Cryptocurrencies
+
+### Major Cryptocurrencies
+- **BTC**: Bitcoin
+- **ETH**: Ethereum
+- **ADA**: Cardano
+- **SOL**: Solana
+- **DOT**: Polkadot
+- **LINK**: Chainlink
+- **UNI**: Uniswap
+- **AAVE**: Aave
+
+### DeFi Tokens
+- **COMP**: Compound
+- **MKR**: MakerDAO
+- **SUSHI**: SushiSwap
+- **YFI**: Yearn Finance
+
+### Layer 1 Blockchains
+- **AVAX**: Avalanche
+- **MATIC**: Polygon
+- **FTM**: Fantom
+- **NEAR**: Near Protocol
+
+## ⚠️ Error Responses
+
+- `404`: Cryptocurrency symbol not found
+- `422`: Invalid parameters
+- `500`: Server error or exchange API unavailable
+
+## 🔄 Rate Limits
+
+- Individual crypto requests: 100 per minute
+- Historical data requests: 50 per minute
+- Bulk requests: 30 per minute
+
+## Data Sources
+
+- **Primary**: Binance API
+- **Secondary**: CoinGecko, CoinMarketCap
+- **Real-time**: WebSocket connections for live updates
+
+## Best Practices
+
+1. **Use appropriate time periods** for historical data
+2. **Cache frequently requested data** to reduce API calls
+3. **Handle rate limits gracefully** with exponential backoff
+4. **Validate symbols** before making requests
+5. **Use bulk endpoints** when fetching multiple cryptocurrencies
+6. **Monitor API health** with the health endpoint
+
+## Advanced Usage
+
+### Price Change Analysis
+```python
+def analyze_price_changes(symbol, period='1mo'):
+    """Analyze price changes over a period"""
+    response = requests.get(f"http://localhost:8000/crypto/historical/{symbol}?period={period}")
+    data = response.json()
+
+    if data['data']:
+        first_price = data['data'][0]['close']
+        last_price = data['data'][-1]['close']
+        change_percent = ((last_price - first_price) / first_price) * 100
+
+        return {
+            'symbol': symbol,
+            'period': period,
+            'start_price': first_price,
+            'end_price': last_price,
+            'change_percent': change_percent,
+            'trend': 'bullish' if change_percent > 0 else 'bearish'
+        }
+    return None
+```
+
+### Volume Analysis
+```python
+def analyze_volume(symbol, period='1mo'):
+    """Analyze trading volume patterns"""
+    response = requests.get(f"http://localhost:8000/crypto/historical/{symbol}?period={period}")
+    data = response.json()
+
+    volumes = [item['volume'] for item in data['data']]
+    avg_volume = sum(volumes) / len(volumes)
+    max_volume = max(volumes)
+    min_volume = min(volumes)
+
+    return {
+        'symbol': symbol,
+        'avg_volume': avg_volume,
+        'max_volume': max_volume,
+        'min_volume': min_volume,
+        'volume_variability': (max_volume - min_volume) / avg_volume
+    }
+```
+
+### Multi-Asset Portfolio Tracking
+```python
+def track_portfolio(holdings):
+    """Track portfolio value across multiple cryptocurrencies"""
+    total_value = 0
+    portfolio_data = []
+
+    for symbol, amount in holdings.items():
+        response = requests.get(f"http://localhost:8000/crypto/quote/{symbol}")
+        if response.status_code == 200:
+            data = response.json()
+            value = data['price'] * amount
+            total_value += value
+
+            portfolio_data.append({
+                'symbol': symbol,
+                'amount': amount,
+                'price': data['price'],
+                'value': value,
+                'change_24h': data['changePercent24h']
+            })
+
+    return {
+        'total_value': total_value,
+        'holdings': portfolio_data,
+        'timestamp': datetime.now().isoformat()
+    }
+```
+
+## Market Insights
+
+### Volatility Analysis
+```javascript
+function calculateVolatility(prices) {
+    const returns = [];
+    for (let i = 1; i < prices.length; i++) {
+        returns.push((prices[i] - prices[i-1]) / prices[i-1]);
+    }
+
+    const mean = returns.reduce((a, b) => a + b, 0) / returns.length;
+    const variance = returns.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / returns.length;
+    const volatility = Math.sqrt(variance) * Math.sqrt(252); // Annualized
+
+    return volatility;
+}
+```
+
+### Support and Resistance Levels
+```javascript
+function findSupportResistance(prices, window = 20) {
+    const highs = prices.map(p => p.high);
+    const lows = prices.map(p => p.low);
+
+    const resistance = Math.max(...highs.slice(-window));
+    const support = Math.min(...lows.slice(-window));
+
+    return { support, resistance };
+}
+```
+
+## Real-time Updates
+
+For real-time price updates, consider implementing WebSocket connections:
+
+```javascript
+// WebSocket connection for real-time updates
+const ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@ticker');
+
+ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    console.log(`BTC Price: ${data.c}`);
+};
+```
+
+## API Limits and Quotas
+
+- **Free Tier**: 1000 requests per day
+- **Premium Tier**: 100,000 requests per day
+- **Enterprise**: Unlimited requests
+
+Contact support for premium access and higher rate limits.
 
 **Parameters:**
 - `symbols` (query): Comma-separated list of symbols (max 100)
@@ -259,7 +588,7 @@ All successful responses follow this general structure:
 - **Best Practice**: Implement client-side caching
 - **Fair Use**: Please don't abuse the API
 
-## 🔧 Error Codes
+## Error Codes
 
 | Status Code | Description |
 |-------------|-------------|
@@ -271,7 +600,7 @@ All successful responses follow this general structure:
 | 502 | Bad Gateway (Binance API issues) |
 | 503 | Service Unavailable |
 
-## 📱 SDKs and Libraries
+## SDKs and Libraries
 
 ### Python
 

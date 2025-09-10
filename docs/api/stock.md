@@ -1,37 +1,38 @@
 # Stock Data API
 
-This section documents stock market data endpoints in the FastAPI Stock & Crypto Data API.
+This section documents the stock market data endpoints in FastStockAPI, providing comprehensive access to Indian and US stock markets.
 
-## 📊 Overview
+## Overview
 
-The stock data API provides real-time and historical stock price information for NSE (National Stock Exchange of India) listed companies.
+The stock data API provides real-time and historical stock price information for NSE (National Stock Exchange of India) and US markets, with support for individual stocks, bulk quotes, and market indices.
 
 ## 🔗 Base URL
 
 ```
-https://fastapi-stock-data.onrender.com
+http://localhost:8000  (local development)
+https://your-domain.com  (production)
 ```
 
-## 📋 Endpoints
+## Endpoints
 
-### 1. Get Stock Price
+### 1. Get Indian Stock Quote
 
 Get current price information for a specific NSE stock.
 
-**Endpoint:** `GET /api/v1/market/price/stock?symbol={symbol}`
+**Endpoint:** `GET /stocks/IND/{symbol}`
 
 **Parameters:**
-- `symbol` (query): NSE stock symbol with `.NS` suffix (e.g., `RELIANCE.NS`)
+- `symbol` (path): NSE stock symbol (e.g., `RELIANCE`, `TCS`, `HDFC`)
 
 **Example Request:**
 ```bash
-curl "https://fastapi-stock-data.onrender.com/api/v1/market/price/stock?symbol=RELIANCE.NS"
+curl "http://localhost:8000/stocks/IND/RELIANCE"
 ```
 
 **Example Response:**
 ```json
 {
-    "symbol": "RELIANCE.NS",
+    "symbol": "RELIANCE",
     "companyName": "Reliance Industries Ltd",
     "lastPrice": 2456.75,
     "pChange": 1.25,
@@ -40,13 +41,226 @@ curl "https://fastapi-stock-data.onrender.com/api/v1/market/price/stock?symbol=R
 }
 ```
 
-**Error Responses:**
+### 2. Get US Stock Quote
+
+Get current price information for a specific US stock.
+
+**Endpoint:** `GET /stocks/US/{symbol}`
+
+**Parameters:**
+- `symbol` (path): US stock symbol (e.g., `AAPL`, `GOOGL`, `MSFT`)
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/stocks/US/AAPL"
+```
+
+**Example Response:**
+```json
+{
+    "symbol": "AAPL",
+    "companyName": "Apple Inc.",
+    "lastPrice": 192.53,
+    "pChange": -0.85,
+    "change": -1.65,
+    "timestamp": "2024-12-09T15:30:00Z"
+}
+```
+
+### 3. Get Historical Indian Stock Data
+
+Get historical price data for NSE stocks.
+
+**Endpoint:** `GET /stocks/historical/IND/{symbol}`
+
+**Parameters:**
+- `symbol` (path): NSE stock symbol
+- `period` (query, optional): Time period (1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max)
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/stocks/historical/IND/RELIANCE?period=1mo"
+```
+
+### 4. Get Historical US Stock Data
+
+Get historical price data for US stocks.
+
+**Endpoint:** `GET /stocks/historical/US/{symbol}`
+
+**Parameters:**
+- `symbol` (path): US stock symbol
+- `period` (query, optional): Time period (1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max)
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/stocks/historical/US/AAPL?period=1mo"
+```
+
+### 5. Get US Market Index
+
+Get current data for US market indices.
+
+**Endpoint:** `GET /stocks/index/US/{symbol}`
+
+**Parameters:**
+- `symbol` (path): US index symbol (`DJI`, `SPX`, `IXIC`)
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/stocks/index/US/DJI"
+```
+
+### 6. Get BSE Market Index
+
+Get current data for BSE market indices.
+
+**Endpoint:** `GET /stocks/index/BSE/{symbol}`
+
+**Parameters:**
+- `symbol` (path): BSE index symbol (`SENSEX`, `BSE100`)
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/stocks/index/BSE/SENSEX"
+```
+
+### 7. Get Historical US Index Data
+
+Get historical data for US market indices.
+
+**Endpoint:** `GET /stocks/index/US/{symbol}/historical`
+
+**Parameters:**
+- `symbol` (path): US index symbol
+- `period` (query, optional): Time period
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/stocks/index/US/SPX/historical?period=1mo"
+```
+
+### 8. Get Historical BSE Index Data
+
+Get historical data for BSE market indices.
+
+**Endpoint:** `GET /stocks/index/BSE/{symbol}/historical`
+
+**Parameters:**
+- `symbol` (path): BSE index symbol
+- `period` (query, optional): Time period
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/stocks/index/BSE/SENSEX/historical?period=1mo"
+```
+
+### 9. Get Available Indian Stocks
+
+Get list of available Indian stock symbols.
+
+**Endpoint:** `GET /stocks/indian/list`
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/stocks/indian/list"
+```
+
+### 10. Get Available US Stocks
+
+Get list of available US stock symbols.
+
+**Endpoint:** `GET /stocks/us/list`
+
+**Example Request:**
+```bash
+curl "http://localhost:8000/stocks/us/list"
+```
+
+## Response Formats
+
+### Stock Quote Response
+```json
+{
+    "symbol": "RELIANCE",
+    "companyName": "Reliance Industries Ltd",
+    "lastPrice": 2456.75,
+    "pChange": 1.25,
+    "change": 30.50,
+    "timestamp": "09-Dec-2024 15:30:00"
+}
+```
+
+### Historical Data Response
+```json
+{
+    "symbol": "RELIANCE",
+    "period": "1mo",
+    "data": [
+        {
+            "date": "2024-11-09",
+            "open": 2450.00,
+            "high": 2470.00,
+            "low": 2440.00,
+            "close": 2465.50,
+            "volume": 1524000
+        }
+    ]
+}
+```
+
+## ⚠️ Error Responses
+
 - `404`: Stock symbol not found
-- `500`: Server error
+- `422`: Invalid parameters
+- `500`: Server error or data source unavailable
 
----
+## 💡 Usage Examples
 
-### 2. Get Historical Stock Data
+### Python Example
+```python
+import requests
+
+# Get Indian stock price
+response = requests.get("http://localhost:8000/stocks/IND/RELIANCE")
+data = response.json()
+print(f"RELIANCE: ₹{data['lastPrice']}")
+
+# Get US stock price
+response = requests.get("http://localhost:8000/stocks/US/AAPL")
+data = response.json()
+print(f"AAPL: ${data['lastPrice']}")
+```
+
+### JavaScript Example
+```javascript
+// Get stock data
+fetch('http://localhost:8000/stocks/IND/TCS')
+    .then(response => response.json())
+    .then(data => {
+        console.log(`TCS Price: ₹${data.lastPrice}`);
+    });
+```
+
+## 🔄 Rate Limits
+
+- Individual stock requests: 100 per minute
+- Bulk requests: 50 per minute
+- Historical data: 30 per minute
+
+## Data Sources
+
+- **Indian Stocks**: NSE (National Stock Exchange)
+- **US Stocks**: Yahoo Finance
+- **Indices**: Yahoo Finance and NSE
+
+## Best Practices
+
+1. Use appropriate time periods for historical data
+2. Cache frequently requested data
+3. Handle rate limits gracefully
+4. Validate stock symbols before requests
+5. Use bulk endpoints for multiple symbols when possible
 
 Get historical price data for a stock.
 
@@ -183,7 +397,7 @@ curl "https://fastapi-stock-data.onrender.com/quotes"
 - Respectful usage recommended
 - Consider implementing client-side caching
 
-## 📱 Integration Examples
+## Integration Examples
 
 ### Python
 
@@ -248,7 +462,7 @@ getStockPrice('RELIANCE.NS').then(data => {
 }
 ```
 
-## 📊 Data Fields Explanation
+## Data Fields Explanation
 
 | Field | Description | Type |
 |-------|-------------|------|

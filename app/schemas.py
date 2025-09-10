@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
-from datetime import datetime
 
 class Quote(BaseModel):
     symbol: str
@@ -10,7 +9,24 @@ class Quote(BaseModel):
 class SubscribeRequest(BaseModel):
     symbol: str
 
-# New schemas for options and analytics endpoints
+class StockQuote(BaseModel):
+    symbol: str
+    companyName: Optional[str] = None
+    lastPrice: Optional[float] = None
+    pChange: Optional[float] = None
+    change: Optional[float] = None
+    timestamp: str
+
+class CryptoQuote(BaseModel):
+    symbol: str
+    price: float
+    timestamp: str
+
+class HistoricalData(BaseModel):
+    symbol: str
+    period: str
+    data: List[Dict[str, Any]]
+
 class IndexPriceResponse(BaseModel):
     symbol: str
     lastPrice: float
@@ -18,70 +34,86 @@ class IndexPriceResponse(BaseModel):
     change: float
     timestamp: str
 
-class StockPriceResponse(BaseModel):
-    symbol: str
-    companyName: str
-    lastPrice: float
-    pChange: float
-    change: float
-    timestamp: str
-
 class FetchOptionsRequest(BaseModel):
     index: str
-    num_strikes: int = 50
+    num_strikes: int = 25
 
-class FetchOptionsExpiryRequest(BaseModel):
+class FetchExpiryRequest(BaseModel):
     index: str
     expiry: str
-    num_strikes: int = 30
+    num_strikes: int = 25
+
+class FetchResultMeta(BaseModel):
+    createdAtUTC: str
+    indexName: str
+    nearestExpiry: Optional[str] = None
+    selectedExpiry: Optional[str] = None
+    underlyingValue: Optional[float] = None
+    atmStrike: Optional[int] = None
+    selectedStrikesRange: Optional[List[int]] = None
+    totalStrikesFetched: Optional[int] = None
+
+class AnalyticsResponse(BaseModel):
+    meta: FetchResultMeta
+    pcr: Dict[str, float]
+    top_oi: Dict[str, List[Dict[str, Any]]]
+    max_pain: Dict[str, Any]
+
+class OptionPriceResponse(BaseModel):
+    symbol: str
+    strike: float
+    expiry: str
+    option_type: str  # 'CE' or 'PE'
+    lastPrice: Optional[float] = None
+    openInterest: Optional[int] = None
+    volume: Optional[int] = None
+    bid: Optional[float] = None
+    ask: Optional[float] = None
+    timestamp: str
+
+class DirectOptionsData(BaseModel):
+    index: str
+    expiry: str
+    underlying_value: float
+    options: List[Dict[str, Any]]
+    timestamp: str
 
 class OptionStrikeData(BaseModel):
-    strikePrice: float
-    expiryDate: str
-    CE_openInterest: Optional[float] = None
-    CE_lastPrice: Optional[float] = None
-    CE_totalTradedVolume: Optional[float] = None
-    PE_openInterest: Optional[float] = None
-    PE_lastPrice: Optional[float] = None
-    PE_totalTradedVolume: Optional[float] = None
+    index: str
+    strike: float
+    expiry: str
+    option_type: str  # 'CE', 'PE', or 'BOTH'
+    ce_data: Optional[Dict[str, Any]] = None
+    pe_data: Optional[Dict[str, Any]] = None
+    underlying_value: float
+    timestamp: str
 
-class OptionsSnapshotResponse(BaseModel):
-    meta: Dict[str, Any]
-    rows: List[OptionStrikeData]
+class OptionHistoricalData(BaseModel):
+    symbol: str
+    strike: float
+    expiry: str
+    option_type: str
+    period: str
+    data: List[Dict[str, Any]]
+    timestamp: str
 
-class PCRResponse(BaseModel):
-    pcr_by_oi: float
-    pcr_by_volume: float
+class ForexQuote(BaseModel):
+    symbol: str
+    base_currency: str
+    quote_currency: str
+    price: float
+    bid: Optional[float] = None
+    ask: Optional[float] = None
+    timestamp: str
 
-class TopOIStrike(BaseModel):
-    strikePrice: float
-    openInterest: float
+class ForexPair(BaseModel):
+    symbol: str
+    base_currency: str
+    quote_currency: str
+    description: str
 
-class TopOIResponse(BaseModel):
-    resistance_strikes: List[TopOIStrike]
-    support_strikes: List[TopOIStrike]
-
-class MaxPainResponse(BaseModel):
-    max_pain_strike: Optional[int] = None
-    total_loss_value: int
-
-class AnalyticsSummaryResponse(BaseModel):
-    pcr: PCRResponse
-    top_oi: TopOIResponse
-    max_pain: MaxPainResponse
-    underlying_price: float
-
-class JobResponse(BaseModel):
-    job_id: str
-    status: str
-    message: str
-
-# Auth related schemas
-class User(BaseModel):
-    id: int
-    username: str
-    email: str
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
+class ForexHistoricalData(BaseModel):
+    symbol: str
+    period: str
+    data: List[Dict[str, Any]]
+    timestamp: str
