@@ -1,0 +1,2039 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Comprehensive API documentation for stock market data and cryptocurrency prices">
+      
+      
+        <meta name="author" content="FastAPI Team">
+      
+      
+      
+        <link rel="prev" href="../market/">
+      
+      
+        <link rel="next" href="../../symbols/nse-stocks/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.19">
+    
+    
+      
+        <title>Analytics - FastAPI Stock & Crypto Data API</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#analytics-api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FastAPI Stock &amp; Crypto Data API" class="md-header__button md-logo" aria-label="FastAPI Stock & Crypto Data API" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FastAPI Stock & Crypto Data API
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Analytics
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/OMCHOKSI108/FastAPI-Stock-data-" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    FastAPI-Stock-data-
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../getting-started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../stock/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../symbols/nse-stocks/" class="md-tabs__link">
+          
+  
+  
+  Symbol Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../examples/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Examples
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Usage Guide
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../deployment/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Deployment
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FastAPI Stock &amp; Crypto Data API" class="md-nav__button md-logo" aria-label="FastAPI Stock & Crypto Data API" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FastAPI Stock & Crypto Data API
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/OMCHOKSI108/FastAPI-Stock-data-" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    FastAPI-Stock-data-
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stock Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Crypto Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../market/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Market Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Analytics
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Analytics
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#base-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Base URL
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Endpoints
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-get-put-call-ratio-pcr" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Get Put-Call Ratio (PCR)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-calculate-max-pain" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Calculate Max Pain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-get-top-open-interest" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Get Top Open Interest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-get-complete-analytics-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Get Complete Analytics Summary
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analytics-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analytics Explained
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Analytics Explained">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#put-call-ratio-pcr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Put-Call Ratio (PCR)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maximum-pain" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maximum Pain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open-interest-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Open Interest Analysis
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Usage Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-example-complete-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python Example - Complete Analysis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-example-real-time-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      JavaScript Example - Real-time Dashboard
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trading-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trading Insights
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trading Insights">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pcr-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      PCR Interpretation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#max-pain-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Max Pain Strategy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Important Notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rate-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Rate Limits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Indices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-pcr-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom PCR Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oi-concentration-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      OI Concentration Analysis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-max-pain-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Max Pain Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-analytics-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Analytics Summary
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-options-expiries" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Options Expiries
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-latest-options-chain" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Latest Options Chain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-fetch-options-chain-background" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Fetch Options Chain (Background)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-fetch-specific-expiry-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Fetch Specific Expiry Options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#response-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Response Formats
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Response Formats">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pcr-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      PCR Response
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#top-oi-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      Top OI Response
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#max-pain-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      Max Pain Response
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-notes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Important Notes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ Important Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Availability
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculation-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Calculation Methods
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#background-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Background Processing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript" class="md-nav__link">
+    <span class="md-ellipsis">
+      JavaScript
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Error Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-http-status-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common HTTP Status Codes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-response-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Response Format
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analytics-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analytics Interpretation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Analytics Interpretation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pcr-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      PCR Values
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#max-pain" class="md-nav__link">
+    <span class="md-ellipsis">
+      Max Pain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open-interest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Open Interest
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆘 Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆘 Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Symbol Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Symbol Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../symbols/nse-stocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NSE Stocks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../symbols/cryptocurrencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cryptocurrencies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../symbols/indices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Indices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="analytics-api">Analytics API<a class="headerlink" href="#analytics-api" title="Permanent link">&para;</a></h1>
+<p>This section documents the advanced analytics endpoints in FastStockAPI, providing sophisticated options trading analytics including PCR, Max Pain, and Open Interest analysis.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The analytics API provides powerful trading analytics tools for options data, helping traders make informed decisions with data-driven insights.</p>
+<h2 id="base-url">🔗 Base URL<a class="headerlink" href="#base-url" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>http://localhost:8000  (local development)
+https://your-domain.com  (production)
+</code></pre></div>
+<h2 id="endpoints">Endpoints<a class="headerlink" href="#endpoints" title="Permanent link">&para;</a></h2>
+<h3 id="1-get-put-call-ratio-pcr">1. Get Put-Call Ratio (PCR)<a class="headerlink" href="#1-get-put-call-ratio-pcr" title="Permanent link">&para;</a></h3>
+<p>Calculate the Put-Call Ratio for options data.</p>
+<p><strong>Endpoint:</strong> <code>GET /analytics/pcr</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query): Index symbol (e.g., <code>NIFTY</code>, <code>BANKNIFTY</code>)
+- <code>expiry</code> (query, optional): Expiry date in DDMMYY format</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/analytics/pcr?index=NIFTY&amp;expiry=160925&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pcr&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.25</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_ce_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">125000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_pe_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="2-calculate-max-pain">2. Calculate Max Pain<a class="headerlink" href="#2-calculate-max-pain" title="Permanent link">&para;</a></h3>
+<p>Find the maximum pain strike price for options.</p>
+<p><strong>Endpoint:</strong> <code>GET /analytics/max-pain</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query): Index symbol
+- <code>expiry</code> (query, optional): Expiry date in DDMMYY format</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/analytics/max-pain?index=NIFTY&amp;expiry=160925&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;max_pain_strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24500</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_ce_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">125000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_pe_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">225000000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="3-get-top-open-interest">3. Get Top Open Interest<a class="headerlink" href="#3-get-top-open-interest" title="Permanent link">&para;</a></h3>
+<p>Find strikes with highest open interest.</p>
+<p><strong>Endpoint:</strong> <code>GET /analytics/top-oi</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query): Index symbol
+- <code>expiry</code> (query, optional): Expiry date in DDMMYY format
+- <code>top_n</code> (query, optional): Number of top strikes to return (default: 5)</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/analytics/top-oi?index=NIFTY&amp;expiry=160925&amp;top_n=5&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;top_strikes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_ce&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2450000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_pe&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1850000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;total_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4300000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_ce_percentage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">12.5</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_pe_percentage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">9.2</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24500</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_ce&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2100000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_pe&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1950000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;total_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4050000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_ce_percentage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.7</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_pe_percentage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">9.8</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="4-get-complete-analytics-summary">4. Get Complete Analytics Summary<a class="headerlink" href="#4-get-complete-analytics-summary" title="Permanent link">&para;</a></h3>
+<p>Get comprehensive analytics for options data.</p>
+<p><strong>Endpoint:</strong> <code>GET /analytics/summary</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query): Index symbol
+- <code>expiry</code> (query, optional): Expiry date in DDMMYY format
+- <code>limit</code> (query, optional): Number of records to analyze</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/analytics/summary?index=NIFTY&amp;expiry=160925&amp;limit=500&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;createdAtUTC&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;indexName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;nearestExpiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;underlyingValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">24500.75</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;atmStrike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24500</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;selectedStrikesRange&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">23500</span><span class="p">,</span><span class="w"> </span><span class="mi">25500</span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;totalStrikesFetched&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">41</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;pcr&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.25</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_pain&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;max_pain_strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24500</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;total_ce_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">125000000</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;total_pe_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100000000</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;total_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">225000000</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;top_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_ce&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2450000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_pe&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1850000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;total_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4300000</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;atm_analysis&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;atm_strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24500</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;atm_ce_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;atm_pe_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">95.25</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;atm_ce_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2100000</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;atm_pe_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1950000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h2 id="analytics-explained">Analytics Explained<a class="headerlink" href="#analytics-explained" title="Permanent link">&para;</a></h2>
+<h3 id="put-call-ratio-pcr">Put-Call Ratio (PCR)<a class="headerlink" href="#put-call-ratio-pcr" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Formula</strong>: Total PE Open Interest / Total CE Open Interest</li>
+<li><strong>Interpretation</strong>:</li>
+<li>PCR &gt; 1: Bearish sentiment (more puts)</li>
+<li>PCR &lt; 1: Bullish sentiment (more calls)</li>
+<li>PCR = 1: Neutral sentiment</li>
+</ul>
+<h3 id="maximum-pain">Maximum Pain<a class="headerlink" href="#maximum-pain" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Definition</strong>: Strike price where the total value of expiring options is minimized</li>
+<li><strong>Calculation</strong>: Sums open interest for calls above and puts below each strike</li>
+<li><strong>Significance</strong>: Price level where option writers (market makers) suffer least loss</li>
+</ul>
+<h3 id="open-interest-analysis">Open Interest Analysis<a class="headerlink" href="#open-interest-analysis" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Top OI Strikes</strong>: Most actively traded strike prices</li>
+<li><strong>OI Distribution</strong>: Shows where market participants have positioned</li>
+<li><strong>Volume vs OI</strong>: Fresh positions vs existing positions</li>
+</ul>
+<h2 id="usage-examples">💡 Usage Examples<a class="headerlink" href="#usage-examples" title="Permanent link">&para;</a></h2>
+<h3 id="python-example-complete-analysis">Python Example - Complete Analysis<a class="headerlink" href="#python-example-complete-analysis" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">analyze_options</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">expiry</span><span class="p">):</span>
+    <span class="c1"># Get PCR</span>
+    <span class="n">pcr_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;http://localhost:8000/analytics/pcr&quot;</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span> <span class="s2">&quot;expiry&quot;</span><span class="p">:</span> <span class="n">expiry</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">pcr_data</span> <span class="o">=</span> <span class="n">pcr_response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="c1"># Get Max Pain</span>
+    <span class="n">max_pain_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;http://localhost:8000/analytics/max-pain&quot;</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span> <span class="s2">&quot;expiry&quot;</span><span class="p">:</span> <span class="n">expiry</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">max_pain_data</span> <span class="o">=</span> <span class="n">max_pain_response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="c1"># Get Top OI</span>
+    <span class="n">top_oi_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;http://localhost:8000/analytics/top-oi&quot;</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span> <span class="s2">&quot;expiry&quot;</span><span class="p">:</span> <span class="n">expiry</span><span class="p">,</span> <span class="s2">&quot;top_n&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">top_oi_data</span> <span class="o">=</span> <span class="n">top_oi_response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> Analysis for </span><span class="si">{</span><span class="n">expiry</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PCR: </span><span class="si">{</span><span class="n">pcr_data</span><span class="p">[</span><span class="s1">&#39;pcr&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max Pain: ₹</span><span class="si">{</span><span class="n">max_pain_data</span><span class="p">[</span><span class="s1">&#39;max_pain_strike&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🏆 Top OI Strikes:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">strike</span> <span class="ow">in</span> <span class="n">top_oi_data</span><span class="p">[</span><span class="s1">&#39;top_strikes&#39;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;₹</span><span class="si">{</span><span class="n">strike</span><span class="p">[</span><span class="s1">&#39;strike&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">strike</span><span class="p">[</span><span class="s1">&#39;total_oi&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> contracts&quot;</span><span class="p">)</span>
+
+<span class="c1"># Usage</span>
+<span class="n">analyze_options</span><span class="p">(</span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span> <span class="s2">&quot;160925&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="javascript-example-real-time-dashboard">JavaScript Example - Real-time Dashboard<a class="headerlink" href="#javascript-example-real-time-dashboard" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">updateAnalytics</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span><span class="w"> </span><span class="nx">expiry</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Get all analytics in parallel</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">pcrRes</span><span class="p">,</span><span class="w"> </span><span class="nx">maxPainRes</span><span class="p">,</span><span class="w"> </span><span class="nx">topOiRes</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+<span class="w">            </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`/analytics/pcr?index=</span><span class="si">${</span><span class="nx">index</span><span class="si">}</span><span class="sb">&amp;expiry=</span><span class="si">${</span><span class="nx">expiry</span><span class="si">}</span><span class="sb">`</span><span class="p">),</span>
+<span class="w">            </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`/analytics/max-pain?index=</span><span class="si">${</span><span class="nx">index</span><span class="si">}</span><span class="sb">&amp;expiry=</span><span class="si">${</span><span class="nx">expiry</span><span class="si">}</span><span class="sb">`</span><span class="p">),</span>
+<span class="w">            </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`/analytics/top-oi?index=</span><span class="si">${</span><span class="nx">index</span><span class="si">}</span><span class="sb">&amp;expiry=</span><span class="si">${</span><span class="nx">expiry</span><span class="si">}</span><span class="sb">&amp;top_n=5`</span><span class="p">)</span>
+<span class="w">        </span><span class="p">]);</span>
+
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">pcr</span><span class="p">,</span><span class="w"> </span><span class="nx">maxPain</span><span class="p">,</span><span class="w"> </span><span class="nx">topOi</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+<span class="w">            </span><span class="nx">pcrRes</span><span class="p">.</span><span class="nx">json</span><span class="p">(),</span>
+<span class="w">            </span><span class="nx">maxPainRes</span><span class="p">.</span><span class="nx">json</span><span class="p">(),</span>
+<span class="w">            </span><span class="nx">topOiRes</span><span class="p">.</span><span class="nx">json</span><span class="p">()</span>
+<span class="w">        </span><span class="p">]);</span>
+
+<span class="w">        </span><span class="c1">// Update UI</span>
+<span class="w">        </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;pcr-value&#39;</span><span class="p">).</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">pcr</span><span class="p">.</span><span class="nx">pcr</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">2</span><span class="p">);</span>
+<span class="w">        </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;max-pain&#39;</span><span class="p">).</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`₹</span><span class="si">${</span><span class="nx">maxPain</span><span class="p">.</span><span class="nx">max_pain_strike</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// Update top OI table</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">tableBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;top-oi-table&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">tableBody</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">topOi</span><span class="p">.</span><span class="nx">top_strikes</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">strike</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="sb">`</span>
+<span class="sb">            &lt;tr&gt;</span>
+<span class="sb">                &lt;td&gt;₹</span><span class="si">${</span><span class="nx">strike</span><span class="p">.</span><span class="nx">strike</span><span class="si">}</span><span class="sb">&lt;/td&gt;</span>
+<span class="sb">                &lt;td&gt;</span><span class="si">${</span><span class="nx">strike</span><span class="p">.</span><span class="nx">total_oi</span><span class="p">.</span><span class="nx">toLocaleString</span><span class="p">()</span><span class="si">}</span><span class="sb">&lt;/td&gt;</span>
+<span class="sb">                &lt;td&gt;</span><span class="si">${</span><span class="nx">strike</span><span class="p">.</span><span class="nx">oi_ce_percentage</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span><span class="si">}</span><span class="sb">%&lt;/td&gt;</span>
+<span class="sb">                &lt;td&gt;</span><span class="si">${</span><span class="nx">strike</span><span class="p">.</span><span class="nx">oi_pe_percentage</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span><span class="si">}</span><span class="sb">%&lt;/td&gt;</span>
+<span class="sb">            &lt;/tr&gt;</span>
+<span class="sb">        `</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Error updating analytics:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Update every 30 seconds</span>
+<span class="nx">setInterval</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">updateAnalytics</span><span class="p">(</span><span class="s1">&#39;NIFTY&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;160925&#39;</span><span class="p">),</span><span class="w"> </span><span class="mf">30000</span><span class="p">);</span>
+</code></pre></div>
+<h2 id="trading-insights">Trading Insights<a class="headerlink" href="#trading-insights" title="Permanent link">&para;</a></h2>
+<h3 id="pcr-interpretation">PCR Interpretation<a class="headerlink" href="#pcr-interpretation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">interpretPCR</span><span class="p">(</span><span class="nx">pcr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">pcr</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">1.5</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;🔴 Extremely Bearish&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">pcr</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">1.2</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;🟠 Bearish&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">pcr</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.8</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;🟡 Neutral&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">pcr</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;🟢 Bullish&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;🟢 Extremely Bullish&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="max-pain-strategy">Max Pain Strategy<a class="headerlink" href="#max-pain-strategy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">maxPainStrategy</span><span class="p">(</span><span class="nx">currentPrice</span><span class="p">,</span><span class="w"> </span><span class="nx">maxPain</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">currentPrice</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">maxPain</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">currentPrice</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">100</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">diff</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;🎯 At Max Pain - High manipulation risk&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">diff</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">3</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;⚠️ Near Max Pain - Watch closely&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;✅ Away from Max Pain - Natural movement&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="important-notes">⚠️ Important Notes<a class="headerlink" href="#important-notes" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Data Freshness</strong>: Analytics are based on last fetched options data</li>
+<li><strong>Market Hours</strong>: NSE options data available during market hours</li>
+<li><strong>Expiry Effects</strong>: Analytics most relevant close to expiry</li>
+<li><strong>Liquidity</strong>: Higher OI strikes provide better liquidity</li>
+<li><strong>Volatility</strong>: PCR and OI patterns change with market volatility</li>
+</ul>
+<h2 id="rate-limits">🔄 Rate Limits<a class="headerlink" href="#rate-limits" title="Permanent link">&para;</a></h2>
+<ul>
+<li>PCR requests: 50 per minute</li>
+<li>Max Pain requests: 50 per minute</li>
+<li>Top OI requests: 30 per minute</li>
+<li>Summary requests: 20 per minute</li>
+</ul>
+<h2 id="supported-indices">Supported Indices<a class="headerlink" href="#supported-indices" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>NIFTY</strong>: Primary index analytics</li>
+<li><strong>BANKNIFTY</strong>: Banking sector</li>
+<li><strong>NIFTYIT</strong>: Information Technology</li>
+<li><strong>NIFTYPHARMA</strong>: Pharmaceuticals</li>
+<li><strong>NIFTYAUTO</strong>: Automobile sector</li>
+</ul>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Use Recent Data</strong>: Fetch fresh options data before analytics</li>
+<li><strong>Compare Timeframes</strong>: Analyze PCR trends over time</li>
+<li><strong>Combine Metrics</strong>: Use PCR + Max Pain + OI together</li>
+<li><strong>Context Matters</strong>: Consider overall market sentiment</li>
+<li><strong>Risk Management</strong>: Don't rely solely on technical indicators</li>
+<li><strong>Multiple Expiries</strong>: Compare near-term vs far-term analytics</li>
+</ol>
+<h2 id="advanced-usage">Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permanent link">&para;</a></h2>
+<h3 id="custom-pcr-calculation">Custom PCR Calculation<a class="headerlink" href="#custom-pcr-calculation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">custom_pcr</span><span class="p">(</span><span class="n">ce_oi</span><span class="p">,</span> <span class="n">pe_oi</span><span class="p">,</span> <span class="n">min_strike</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_strike</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate PCR for specific strike range&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">min_strike</span> <span class="ow">and</span> <span class="n">max_strike</span><span class="p">:</span>
+        <span class="c1"># Filter strikes within range</span>
+        <span class="n">filtered_ce</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">oi</span> <span class="k">for</span> <span class="n">strike</span><span class="p">,</span> <span class="n">oi</span> <span class="ow">in</span> <span class="n">ce_oi</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                         <span class="k">if</span> <span class="n">min_strike</span> <span class="o">&lt;=</span> <span class="n">strike</span> <span class="o">&lt;=</span> <span class="n">max_strike</span><span class="p">)</span>
+        <span class="n">filtered_pe</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">oi</span> <span class="k">for</span> <span class="n">strike</span><span class="p">,</span> <span class="n">oi</span> <span class="ow">in</span> <span class="n">pe_oi</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                         <span class="k">if</span> <span class="n">min_strike</span> <span class="o">&lt;=</span> <span class="n">strike</span> <span class="o">&lt;=</span> <span class="n">max_strike</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">filtered_pe</span> <span class="o">/</span> <span class="n">filtered_ce</span> <span class="k">if</span> <span class="n">filtered_ce</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">pe_oi</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ce_oi</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ce_oi</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+</code></pre></div>
+<h3 id="oi-concentration-analysis">OI Concentration Analysis<a class="headerlink" href="#oi-concentration-analysis" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">oi_concentration</span><span class="p">(</span><span class="n">top_oi_strikes</span><span class="p">,</span> <span class="n">total_oi</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate OI concentration in top strikes&quot;&quot;&quot;</span>
+    <span class="n">top_total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">strike</span><span class="p">[</span><span class="s1">&#39;total_oi&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">strike</span> <span class="ow">in</span> <span class="n">top_oi_strikes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">top_total</span> <span class="o">/</span> <span class="n">total_oi</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">total_oi</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query, optional): Index name (default: <code>NIFTY</code>)
+- <code>limit</code> (query, optional): Number of strikes to return (default: 10)</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;https://fastapi-stock-data.onrender.com/api/v1/analytics/top-oi?index=NIFTY&amp;limit=5&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;top_strikes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strike_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">23500</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;total_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2500000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;put_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1500000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;call_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_change&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">125000</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strike_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;total_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2200000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;put_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1200000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;call_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_change&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">98000</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="3-max-pain-calculation">3. Max Pain Calculation<a class="headerlink" href="#3-max-pain-calculation" title="Permanent link">&para;</a></h3>
+<p>Get the Max Pain strike price for options expiry.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/v1/analytics/max-pain?index=NIFTY</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query, optional): Index name (default: <code>NIFTY</code>)</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;https://fastapi-stock-data.onrender.com/api/v1/analytics/max-pain?index=NIFTY&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_pain_strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">23800</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_oi_at_max_pain&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3500000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;put_oi_at_max_pain&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1800000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;call_oi_at_max_pain&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1700000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;calculation_method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Total OI at strike price&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="4-analytics-summary">4. Analytics Summary<a class="headerlink" href="#4-analytics-summary" title="Permanent link">&para;</a></h3>
+<p>Get comprehensive analytics summary for an index.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/v1/analytics/summary?index=NIFTY</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query, optional): Index name (default: <code>NIFTY</code>)</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;https://fastapi-stock-data.onrender.com/api/v1/analytics/summary?index=NIFTY&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;current_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">23456.75</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pcr&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.25</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_pain&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">23800</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;top_strikes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strike_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">23500</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;total_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2500000</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;market_sentiment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bullish&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;volatility_indicator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Moderate&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="5-options-expiries">5. Options Expiries<a class="headerlink" href="#5-options-expiries" title="Permanent link">&para;</a></h3>
+<p>Get available expiry dates for options.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/v1/options/expiries?index=NIFTY</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query, optional): Index name (default: <code>NIFTY</code>)</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;https://fastapi-stock-data.onrender.com/api/v1/options/expiries?index=NIFTY&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiries&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;14-Dec-2024&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;21-Dec-2024&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;28-Dec-2024&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;25-Jan-2025&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;current_expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;14-Dec-2024&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="6-latest-options-chain">6. Latest Options Chain<a class="headerlink" href="#6-latest-options-chain" title="Permanent link">&para;</a></h3>
+<p>Get the latest options chain data.</p>
+<p><strong>Endpoint:</strong> <code>GET /api/v1/options/latest?index=NIFTY</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query, optional): Index name (default: <code>NIFTY</code>)
+- <code>limit</code> (query, optional): Number of strikes to return (default: 20)</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;https://fastapi-stock-data.onrender.com/api/v1/options/latest?index=NIFTY&amp;limit=10&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;spot_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">23456.75</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;14-Dec-2024&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;options_chain&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strike_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">23000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;put&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1250000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;change_in_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;volume&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;iv&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.5</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ltp&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">45.25</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;net_change&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.15</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;call&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">980000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;change_in_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;volume&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">35000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;iv&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">14.2</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ltp&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">456.75</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;net_change&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">25.50</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="7-fetch-options-chain-background">7. Fetch Options Chain (Background)<a class="headerlink" href="#7-fetch-options-chain-background" title="Permanent link">&para;</a></h3>
+<p>Fetch and cache options chain data asynchronously.</p>
+<p><strong>Endpoint:</strong> <code>POST /api/v1/options/fetch</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (body): Index name
+- <code>expiry</code> (body, optional): Specific expiry date</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://fastapi-stock-data.onrender.com/api/v1/options/fetch&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;index&quot;: &quot;NIFTY&quot;}&#39;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;job_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123-def456-ghi789&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;processing&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Options data fetch initiated&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;estimated_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;30-60 seconds&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="8-fetch-specific-expiry-options">8. Fetch Specific Expiry Options<a class="headerlink" href="#8-fetch-specific-expiry-options" title="Permanent link">&para;</a></h3>
+<p>Fetch options data for a specific expiry date.</p>
+<p><strong>Endpoint:</strong> <code>POST /api/v1/options/fetch-expiry</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (body): Index name
+- <code>expiry</code> (body): Expiry date</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://fastapi-stock-data.onrender.com/api/v1/options/fetch-expiry&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;index&quot;: &quot;NIFTY&quot;, &quot;expiry&quot;: &quot;14-Dec-2024&quot;}&#39;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;job_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;def456-ghi789-jkl012&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;processing&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Expiry-specific options data fetch initiated&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiry_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;14-Dec-2024&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h2 id="response-formats">Response Formats<a class="headerlink" href="#response-formats" title="Permanent link">&para;</a></h2>
+<h3 id="pcr-response">PCR Response<a class="headerlink" href="#pcr-response" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pcr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;put_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;call_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;interpretation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="top-oi-response">Top OI Response<a class="headerlink" href="#top-oi-response" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;top_strikes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strike_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;total_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;put_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;call_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_change&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="max-pain-response">Max Pain Response<a class="headerlink" href="#max-pain-response" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_pain_strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;total_oi_at_max_pain&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;put_oi_at_max_pain&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;call_oi_at_max_pain&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;calculation_method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="important-notes_1">⚠️ Important Notes<a class="headerlink" href="#important-notes_1" title="Permanent link">&para;</a></h2>
+<h3 id="data-availability">Data Availability<a class="headerlink" href="#data-availability" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Options data is updated during market hours</li>
+<li>Historical options data may be limited</li>
+<li>Some calculations require sufficient market data</li>
+</ul>
+<h3 id="calculation-methods">Calculation Methods<a class="headerlink" href="#calculation-methods" title="Permanent link">&para;</a></h3>
+<p><strong>PCR Calculation:</strong>
+- PCR = Total Put OI / Total Call OI
+- Values &gt; 1.0 indicate bullish sentiment
+- Values &lt; 1.0 indicate bearish sentiment</p>
+<p><strong>Max Pain Calculation:</strong>
+- Strike price with maximum total open interest
+- Used to predict market movement at expiry
+- Based on current open interest distribution</p>
+<h3 id="background-processing">Background Processing<a class="headerlink" href="#background-processing" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Large options data fetches run in background</li>
+<li>Use job IDs to track progress</li>
+<li>Results are cached for faster subsequent access</li>
+</ul>
+<h2 id="integration-examples">Integration Examples<a class="headerlink" href="#integration-examples" title="Permanent link">&para;</a></h2>
+<h3 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pcr</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;NIFTY&quot;</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://fastapi-stock-data.onrender.com/api/v1/analytics/pcr?index=</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_max_pain</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;NIFTY&quot;</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://fastapi-stock-data.onrender.com/api/v1/analytics/max-pain?index=</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1"># Usage</span>
+<span class="n">pcr_data</span> <span class="o">=</span> <span class="n">get_pcr</span><span class="p">(</span><span class="s2">&quot;NIFTY&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">pcr_data</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NIFTY PCR: </span><span class="si">{</span><span class="n">pcr_data</span><span class="p">[</span><span class="s1">&#39;pcr&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">pcr_data</span><span class="p">[</span><span class="s1">&#39;interpretation&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="n">max_pain</span> <span class="o">=</span> <span class="n">get_max_pain</span><span class="p">(</span><span class="s2">&quot;NIFTY&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">max_pain</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max Pain Strike: </span><span class="si">{</span><span class="n">max_pain</span><span class="p">[</span><span class="s1">&#39;max_pain_strike&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="javascript">JavaScript<a class="headerlink" href="#javascript" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getAnalytics</span><span class="p">(</span><span class="nx">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;NIFTY&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">baseURL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;https://fastapi-stock-data.onrender.com&#39;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Get PCR</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">pcrResponse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">baseURL</span><span class="si">}</span><span class="sb">/api/v1/analytics/pcr?index=</span><span class="si">${</span><span class="nx">index</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">pcrData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">pcrResponse</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Get Max Pain</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">maxPainResponse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">baseURL</span><span class="si">}</span><span class="sb">/api/v1/analytics/max-pain?index=</span><span class="si">${</span><span class="nx">index</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">maxPainData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">maxPainResponse</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Get Top OI</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">topOIResponse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">baseURL</span><span class="si">}</span><span class="sb">/api/v1/analytics/top-oi?index=</span><span class="si">${</span><span class="nx">index</span><span class="si">}</span><span class="sb">&amp;limit=5`</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">topOIData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">topOIResponse</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">pcr</span><span class="o">:</span><span class="w"> </span><span class="nx">pcrData</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">maxPain</span><span class="o">:</span><span class="w"> </span><span class="nx">maxPainData</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">topOI</span><span class="o">:</span><span class="w"> </span><span class="nx">topOIData</span>
+<span class="w">        </span><span class="p">};</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Error fetching analytics:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="nx">getAnalytics</span><span class="p">(</span><span class="s1">&#39;NIFTY&#39;</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`PCR: </span><span class="si">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">pcr</span><span class="p">.</span><span class="nx">pcr</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Max Pain: </span><span class="si">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">maxPain</span><span class="p">.</span><span class="nx">max_pain_strike</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Top OI Strikes: </span><span class="si">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">topOI</span><span class="p">.</span><span class="nx">top_strikes</span><span class="p">.</span><span class="nx">length</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+<h2 id="error-handling">🔍 Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<h3 id="common-http-status-codes">Common HTTP Status Codes<a class="headerlink" href="#common-http-status-codes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>200</strong>: Success</li>
+<li><strong>404</strong>: Index not found or no data available</li>
+<li><strong>500</strong>: Server error or calculation error</li>
+</ul>
+<h3 id="error-response-format">Error Response Format<a class="headerlink" href="#error-response-format" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;detail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Error description message&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="analytics-interpretation">Analytics Interpretation<a class="headerlink" href="#analytics-interpretation" title="Permanent link">&para;</a></h2>
+<h3 id="pcr-values">PCR Values<a class="headerlink" href="#pcr-values" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>&gt; 1.0</strong>: Bullish sentiment (more puts being bought)</li>
+<li><strong>&lt; 1.0</strong>: Bearish sentiment (more calls being bought)</li>
+<li><strong>= 1.0</strong>: Neutral sentiment</li>
+</ul>
+<h3 id="max-pain">Max Pain<a class="headerlink" href="#max-pain" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The strike price where maximum options would expire worthless</li>
+<li>Market makers may hedge around this level</li>
+<li>Not a guaranteed prediction but a useful indicator</li>
+</ul>
+<h3 id="open-interest">Open Interest<a class="headerlink" href="#open-interest" title="Permanent link">&para;</a></h3>
+<ul>
+<li>High OI indicates strong interest at that strike</li>
+<li>Increasing OI suggests new positions being opened</li>
+<li>Decreasing OI suggests positions being closed</li>
+</ul>
+<h2 id="troubleshooting">🆘 Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
+<p><strong>No Data Available</strong>
+- Check during market hours
+- Options data may not be available for all indices</p>
+<p><strong>Calculation Errors</strong>
+- Insufficient data for calculations
+- Try different time periods or indices</p>
+<p><strong>Background Job Issues</strong>
+- Large datasets take time to process
+- Check job status after some time</p>
+<h3 id="getting-help">Getting Help<a class="headerlink" href="#getting-help" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Check the <a href="../stock/">API Reference</a> for basic endpoints</li>
+<li>Report issues on <a href="https://github.com/OMCHOKSI108/FastAPI-Stock-data-">GitHub</a></li>
+<li>Visit NSE website for official options data</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>

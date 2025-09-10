@@ -1,0 +1,2094 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Comprehensive API documentation for stock market data and cryptocurrency prices">
+      
+      
+        <meta name="author" content="FastAPI Team">
+      
+      
+      
+        <link rel="prev" href="../examples/">
+      
+      
+        <link rel="next" href="../deployment/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.19">
+    
+    
+      
+        <title>Usage Guide - FastAPI Stock & Crypto Data API</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#faststockapi-usage-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="FastAPI Stock &amp; Crypto Data API" class="md-header__button md-logo" aria-label="FastAPI Stock & Crypto Data API" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FastAPI Stock & Crypto Data API
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Usage Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/OMCHOKSI108/FastAPI-Stock-data-" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    FastAPI-Stock-data-
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../getting-started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api/stock/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../symbols/nse-stocks/" class="md-tabs__link">
+          
+  
+  
+  Symbol Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../examples/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Examples
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Usage Guide
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../deployment/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Deployment
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="FastAPI Stock &amp; Crypto Data API" class="md-nav__button md-logo" aria-label="FastAPI Stock & Crypto Data API" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FastAPI Stock & Crypto Data API
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/OMCHOKSI108/FastAPI-Stock-data-" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    FastAPI-Stock-data-
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/stock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stock Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Crypto Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/market/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Market Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/analytics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Analytics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Symbol Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Symbol Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../symbols/nse-stocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NSE Stocks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../symbols/cryptocurrencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cryptocurrencies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../symbols/indices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Indices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Usage Guide
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage Guide
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Quick Start
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#base-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      Base URL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Health Check
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stock-market-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stock Market Data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stock Market Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-indian-stock-price" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Indian Stock Price
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-us-stock-price" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get US Stock Price
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-historical-stock-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Historical Stock Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-market-index-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Market Index Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cryptocurrency-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cryptocurrency Data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cryptocurrency Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-crypto-price" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Crypto Price
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-historical-crypto-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Historical Crypto Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options-trading-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Options Trading Data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Options Trading Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-index-price-for-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Index Price for Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-available-expiries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Available Expiries
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-options-chain-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Options Chain Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-option-price" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Option Price
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-historical-option-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Historical Option Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fetch-options-data-json-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fetch Options Data (JSON Response)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Analytics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Analytics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#put-call-ratio-pcr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Put-Call Ratio (PCR)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maximum-pain-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Maximum Pain Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#top-open-interest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Top Open Interest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-analytics-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete Analytics Summary
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forex-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Forex Data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forex Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-exchange-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Exchange Rate
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-multiple-exchange-rates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Multiple Exchange Rates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-historical-forex-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Historical Forex Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#programming-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      💻 Programming Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💻 Programming Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-complete-trading-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python - Complete Trading Dashboard
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-real-time-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      JavaScript - Real-time Dashboard
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-enterprise-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Java - Enterprise Integration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Use Cases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algorithmic-trading-bot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Algorithmic Trading Bot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portfolio-tracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Portfolio Tracker
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-error-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Error Patterns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Rate Limiting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-data-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Data Caching
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-logging-and-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Logging and Monitoring
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#production-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Production Deployment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Production Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker Deployment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-for-full-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker Compose for Full Stack
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="faststockapi-usage-guide">FastStockAPI Usage Guide<a class="headerlink" href="#faststockapi-usage-guide" title="Permanent link">&para;</a></h1>
+<p>This comprehensive guide provides practical examples for using FastStockAPI across different programming languages and use cases.</p>
+<h2 id="quick-start">🚀 Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<h3 id="base-url">Base URL<a class="headerlink" href="#base-url" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>http://localhost:8000  (local development)
+https://your-domain.com  (production)
+</code></pre></div>
+<h3 id="health-check">Health Check<a class="headerlink" href="#health-check" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:8000/health
+</code></pre></div>
+<h2 id="stock-market-data">Stock Market Data<a class="headerlink" href="#stock-market-data" title="Permanent link">&para;</a></h2>
+<h3 id="get-indian-stock-price">Get Indian Stock Price<a class="headerlink" href="#get-indian-stock-price" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Using cURL</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/stocks/IND/RELIANCE&quot;</span>
+
+<span class="c1"># Using Python</span>
+import<span class="w"> </span>requests
+<span class="nv">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>requests.get<span class="o">(</span><span class="s2">&quot;http://localhost:8000/stocks/IND/RELIANCE&quot;</span><span class="o">)</span>
+print<span class="o">(</span>response.json<span class="o">())</span>
+</code></pre></div>
+<h3 id="get-us-stock-price">Get US Stock Price<a class="headerlink" href="#get-us-stock-price" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Using cURL</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/stocks/US/AAPL&quot;</span>
+
+<span class="c1"># Using JavaScript</span>
+fetch<span class="o">(</span><span class="s1">&#39;http://localhost:8000/stocks/US/AAPL&#39;</span><span class="o">)</span>
+<span class="w">    </span>.then<span class="o">(</span><span class="nv">res</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>res.json<span class="o">())</span>
+<span class="w">    </span>.then<span class="o">(</span><span class="nv">data</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>console.log<span class="o">(</span>data<span class="o">))</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="get-historical-stock-data">Get Historical Stock Data<a class="headerlink" href="#get-historical-stock-data" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Indian Stock - 1 Month</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/stocks/historical/IND/RELIANCE?period=1mo&quot;</span>
+
+<span class="c1"># US Stock - 3 Months</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/stocks/historical/US/AAPL?period=3mo&quot;</span>
+</code></pre></div>
+<h3 id="get-market-index-data">Get Market Index Data<a class="headerlink" href="#get-market-index-data" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># US Index</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/stocks/index/US/DJI&quot;</span>
+
+<span class="c1"># BSE Index</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/stocks/index/BSE/SENSEX&quot;</span>
+</code></pre></div>
+<h2 id="cryptocurrency-data">Cryptocurrency Data<a class="headerlink" href="#cryptocurrency-data" title="Permanent link">&para;</a></h2>
+<h3 id="get-crypto-price">Get Crypto Price<a class="headerlink" href="#get-crypto-price" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Single cryptocurrency</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/crypto/quote/BTC&quot;</span>
+
+<span class="c1"># Multiple cryptocurrencies</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/crypto/list&quot;</span>
+</code></pre></div>
+<h3 id="get-historical-crypto-data">Get Historical Crypto Data<a class="headerlink" href="#get-historical-crypto-data" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/crypto/historical/ETH?period=1mo&quot;</span>
+</code></pre></div>
+<h2 id="options-trading-data">Options Trading Data<a class="headerlink" href="#options-trading-data" title="Permanent link">&para;</a></h2>
+<h3 id="get-index-price-for-options">Get Index Price for Options<a class="headerlink" href="#get-index-price-for-options" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/index-price?index=NIFTY&quot;</span>
+</code></pre></div>
+<h3 id="get-available-expiries">Get Available Expiries<a class="headerlink" href="#get-available-expiries" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/expiries?index=NIFTY&quot;</span>
+</code></pre></div>
+<h3 id="get-options-chain-data">Get Options Chain Data<a class="headerlink" href="#get-options-chain-data" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Direct data (no CSV saving)</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/direct-data?index=NIFTY&amp;expiry=160925&amp;num_strikes=10&quot;</span>
+
+<span class="c1"># Strike-specific data</span>
+curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/strike-data?index=NIFTY&amp;strike=24000&amp;expiry=160925&amp;option_type=BOTH&quot;</span>
+</code></pre></div>
+<h3 id="get-option-price">Get Option Price<a class="headerlink" href="#get-option-price" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/option-price?index=NIFTY&amp;strike=24000&amp;expiry=160925&amp;option_type=CE&quot;</span>
+</code></pre></div>
+<h3 id="get-historical-option-data">Get Historical Option Data<a class="headerlink" href="#get-historical-option-data" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/historical/NIFTY?strike=24000&amp;expiry=160925&amp;option_type=CE&amp;period=1mo&quot;</span>
+</code></pre></div>
+<h3 id="fetch-options-data-json-response">Fetch Options Data (JSON Response)<a class="headerlink" href="#fetch-options-data-json-response" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fetch nearest expiry options and return JSON directly</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/fetch/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;index&quot;: &quot;NIFTY&quot;, &quot;num_strikes&quot;: 25}&#39;</span>
+
+<span class="c1"># Fetch specific expiry options and return JSON directly</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/fetch/expiry/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;index&quot;: &quot;NIFTY&quot;, &quot;expiry&quot;: &quot;160925&quot;, &quot;num_strikes&quot;: 25}&#39;</span>
+</code></pre></div>
+<h2 id="advanced-analytics">Advanced Analytics<a class="headerlink" href="#advanced-analytics" title="Permanent link">&para;</a></h2>
+<h3 id="put-call-ratio-pcr">Put-Call Ratio (PCR)<a class="headerlink" href="#put-call-ratio-pcr" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/analytics/pcr?index=NIFTY&amp;expiry=160925&quot;</span>
+</code></pre></div>
+<h3 id="maximum-pain-calculation">Maximum Pain Calculation<a class="headerlink" href="#maximum-pain-calculation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/analytics/max-pain?index=NIFTY&amp;expiry=160925&quot;</span>
+</code></pre></div>
+<h3 id="top-open-interest">Top Open Interest<a class="headerlink" href="#top-open-interest" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/analytics/top-oi?index=NIFTY&amp;expiry=160925&amp;top_n=5&quot;</span>
+</code></pre></div>
+<h3 id="complete-analytics-summary">Complete Analytics Summary<a class="headerlink" href="#complete-analytics-summary" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/analytics/summary?index=NIFTY&amp;expiry=160925&quot;</span>
+</code></pre></div>
+<h2 id="forex-data">Forex Data<a class="headerlink" href="#forex-data" title="Permanent link">&para;</a></h2>
+<h3 id="get-exchange-rate">Get Exchange Rate<a class="headerlink" href="#get-exchange-rate" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/forex/quote?from=USD&amp;to=INR&quot;</span>
+</code></pre></div>
+<h3 id="get-multiple-exchange-rates">Get Multiple Exchange Rates<a class="headerlink" href="#get-multiple-exchange-rates" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/forex/quotes?base=USD&amp;symbols=EUR,GBP,JPY&quot;</span>
+</code></pre></div>
+<h3 id="get-historical-forex-data">Get Historical Forex Data<a class="headerlink" href="#get-historical-forex-data" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/forex/historical?from=USD&amp;to=INR&amp;period=1mo&quot;</span>
+</code></pre></div>
+<h2 id="programming-examples">💻 Programming Examples<a class="headerlink" href="#programming-examples" title="Permanent link">&para;</a></h2>
+<h3 id="python-complete-trading-dashboard">Python - Complete Trading Dashboard<a class="headerlink" href="#python-complete-trading-dashboard" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FastStockAPI</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;http://localhost:8000&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">base_url</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_stock_price</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="s2">&quot;IND&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get stock price for Indian or US market&quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/stocks/</span><span class="si">{</span><span class="n">market</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_options_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">expiry</span><span class="p">,</span> <span class="n">num_strikes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get options chain data&quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/options/direct-data&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span>
+            <span class="s2">&quot;expiry&quot;</span><span class="p">:</span> <span class="n">expiry</span><span class="p">,</span>
+            <span class="s2">&quot;num_strikes&quot;</span><span class="p">:</span> <span class="n">num_strikes</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_analytics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">expiry</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get complete analytics&quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/analytics/summary&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span> <span class="s2">&quot;expiry&quot;</span><span class="p">:</span> <span class="n">expiry</span><span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_options_dashboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span> <span class="n">expiry</span><span class="o">=</span><span class="s2">&quot;160925&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a comprehensive options dashboard&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> Options Dashboard - Expiry: </span><span class="si">{</span><span class="n">expiry</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+        <span class="c1"># Get index price</span>
+        <span class="n">index_data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/options/index-price?index=</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📈 Index Price: ₹</span><span class="si">{</span><span class="n">index_data</span><span class="p">[</span><span class="s1">&#39;lastPrice&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Get analytics</span>
+        <span class="n">analytics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_analytics</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">expiry</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 PCR: </span><span class="si">{</span><span class="n">analytics</span><span class="p">[</span><span class="s1">&#39;pcr&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🎯 Max Pain: ₹</span><span class="si">{</span><span class="n">analytics</span><span class="p">[</span><span class="s1">&#39;max_pain&#39;</span><span class="p">][</span><span class="s1">&#39;max_pain_strike&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Get options data</span>
+        <span class="n">options_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_options_data</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">expiry</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📋 Options Chain (Top 5 strikes around ATM):&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">options_data</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]:</span>
+            <span class="n">strike</span> <span class="o">=</span> <span class="n">option</span><span class="p">[</span><span class="s1">&#39;strikePrice&#39;</span><span class="p">]</span>
+            <span class="n">ce_data</span> <span class="o">=</span> <span class="n">option</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;CE&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">pe_data</span> <span class="o">=</span> <span class="n">option</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PE&#39;</span><span class="p">,</span> <span class="p">{})</span>
+
+            <span class="n">ce_price</span> <span class="o">=</span> <span class="n">ce_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;lastPrice&#39;</span><span class="p">,</span> <span class="s1">&#39;N/A&#39;</span><span class="p">)</span>
+            <span class="n">pe_price</span> <span class="o">=</span> <span class="n">pe_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;lastPrice&#39;</span><span class="p">,</span> <span class="s1">&#39;N/A&#39;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;₹</span><span class="si">{</span><span class="n">strike</span><span class="si">}</span><span class="s2">: CE ₹</span><span class="si">{</span><span class="n">ce_price</span><span class="si">}</span><span class="s2">, PE ₹</span><span class="si">{</span><span class="n">pe_price</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Usage</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">FastStockAPI</span><span class="p">()</span>
+<span class="n">api</span><span class="o">.</span><span class="n">create_options_dashboard</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="javascript-real-time-dashboard">JavaScript - Real-time Dashboard<a class="headerlink" href="#javascript-real-time-dashboard" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nx">FastStockDashboard</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;http://localhost:8000&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">baseUrl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">updateInterval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">30000</span><span class="p">;</span><span class="w"> </span><span class="c1">// 30 seconds</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">getStockData</span><span class="p">(</span><span class="nx">symbol</span><span class="p">,</span><span class="w"> </span><span class="nx">market</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;IND&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">baseUrl</span><span class="si">}</span><span class="sb">/stocks/</span><span class="si">${</span><span class="nx">market</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">symbol</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">getOptionsData</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span><span class="w"> </span><span class="nx">expiry</span><span class="p">,</span><span class="w"> </span><span class="nx">numStrikes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">URLSearchParams</span><span class="p">({</span>
+<span class="w">            </span><span class="nx">index</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">expiry</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">num_strikes</span><span class="o">:</span><span class="w"> </span><span class="nx">numStrikes</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">baseUrl</span><span class="si">}</span><span class="sb">/options/direct-data?</span><span class="si">${</span><span class="nx">params</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">getAnalytics</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span><span class="w"> </span><span class="nx">expiry</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">URLSearchParams</span><span class="p">({</span><span class="w"> </span><span class="nx">index</span><span class="p">,</span><span class="w"> </span><span class="nx">expiry</span><span class="w"> </span><span class="p">});</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">baseUrl</span><span class="si">}</span><span class="sb">/analytics/summary?</span><span class="si">${</span><span class="nx">params</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">updateDashboard</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Update stock prices</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">reliance</span><span class="p">,</span><span class="w"> </span><span class="nx">tcs</span><span class="p">,</span><span class="w"> </span><span class="nx">aapl</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">getStockData</span><span class="p">(</span><span class="s1">&#39;RELIANCE&#39;</span><span class="p">),</span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">getStockData</span><span class="p">(</span><span class="s1">&#39;TCS&#39;</span><span class="p">),</span>
+<span class="w">                </span><span class="k">this</span><span class="p">.</span><span class="nx">getStockData</span><span class="p">(</span><span class="s1">&#39;AAPL&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;US&#39;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">]);</span>
+
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">updateStockDisplay</span><span class="p">(</span><span class="s1">&#39;reliance&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">reliance</span><span class="p">);</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">updateStockDisplay</span><span class="p">(</span><span class="s1">&#39;tcs&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">tcs</span><span class="p">);</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">updateStockDisplay</span><span class="p">(</span><span class="s1">&#39;aapl&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">aapl</span><span class="p">);</span>
+
+<span class="w">            </span><span class="c1">// Update options analytics</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">analytics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">getAnalytics</span><span class="p">(</span><span class="s1">&#39;NIFTY&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;160925&#39;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">updateAnalyticsDisplay</span><span class="p">(</span><span class="nx">analytics</span><span class="p">);</span>
+
+<span class="w">            </span><span class="c1">// Update options chain</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">optionsData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">getOptionsData</span><span class="p">(</span><span class="s1">&#39;NIFTY&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;160925&#39;</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">);</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">updateOptionsTable</span><span class="p">(</span><span class="nx">optionsData</span><span class="p">);</span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Dashboard update failed:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">updateStockDisplay</span><span class="p">(</span><span class="nx">elementId</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">elementId</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">element</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">element</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`</span>
+<span class="sb">                &lt;div class=&quot;stock-card&quot;&gt;</span>
+<span class="sb">                    &lt;h3&gt;</span><span class="si">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">symbol</span><span class="si">}</span><span class="sb">&lt;/h3&gt;</span>
+<span class="sb">                    &lt;p class=&quot;price&quot;&gt;₹</span><span class="si">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">lastPrice</span><span class="si">}</span><span class="sb">&lt;/p&gt;</span>
+<span class="sb">                    &lt;p class=&quot;change </span><span class="si">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">pChange</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;positive&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;negative&#39;</span><span class="si">}</span><span class="sb">&quot;&gt;</span>
+<span class="sb">                        </span><span class="si">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">pChange</span><span class="si">}</span><span class="sb">% (</span><span class="si">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">change</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;+&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}${</span><span class="nx">data</span><span class="p">.</span><span class="nx">change</span><span class="si">}</span><span class="sb">)</span>
+<span class="sb">                    &lt;/p&gt;</span>
+<span class="sb">                &lt;/div&gt;</span>
+<span class="sb">            `</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">updateAnalyticsDisplay</span><span class="p">(</span><span class="nx">analytics</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;pcr&#39;</span><span class="p">).</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">analytics</span><span class="p">.</span><span class="nx">pcr</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">2</span><span class="p">);</span>
+<span class="w">        </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;max-pain&#39;</span><span class="p">).</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`₹</span><span class="si">${</span><span class="nx">analytics</span><span class="p">.</span><span class="nx">max_pain</span><span class="p">.</span><span class="nx">max_pain_strike</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="w">        </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;atm-strike&#39;</span><span class="p">).</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">analytics</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">atmStrike</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">updateOptionsTable</span><span class="p">(</span><span class="nx">optionsData</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">tbody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;options-table-body&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">tbody</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">optionsData</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">option</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="sb">`</span>
+<span class="sb">            &lt;tr&gt;</span>
+<span class="sb">                &lt;td&gt;₹</span><span class="si">${</span><span class="nx">option</span><span class="p">.</span><span class="nx">strikePrice</span><span class="si">}</span><span class="sb">&lt;/td&gt;</span>
+<span class="sb">                &lt;td&gt;₹</span><span class="si">${</span><span class="nx">option</span><span class="p">.</span><span class="nx">CE</span><span class="o">?</span><span class="p">.</span><span class="nx">lastPrice</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="si">}</span><span class="sb">&lt;/td&gt;</span>
+<span class="sb">                &lt;td&gt;</span><span class="si">${</span><span class="nx">option</span><span class="p">.</span><span class="nx">CE</span><span class="o">?</span><span class="p">.</span><span class="nx">openInterest</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="si">}</span><span class="sb">&lt;/td&gt;</span>
+<span class="sb">                &lt;td&gt;₹</span><span class="si">${</span><span class="nx">option</span><span class="p">.</span><span class="nx">PE</span><span class="o">?</span><span class="p">.</span><span class="nx">lastPrice</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="si">}</span><span class="sb">&lt;/td&gt;</span>
+<span class="sb">                &lt;td&gt;</span><span class="si">${</span><span class="nx">option</span><span class="p">.</span><span class="nx">PE</span><span class="o">?</span><span class="p">.</span><span class="nx">openInterest</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="si">}</span><span class="sb">&lt;/td&gt;</span>
+<span class="sb">            &lt;/tr&gt;</span>
+<span class="sb">        `</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">startRealTimeUpdates</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">updateDashboard</span><span class="p">();</span><span class="w"> </span><span class="c1">// Initial update</span>
+<span class="w">        </span><span class="nx">setInterval</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">updateDashboard</span><span class="p">(),</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">updateInterval</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">dashboard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">FastStockDashboard</span><span class="p">();</span>
+<span class="nx">dashboard</span><span class="p">.</span><span class="nx">startRealTimeUpdates</span><span class="p">();</span>
+</code></pre></div>
+<h3 id="java-enterprise-integration">Java - Enterprise Integration<a class="headerlink" href="#java-enterprise-integration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.net.http.HttpClient</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.net.http.HttpRequest</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.net.http.HttpResponse</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.net.URI</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.fasterxml.jackson.databind.ObjectMapper</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">FastStockClient</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">baseUrl</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">HttpClient</span><span class="w"> </span><span class="n">httpClient</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ObjectMapper</span><span class="w"> </span><span class="n">objectMapper</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">FastStockClient</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">baseUrl</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">baseUrl</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">httpClient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpClient</span><span class="p">.</span><span class="na">newHttpClient</span><span class="p">();</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">objectMapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectMapper</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">StockQuote</span><span class="w"> </span><span class="nf">getIndianStock</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">symbol</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">baseUrl</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/stocks/IND/&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">symbol</span><span class="p">;</span>
+<span class="w">        </span><span class="n">HttpRequest</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpRequest</span><span class="p">.</span><span class="na">newBuilder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">uri</span><span class="p">(</span><span class="n">URI</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+<span class="w">                </span><span class="p">.</span><span class="na">GET</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">HttpResponse</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">httpClient</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">HttpResponse</span><span class="p">.</span><span class="na">BodyHandlers</span><span class="p">.</span><span class="na">ofString</span><span class="p">());</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="na">statusCode</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">objectMapper</span><span class="p">.</span><span class="na">readValue</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="na">body</span><span class="p">(),</span><span class="w"> </span><span class="n">StockQuote</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;API request failed: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">statusCode</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">OptionsData</span><span class="w"> </span><span class="nf">getOptionsData</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">expiry</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">&quot;%s/options/direct-data?index=%s&amp;expiry=%s&amp;num_strikes=10&quot;</span><span class="p">,</span>
+<span class="w">                                 </span><span class="n">baseUrl</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">expiry</span><span class="p">);</span>
+<span class="w">        </span><span class="n">HttpRequest</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpRequest</span><span class="p">.</span><span class="na">newBuilder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">uri</span><span class="p">(</span><span class="n">URI</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+<span class="w">                </span><span class="p">.</span><span class="na">GET</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">HttpResponse</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">httpClient</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">HttpResponse</span><span class="p">.</span><span class="na">BodyHandlers</span><span class="p">.</span><span class="na">ofString</span><span class="p">());</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="na">statusCode</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">objectMapper</span><span class="p">.</span><span class="na">readValue</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="na">body</span><span class="p">(),</span><span class="w"> </span><span class="n">OptionsData</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;API request failed: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">statusCode</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">AnalyticsData</span><span class="w"> </span><span class="nf">getAnalytics</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">expiry</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">&quot;%s/analytics/summary?index=%s&amp;expiry=%s&quot;</span><span class="p">,</span>
+<span class="w">                                 </span><span class="n">baseUrl</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">expiry</span><span class="p">);</span>
+<span class="w">        </span><span class="n">HttpRequest</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpRequest</span><span class="p">.</span><span class="na">newBuilder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">uri</span><span class="p">(</span><span class="n">URI</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+<span class="w">                </span><span class="p">.</span><span class="na">GET</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">HttpResponse</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">httpClient</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">HttpResponse</span><span class="p">.</span><span class="na">BodyHandlers</span><span class="p">.</span><span class="na">ofString</span><span class="p">());</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="na">statusCode</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">objectMapper</span><span class="p">.</span><span class="na">readValue</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="na">body</span><span class="p">(),</span><span class="w"> </span><span class="n">AnalyticsData</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;API request failed: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">statusCode</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">FastStockClient</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FastStockClient</span><span class="p">(</span><span class="s">&quot;http://localhost:8000&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Get stock data</span>
+<span class="w">            </span><span class="n">StockQuote</span><span class="w"> </span><span class="n">reliance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="na">getIndianStock</span><span class="p">(</span><span class="s">&quot;RELIANCE&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;RELIANCE Price: ₹&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">reliance</span><span class="p">.</span><span class="na">getLastPrice</span><span class="p">());</span>
+
+<span class="w">            </span><span class="c1">// Get options data</span>
+<span class="w">            </span><span class="n">OptionsData</span><span class="w"> </span><span class="n">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="na">getOptionsData</span><span class="p">(</span><span class="s">&quot;NIFTY&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;160925&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Options loaded: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="na">getOptions</span><span class="p">().</span><span class="na">size</span><span class="p">());</span>
+
+<span class="w">            </span><span class="c1">// Get analytics</span>
+<span class="w">            </span><span class="n">AnalyticsData</span><span class="w"> </span><span class="n">analytics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="na">getAnalytics</span><span class="p">(</span><span class="s">&quot;NIFTY&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;160925&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;PCR: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">analytics</span><span class="p">.</span><span class="na">getPcr</span><span class="p">());</span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Error: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="advanced-use-cases">Advanced Use Cases<a class="headerlink" href="#advanced-use-cases" title="Permanent link">&para;</a></h2>
+<h3 id="algorithmic-trading-bot">Algorithmic Trading Bot<a class="headerlink" href="#algorithmic-trading-bot" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastStockAPI</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">OptionsTradingBot</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span> <span class="n">FastStockAPI</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">monitor_pcr_divergence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Monitor PCR divergence for trading signals&quot;&quot;&quot;</span>
+        <span class="n">expiries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_expiries</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">expiry</span> <span class="ow">in</span> <span class="n">expiries</span><span class="p">[:</span><span class="mi">2</span><span class="p">]:</span>  <span class="c1"># Check near-term expiries</span>
+            <span class="n">analytics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_analytics</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">expiry</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">analytics</span><span class="p">[</span><span class="s1">&#39;pcr&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">:</span>  <span class="c1"># Extreme bearish sentiment</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🐻 Bearish signal: PCR </span><span class="si">{</span><span class="n">analytics</span><span class="p">[</span><span class="s1">&#39;pcr&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">expiry</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="c1"># Implement bearish strategy</span>
+
+            <span class="k">elif</span> <span class="n">analytics</span><span class="p">[</span><span class="s1">&#39;pcr&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.7</span><span class="p">:</span>  <span class="c1"># Extreme bullish sentiment</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🐂 Bullish signal: PCR </span><span class="si">{</span><span class="n">analytics</span><span class="p">[</span><span class="s1">&#39;pcr&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">expiry</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="c1"># Implement bullish strategy</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">max_pain_levels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">&quot;NIFTY&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track max pain levels for position management&quot;&quot;&quot;</span>
+        <span class="n">expiries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_expiries</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">expiry</span> <span class="ow">in</span> <span class="n">expiries</span><span class="p">[:</span><span class="mi">3</span><span class="p">]:</span>
+            <span class="n">analytics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_analytics</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">expiry</span><span class="p">)</span>
+            <span class="n">max_pain</span> <span class="o">=</span> <span class="n">analytics</span><span class="p">[</span><span class="s1">&#39;max_pain&#39;</span><span class="p">][</span><span class="s1">&#39;max_pain_strike&#39;</span><span class="p">]</span>
+
+            <span class="c1"># Check if current price is near max pain</span>
+            <span class="n">index_price</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_index_price</span><span class="p">(</span><span class="n">index</span><span class="p">)[</span><span class="s1">&#39;lastPrice&#39;</span><span class="p">]</span>
+            <span class="n">distance</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">index_price</span> <span class="o">-</span> <span class="n">max_pain</span><span class="p">)</span> <span class="o">/</span> <span class="n">index_price</span> <span class="o">*</span> <span class="mi">100</span>
+
+            <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># Within 2% of max pain</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚠️ Near max pain: ₹</span><span class="si">{</span><span class="n">max_pain</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">expiry</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Main bot loop&quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">monitor_pcr_divergence</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">max_pain_levels</span><span class="p">()</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>  <span class="c1"># Check every 5 minutes</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bot error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>  <span class="c1"># Wait before retry</span>
+
+<span class="c1"># Usage</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">bot</span> <span class="o">=</span> <span class="n">OptionsTradingBot</span><span class="p">()</span>
+    <span class="n">bot</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="portfolio-tracker">Portfolio Tracker<a class="headerlink" href="#portfolio-tracker" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PortfolioTracker</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_client</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span> <span class="n">api_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">market</span><span class="o">=</span><span class="s2">&quot;IND&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a position to the portfolio&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="n">quantity</span><span class="p">,</span>
+            <span class="s1">&#39;market&#39;</span><span class="p">:</span> <span class="n">market</span><span class="p">,</span>
+            <span class="s1">&#39;entry_date&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_portfolio_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate current portfolio value&quot;&quot;&quot;</span>
+        <span class="n">total_value</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">positions_data</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">position</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;market&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;IND&#39;</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_stock_price</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="s1">&#39;IND&#39;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;market&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;US&#39;</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_stock_price</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="s1">&#39;US&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="n">value</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;lastPrice&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span>
+                <span class="n">total_value</span> <span class="o">+=</span> <span class="n">value</span>
+
+                <span class="n">positions_data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s1">&#39;symbol&#39;</span><span class="p">:</span> <span class="n">symbol</span><span class="p">,</span>
+                    <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;price&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;lastPrice&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span>
+                    <span class="s1">&#39;change&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;pChange&#39;</span><span class="p">]</span>
+                <span class="p">})</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting data for </span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;total_value&#39;</span><span class="p">:</span> <span class="n">total_value</span><span class="p">,</span>
+            <span class="s1">&#39;positions&#39;</span><span class="p">:</span> <span class="n">positions_data</span><span class="p">,</span>
+            <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate portfolio performance report&quot;&quot;&quot;</span>
+        <span class="n">portfolio_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_portfolio_value</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 Portfolio Report - </span><span class="si">{</span><span class="n">portfolio_data</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;💰 Total Value: ₹</span><span class="si">{</span><span class="n">portfolio_data</span><span class="p">[</span><span class="s1">&#39;total_value&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">portfolio_data</span><span class="p">[</span><span class="s1">&#39;positions&#39;</span><span class="p">]:</span>
+            <span class="n">change_symbol</span> <span class="o">=</span> <span class="s2">&quot;📈&quot;</span> <span class="k">if</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;📉&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">position</span><span class="p">[</span><span class="s1">&#39;symbol&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">position</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> shares @ ₹</span><span class="si">{</span><span class="n">position</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Value: ₹</span><span class="si">{</span><span class="n">position</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">change_symbol</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">position</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">()</span>
+
+<span class="c1"># Usage</span>
+<span class="n">tracker</span> <span class="o">=</span> <span class="n">PortfolioTracker</span><span class="p">(</span><span class="n">FastStockAPI</span><span class="p">())</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">add_position</span><span class="p">(</span><span class="s1">&#39;RELIANCE&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">add_position</span><span class="p">(</span><span class="s1">&#39;TCS&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">add_position</span><span class="p">(</span><span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;US&#39;</span><span class="p">)</span>
+
+<span class="n">tracker</span><span class="o">.</span><span class="n">generate_report</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<h3 id="common-error-patterns">Common Error Patterns<a class="headerlink" href="#common-error-patterns" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">robust_api_call</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Robust API call with error handling and retries&quot;&quot;&quot;</span>
+    <span class="n">max_retries</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">retry_delay</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_retries</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="c1"># Check for API-specific errors</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">attempt</span> <span class="o">&lt;</span> <span class="n">max_retries</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">retry_delay</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">attempt</span><span class="p">))</span>  <span class="c1"># Exponential backoff</span>
+                <span class="k">continue</span>
+            <span class="k">raise</span>
+
+        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">Timeout</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">attempt</span> <span class="o">&lt;</span> <span class="n">max_retries</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">retry_delay</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">raise</span>
+
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># API returned an error</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;API Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span>
+
+<span class="c1"># Usage</span>
+<span class="nd">@robust_api_call</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_stock_with_retry</span><span class="p">(</span><span class="n">symbol</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;http://localhost:8000/stocks/IND/</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="1-rate-limiting">1. Rate Limiting<a class="headerlink" href="#1-rate-limiting" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">RateLimiter</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calls_per_minute</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calls_per_minute</span> <span class="o">=</span> <span class="n">calls_per_minute</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calls</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">can_make_call</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="c1"># Remove calls older than 1 minute</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calls</span> <span class="o">=</span> <span class="p">[</span><span class="n">call</span> <span class="k">for</span> <span class="n">call</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">calls</span> <span class="k">if</span> <span class="n">now</span> <span class="o">-</span> <span class="n">call</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calls</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">calls_per_minute</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">record_call</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+
+<span class="c1"># Usage</span>
+<span class="n">limiter</span> <span class="o">=</span> <span class="n">RateLimiter</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">limiter</span><span class="o">.</span><span class="n">can_make_call</span><span class="p">():</span>
+    <span class="c1"># Make API call</span>
+    <span class="n">limiter</span><span class="o">.</span><span class="n">record_call</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Wait before retry</span>
+</code></pre></div>
+<h3 id="2-data-caching">2. Data Caching<a class="headerlink" href="#2-data-caching" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cachetools</span><span class="w"> </span><span class="kn">import</span> <span class="n">TTLCache</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DataCache</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ttl_seconds</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>  <span class="c1"># 5 minutes default</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">TTLCache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="n">ttl_seconds</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_or_fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">fetch_func</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get from cache or fetch and cache&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="n">value</span> <span class="o">=</span> <span class="n">fetch_func</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+<span class="c1"># Usage</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="n">DataCache</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_cached_stock_price</span><span class="p">(</span><span class="n">symbol</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cache</span><span class="o">.</span><span class="n">get_or_fetch</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;stock_</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="k">lambda</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;http://localhost:8000/stocks/IND/</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="p">)</span>
+</code></pre></div>
+<h3 id="3-logging-and-monitoring">3. Logging and Monitoring<a class="headerlink" href="#3-logging-and-monitoring" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">APIMonitor</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">response_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">log_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="n">endpoint</span><span class="p">,</span>
+            <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">,</span>
+            <span class="s1">&#39;response_time&#39;</span><span class="p">:</span> <span class="n">response_time</span><span class="p">,</span>
+            <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;API Request: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">log_data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;API Error - </span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;total_requests&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">request_count</span><span class="p">,</span>
+            <span class="s1">&#39;total_errors&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_count</span><span class="p">,</span>
+            <span class="s1">&#39;error_rate&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_count</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request_count</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">}</span>
+
+<span class="c1"># Usage</span>
+<span class="n">monitor</span> <span class="o">=</span> <span class="n">APIMonitor</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">monitored_api_call</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;http://localhost:8000</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">response_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+
+        <span class="n">monitor</span><span class="o">.</span><span class="n">log_request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">response_time</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">monitor</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">raise</span>
+</code></pre></div>
+<h2 id="production-deployment">🚀 Production Deployment<a class="headerlink" href="#production-deployment" title="Permanent link">&para;</a></h2>
+<h3 id="docker-deployment">Docker Deployment<a class="headerlink" href="#docker-deployment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Dockerfile</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">python:3.11-slim</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+<span class="k">COPY</span><span class="w"> </span>requirements.txt<span class="w"> </span>.
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;uvicorn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.main:app&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--host&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--port&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;8000&quot;</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="docker-compose-for-full-stack">Docker Compose for Full Stack<a class="headerlink" href="#docker-compose-for-full-stack" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">fastapi</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8000:8000&quot;</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">REDIS_URL=redis://redis:6379</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span>
+
+<span class="w">  </span><span class="nt">redis</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis:alpine</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;6379:6379&quot;</span>
+
+<span class="w">  </span><span class="nt">nginx</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:alpine</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;80:80&quot;</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./nginx.conf:/etc/nginx/nginx.conf</span>
+</code></pre></div>
+<p>This comprehensive guide covers everything from basic API calls to advanced trading strategies and production deployment. Use the examples as starting points and adapt them to your specific use cases.
+<div class="highlight"><pre><span></span><code>Example response:
+
+```json
+{
+  &quot;symbol&quot;: &quot;NIFTY&quot;,
+  &quot;lastPrice&quot;: 23456.75,
+  &quot;pChange&quot;: 0.85,
+  &quot;change&quot;: 198.50,
+  &quot;timestamp&quot;: &quot;09-Dec-2024 15:30:00&quot;
+}
+</code></pre></div></p>
+<p>Errors
+- 400 Bad Request: missing or malformed query parameter
+- 404 Not Found: index not found or no data returned from source
+- 500 Server Error: unexpected internal error (rare — please check logs and upstream data source)</p>
+<p>2) Get Stock Price</p>
+<p>Description: Returns the latest price data for an NSE stock.</p>
+<p>Endpoint (path):</p>
+<div class="highlight"><pre><span></span><code>GET /api/v1/market/price/stock/{symbol}
+</code></pre></div>
+<p>Example (path form):</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;https://fastapi-stock-data.onrender.com/api/v1/market/price/stock/RELIANCE.NS&quot;</span>
+</code></pre></div>
+<p>Endpoint (query):</p>
+<div class="highlight"><pre><span></span><code>GET /api/v1/market/price/stock?symbol={symbol}
+</code></pre></div>
+<p>Example (query form). The API will try the exact symbol and then fall back to appending <code>.NS</code> if needed:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;https://fastapi-stock-data.onrender.com/api/v1/market/price/stock?symbol=RELIANCE&quot;</span>
+</code></pre></div>
+<p>Example response:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;symbol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RELIANCE.NS&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;companyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Reliance Industries Ltd&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;lastPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2456.75</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pChange&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.25</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;change&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">30.5</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;09-Dec-2024 15:30:00&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Errors
+- 400 Bad Request: missing required parameter <code>symbol</code>
+- 404 Not Found: symbol not supported or delisted
+- 500 Server Error: unexpected internal error</p>
+<p>Client examples</p>
+<p>Python (requests)</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="n">BASE</span> <span class="o">=</span> <span class="s2">&quot;https://fastapi-stock-data.onrender.com&quot;</span>
+
+<span class="c1"># Index</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BASE</span><span class="si">}</span><span class="s2">/api/v1/market/price/index/NIFTY&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+<span class="c1"># Stock (query form)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BASE</span><span class="si">}</span><span class="s2">/api/v1/market/price/stock&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;RELIANCE&quot;</span><span class="p">})</span>
+<span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<p>JavaScript (fetch)</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;https://fastapi-stock-data.onrender.com&#39;</span><span class="p">;</span>
+
+<span class="c1">// Index</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">base</span><span class="si">}</span><span class="sb">/api/v1/market/price/index?index=NIFTY`</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+
+<span class="c1">// Stock</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">base</span><span class="si">}</span><span class="sb">/api/v1/market/price/stock?symbol=RELIANCE`</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+</code></pre></div>
+<p>Tips &amp; Troubleshooting</p>
+<ul>
+<li>If you get <code>404</code> with message like "No lastPrice found... Available keys: [...]", the upstream NSE response shape changed for that symbol or the symbol is not available. Try:</li>
+<li>Verify the symbol on the NSE website</li>
+<li>Use the alternative form (path vs query)</li>
+<li>Try the <code>.NS</code> suffix for stocks</li>
+<li>For indices use the simple names (<code>NIFTY</code>, <code>BANKNIFTY</code>). Historical endpoints require Yahoo-style symbols like <code>^NSENIFTY</code>.</li>
+<li>For crypto and other parts of the API, refer to the corresponding API docs pages under <code>docs/api</code>.</li>
+</ul>
+<p>Best practices</p>
+<ul>
+<li>Cache responses where suitable (indices do not change every millisecond for most use cases).</li>
+<li>Respect upstream rate limits (NSE, Binance). Add client-side throttling.</li>
+<li>Prefer the path form in server-to-server calls (stable, easier to log), use the query form if your client framework builds query params more conveniently.</li>
+</ul>
+<p>Further reading</p>
+<ul>
+<li>Full API reference: <code>docs/api/market.md</code></li>
+<li>Symbol reference: <code>docs/symbols/nse-stocks.md</code></li>
+</ul>
+<hr />
+<p>If you want, I can add this file to the navigation (<code>mkdocs.yml</code>) and update examples across the docs so both URL styles are shown consistently.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>

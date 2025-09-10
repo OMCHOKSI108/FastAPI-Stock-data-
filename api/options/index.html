@@ -1,0 +1,1204 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Comprehensive API documentation for stock market data and cryptocurrency prices">
+      
+      
+        <meta name="author" content="FastAPI Team">
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.19">
+    
+    
+      
+        <title>Options Data API - FastAPI Stock & Crypto Data API</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#options-data-api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FastAPI Stock &amp; Crypto Data API" class="md-header__button md-logo" aria-label="FastAPI Stock & Crypto Data API" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FastAPI Stock & Crypto Data API
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Options Data API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/OMCHOKSI108/FastAPI-Stock-data-" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    FastAPI-Stock-data-
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../getting-started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../stock/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../symbols/nse-stocks/" class="md-tabs__link">
+          
+  
+  
+  Symbol Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../examples/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Examples
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Usage Guide
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../deployment/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Deployment
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FastAPI Stock &amp; Crypto Data API" class="md-nav__button md-logo" aria-label="FastAPI Stock & Crypto Data API" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FastAPI Stock & Crypto Data API
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/OMCHOKSI108/FastAPI-Stock-data-" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    FastAPI-Stock-data-
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stock Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Crypto Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../market/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Market Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analytics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Analytics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Symbol Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Symbol Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../symbols/nse-stocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NSE Stocks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../symbols/cryptocurrencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cryptocurrencies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../symbols/indices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Indices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="options-data-api">Options Data API<a class="headerlink" href="#options-data-api" title="Permanent link">&para;</a></h1>
+<p>This section documents the options trading data endpoints in FastStockAPI, providing comprehensive access to NSE options chains, analytics, and historical data.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The options API provides complete options trading data including option chains, strike prices, expiry dates, analytics (PCR, Max Pain), and historical option prices for Indian market indices.</p>
+<h2 id="base-url">🔗 Base URL<a class="headerlink" href="#base-url" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>http://localhost:8000  (local development)
+https://your-domain.com  (production)
+</code></pre></div>
+<h2 id="endpoints">Endpoints<a class="headerlink" href="#endpoints" title="Permanent link">&para;</a></h2>
+<h3 id="1-get-index-price">1. Get Index Price<a class="headerlink" href="#1-get-index-price" title="Permanent link">&para;</a></h3>
+<p>Get current price for Indian market indices.</p>
+<p><strong>Endpoint:</strong> <code>GET /options/index-price</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query): Index symbol (<code>NIFTY</code>, <code>BANKNIFTY</code>, <code>NIFTYIT</code>, etc.)</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/index-price?index=NIFTY&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;symbol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lastPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">24500.75</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pChange&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.85</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;change&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">207.50</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;09-Dec-2024 15:30:00&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="2-get-stock-price">2. Get Stock Price<a class="headerlink" href="#2-get-stock-price" title="Permanent link">&para;</a></h3>
+<p>Get current price for individual NSE stocks.</p>
+<p><strong>Endpoint:</strong> <code>GET /options/stock-price</code></p>
+<p><strong>Parameters:</strong>
+- <code>symbol</code> (query): NSE stock symbol (e.g., <code>RELIANCE</code>, <code>TCS</code>)</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/stock-price?symbol=RELIANCE&quot;</span>
+</code></pre></div></p>
+<h3 id="3-get-available-expiries">3. Get Available Expiries<a class="headerlink" href="#3-get-available-expiries" title="Permanent link">&para;</a></h3>
+<p>Get list of available option expiry dates for an index.</p>
+<p><strong>Endpoint:</strong> <code>GET /options/expiries</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query): Index symbol</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/expiries?index=NIFTY&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;26-Dec-2024&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;30-Jan-2025&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;27-Feb-2025&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;27-Mar-2025&quot;</span>
+<span class="p">]</span>
+</code></pre></div></p>
+<h3 id="4-get-option-price">4. Get Option Price<a class="headerlink" href="#4-get-option-price" title="Permanent link">&para;</a></h3>
+<p>Get price for a specific option contract.</p>
+<p><strong>Endpoint:</strong> <code>GET /options/option-price</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query): Index symbol
+- <code>strike</code> (query): Strike price (e.g., 24000)
+- <code>expiry</code> (query): Expiry date in DDMMYY format (e.g., <code>160925</code> for 16-Sep-2025)
+- <code>option_type</code> (query): <code>CE</code> or <code>PE</code></p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/option-price?index=NIFTY&amp;strike=24000&amp;expiry=160925&amp;option_type=CE&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;symbol&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY24000CE&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;option_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CE&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lastPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.50</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;openInterest&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2450000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;volume&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">125000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;bid&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.25</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ask&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.75</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="5-get-direct-options-data">5. Get Direct Options Data<a class="headerlink" href="#5-get-direct-options-data" title="Permanent link">&para;</a></h3>
+<p>Get complete options chain data without saving to CSV.</p>
+<p><strong>Endpoint:</strong> <code>GET /options/direct-data</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query): Index symbol
+- <code>expiry</code> (query): Expiry date in DDMMYY format
+- <code>num_strikes</code> (query, optional): Number of strikes around ATM (default: 25)</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/direct-data?index=NIFTY&amp;expiry=160925&amp;num_strikes=10&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;underlying_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">24500.75</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strikePrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">23800</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;expiryDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;CE&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;lastPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">725.50</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;openInterest&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1250000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;totalTradedVolume&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">75000</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;PE&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;lastPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">25.75</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;openInterest&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2450000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;totalTradedVolume&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">125000</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="6-get-strike-specific-data">6. Get Strike-Specific Data<a class="headerlink" href="#6-get-strike-specific-data" title="Permanent link">&para;</a></h3>
+<p>Get option data for a specific strike price.</p>
+<p><strong>Endpoint:</strong> <code>GET /options/strike-data</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query): Index symbol
+- <code>strike</code> (query): Strike price
+- <code>expiry</code> (query): Expiry date in DDMMYY format
+- <code>option_type</code> (query): <code>CE</code>, <code>PE</code>, or <code>BOTH</code></p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/strike-data?index=NIFTY&amp;strike=24000&amp;expiry=160925&amp;option_type=BOTH&quot;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;option_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BOTH&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ce_data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;lastPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;openInterest&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2450000</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;volume&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">125000</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;pe_data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;lastPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">95.25</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;openInterest&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1850000</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;volume&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">95000</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;underlying_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">24500.75</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="7-get-historical-option-data">7. Get Historical Option Data<a class="headerlink" href="#7-get-historical-option-data" title="Permanent link">&para;</a></h3>
+<p>Get historical price data for specific option contracts.</p>
+<p><strong>Endpoint:</strong> <code>GET /options/historical/{symbol}</code></p>
+<p><strong>Parameters:</strong>
+- <code>symbol</code> (path): Index symbol
+- <code>strike</code> (query): Strike price
+- <code>expiry</code> (query): Expiry date in DDMMYY format
+- <code>option_type</code> (query): <code>CE</code> or <code>PE</code>
+- <code>period</code> (query, optional): Time period (1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max)</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/historical/NIFTY?strike=24000&amp;expiry=160925&amp;option_type=CE&amp;period=1mo&quot;</span>
+</code></pre></div></p>
+<h3 id="8-fetch-and-save-options-data">8. Fetch and Save Options Data<a class="headerlink" href="#8-fetch-and-save-options-data" title="Permanent link">&para;</a></h3>
+<p>Fetch options data and save to CSV file.</p>
+<p><strong>Endpoint:</strong> <code>POST /options/fetch</code></p>
+<p><strong>Request Body:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;num_strikes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/fetch&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;index&quot;: &quot;NIFTY&quot;, &quot;num_strikes&quot;: 25}&#39;</span>
+</code></pre></div></p>
+<h3 id="9-fetch-specific-expiry-options">9. Fetch Specific Expiry Options<a class="headerlink" href="#9-fetch-specific-expiry-options" title="Permanent link">&para;</a></h3>
+<p>Fetch options data for a specific expiry date.</p>
+<p><strong>Endpoint:</strong> <code>POST /options/fetch/expiry</code></p>
+<p><strong>Request Body:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;num_strikes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="10-fetch-options-data-json-response">10. Fetch Options Data (JSON Response)<a class="headerlink" href="#10-fetch-options-data-json-response" title="Permanent link">&para;</a></h3>
+<p>Fetch options data and return JSON directly without saving to CSV.</p>
+<p><strong>Endpoint:</strong> <code>POST /options/fetch/json</code></p>
+<p><strong>Request Body:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;num_strikes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/fetch/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;index&quot;: &quot;NIFTY&quot;, &quot;num_strikes&quot;: 25}&#39;</span>
+</code></pre></div></p>
+<p><strong>Example Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;underlying_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">24500.75</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strikePrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;expiryDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;CE&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;strikePrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;expiryDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;underlying&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;identifier&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY16SEP202424000CE&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;openInterest&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">125000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;changeinOpenInterest&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;pchangeinOpenInterest&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">13.64</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;totalTradedVolume&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">250000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;impliedVolatility&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.25</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;lastPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">525.50</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;change&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">25.75</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;pChange&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.15</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;totalBuyQuantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;totalSellQuantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">75000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;bidQty&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;bidprice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">525.00</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;askQty&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;askPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">526.00</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;underlyingValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">24500.75</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;PE&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;strikePrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;expiryDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;underlying&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;identifier&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY16SEP202424000PE&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;openInterest&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">98000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;changeinOpenInterest&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-5000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;pchangeinOpenInterest&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-4.85</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;totalTradedVolume&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">180000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;impliedVolatility&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">14.85</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;lastPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.25</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;change&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-5.50</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;pChange&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-4.20</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;totalBuyQuantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">35000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;totalSellQuantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">45000</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;bidQty&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;bidprice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.00</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;askQty&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;askPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">125.50</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;underlyingValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">24500.75</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00.123456&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="11-fetch-specific-expiry-options-json-response">11. Fetch Specific Expiry Options (JSON Response)<a class="headerlink" href="#11-fetch-specific-expiry-options-json-response" title="Permanent link">&para;</a></h3>
+<p>Fetch options data for a specific expiry date and return JSON directly.</p>
+<p><strong>Endpoint:</strong> <code>POST /options/fetch/expiry/json</code></p>
+<p><strong>Request Body:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;160925&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;num_strikes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/fetch/expiry/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;index&quot;: &quot;NIFTY&quot;, &quot;expiry&quot;: &quot;160925&quot;, &quot;num_strikes&quot;: 25}&#39;</span>
+</code></pre></div></p>
+<p><strong>Note:</strong> The expiry date can be provided in DDMMYY format (e.g., "160925" for 16-Sep-2025) or DD-MMM-YYYY format.</p>
+<h3 id="12-get-options-analytics">12. Get Options Analytics<a class="headerlink" href="#12-get-options-analytics" title="Permanent link">&para;</a></h3>
+<p>Get analytics for saved options data.</p>
+<p><strong>Endpoint:</strong> <code>GET /options/analytics</code></p>
+<p><strong>Parameters:</strong>
+- <code>index</code> (query): Index symbol
+- <code>limit</code> (query, optional): Number of records to analyze</p>
+<p><strong>Example Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8000/options/analytics?index=NIFTY&amp;limit=500&quot;</span>
+</code></pre></div></p>
+<h2 id="response-formats">Response Formats<a class="headerlink" href="#response-formats" title="Permanent link">&para;</a></h2>
+<h3 id="fetch-result-metadata">Fetch Result Metadata<a class="headerlink" href="#fetch-result-metadata" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;createdAtUTC&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00Z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;indexName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nearestExpiry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16-Sep-2025&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;underlyingValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">24500.75</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;atmStrike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24500</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;selectedStrikesRange&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">23500</span><span class="p">,</span><span class="w"> </span><span class="mi">25500</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;totalStrikesFetched&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">41</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="analytics-response">Analytics Response<a class="headerlink" href="#analytics-response" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;createdAtUTC&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-09T15:30:00Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;indexName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;underlyingValue&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">24500.75</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;pcr&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.25</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;top_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_ce&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2450000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;oi_pe&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1850000</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;total_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4300000</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;max_pain&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;max_pain_strike&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24500</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;total_ce_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">125000000</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;total_pe_oi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100000000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="error-responses">⚠️ Error Responses<a class="headerlink" href="#error-responses" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>400</code>: Invalid parameters or expiry date format</li>
+<li><code>404</code>: Index not found or no data available</li>
+<li><code>422</code>: Invalid expiry date or strike price</li>
+<li><code>500</code>: Server error or NSE data unavailable</li>
+</ul>
+<h2 id="usage-examples">💡 Usage Examples<a class="headerlink" href="#usage-examples" title="Permanent link">&para;</a></h2>
+<h3 id="python-example-get-options-chain">Python Example - Get Options Chain<a class="headerlink" href="#python-example-get-options-chain" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="c1"># Get options data</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="s2">&quot;http://localhost:8000/options/direct-data&quot;</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="s2">&quot;NIFTY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;expiry&quot;</span><span class="p">:</span> <span class="s2">&quot;160925&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;num_strikes&quot;</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Underlying: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;underlying_value&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Strike: </span><span class="si">{</span><span class="n">option</span><span class="p">[</span><span class="s1">&#39;strikePrice&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;CE&#39;</span> <span class="ow">in</span> <span class="n">option</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  CE: ₹</span><span class="si">{</span><span class="n">option</span><span class="p">[</span><span class="s1">&#39;CE&#39;</span><span class="p">][</span><span class="s1">&#39;lastPrice&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;PE&#39;</span> <span class="ow">in</span> <span class="n">option</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  PE: ₹</span><span class="si">{</span><span class="n">option</span><span class="p">[</span><span class="s1">&#39;PE&#39;</span><span class="p">][</span><span class="s1">&#39;lastPrice&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="javascript-example-get-option-price">JavaScript Example - Get Option Price<a class="headerlink" href="#javascript-example-get-option-price" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Get specific option price</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">URLSearchParams</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">index</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;NIFTY&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">strike</span><span class="o">:</span><span class="w"> </span><span class="mf">24000</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">expiry</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;160925&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">option_type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;CE&#39;</span>
+<span class="p">});</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="sb">`http://localhost:8000/options/option-price?</span><span class="si">${</span><span class="nx">params</span><span class="si">}</span><span class="sb">`</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`NIFTY 24000 CE: ₹</span><span class="si">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">lastPrice</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Open Interest: </span><span class="si">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">openInterest</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+</code></pre></div>
+<h2 id="rate-limits">🔄 Rate Limits<a class="headerlink" href="#rate-limits" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Index price requests: 100 per minute</li>
+<li>Options data requests: 50 per minute</li>
+<li>Historical data: 30 per minute</li>
+<li>Analytics requests: 20 per minute</li>
+</ul>
+<h2 id="data-sources">Data Sources<a class="headerlink" href="#data-sources" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Options Data</strong>: NSE (National Stock Exchange of India)</li>
+<li><strong>Historical Options</strong>: Yahoo Finance</li>
+<li><strong>Index Prices</strong>: NSE real-time data</li>
+</ul>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Use DDMMYY format for expiry dates (e.g., <code>160925</code> for 16-Sep-2025)</li>
+<li>Validate expiry dates before making requests</li>
+<li>Use appropriate strike ranges for your analysis</li>
+<li>Cache frequently requested data</li>
+<li>Handle NSE data unavailability gracefully</li>
+<li>Use the direct-data endpoint for real-time analysis</li>
+<li>Use fetch endpoints for bulk data processing</li>
+</ol>
+<h2 id="supported-indices">Supported Indices<a class="headerlink" href="#supported-indices" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>NIFTY</strong>: Primary Indian index</li>
+<li><strong>BANKNIFTY</strong>: Banking sector index</li>
+<li><strong>NIFTYIT</strong>: IT sector index</li>
+<li><strong>NIFTYPHARMA</strong>: Pharma sector index</li>
+<li><strong>NIFTYAUTO</strong>: Auto sector index</li>
+<li><strong>NIFTYFINANCE</strong>: Finance sector index</li>
+</ul>
+<h2 id="date-format-conversion">Date Format Conversion<a class="headerlink" href="#date-format-conversion" title="Permanent link">&para;</a></h2>
+<p>The API accepts expiry dates in DDMMYY format for user convenience:
+- <code>160925</code> → <code>16-Sep-2025</code>
+- <code>301225</code> → <code>30-Dec-2025</code>
+- <code>280225</code> → <code>28-Feb-2025</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
