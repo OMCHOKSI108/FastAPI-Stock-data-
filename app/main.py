@@ -51,15 +51,27 @@ async def root():
             },
             "options": {
                 "expiries": "/options/expiries?index=NIFTY - Available expiries",
+                "live-expiries": "/options/live-expiries?index=NIFTY - Fresh expiries (no CSV)",
                 "index-price": "/options/index-price?index=NIFTY - Index price",
                 "stock-price": "/options/stock-price?symbol=RELIANCE - Stock price",
                 "fetch": "/options/fetch (POST) - Fetch and save option chain",
                 "fetch/expiry": "/options/fetch/expiry (POST) - Fetch specific expiry",
-                "analytics": "/options/analytics?index=NIFTY - PCR, max pain, top OI",
+                "live-chain": "/options/live-chain?index=NIFTY&expiry=16-Sep-2025 - Fresh option chain (no CSV)",
+                "live-analytics": "/options/live-analytics?index=NIFTY&expiry=16-Sep-2025 - Fresh analytics (no CSV)",
+                "live-price": "/options/live-price?index=NIFTY&strike=24900&expiry=16-Sep-2025&option_type=CE - Live option price (no CSV)",
+                "live-historical": "/options/live-historical?index=NIFTY&strike=24900&expiry=16-Sep-2025&option_type=CE - Live historical format (no CSV)",
+                "analytics": "/options/analytics?index=NIFTY - PCR, max pain, top OI (from CSV)",
                 "option-price": "/options/option-price?index=NIFTY&strike=24000&expiry=160925&option_type=CE - Specific option price",
                 "direct-data": "/options/direct-data?index=NIFTY&expiry=160925&num_strikes=25 - Direct options data",
                 "strike-data": "/options/strike-data?index=NIFTY&strike=24000&expiry=160925&option_type=BOTH - Strike-specific data",
-                "historical": "/options/historical/{symbol}?strike=24000&expiry=160925&option_type=CE&period=1d - Historical option data"
+                "historical": "/options/historical/{symbol}?strike=24000&expiry=160925&option_type=CE&period=1d - Historical option data",
+                "BSE Options (Limited)": {
+                    "bse/fetch": "/options/bse/fetch (POST) - Fetch BSE options chain (limited availability)",
+                    "bse/fetch/json": "/options/bse/fetch/json (POST) - Fetch BSE options JSON (limited availability)",
+                    "bse/live-chain": "/options/bse/live-chain?index=SENSEX - Live BSE options chain (limited availability)",
+                    "bse/live-analytics": "/options/bse/live-analytics?index=SENSEX - Live BSE analytics (limited availability)",
+                    "bse/live-price": "/options/bse/live-price?index=SENSEX&strike=75000&expiry=16-Sep-2025&option_type=CE - Live BSE option price (limited availability)"
+                }
             },
             "analytics": {
                 "pcr": "/analytics/pcr?index=NIFTY&expiry=160925 - Put-Call Ratio",
@@ -67,8 +79,9 @@ async def root():
                 "top-oi": "/analytics/top-oi?index=NIFTY&expiry=160925 - Top Open Interest"
             },
             "indices": {
-                "US": "/stocks/US/index/{symbol} - US index data (DJI, SPX, IXIC)",
-                "BSE": "/stocks/IND/index/{symbol} - BSE index data (SENSEX, BSE100)"
+                "US": "/stocks/index/US/{symbol} - US index data (DJI, SPX, IXIC)",
+                "BSE": "/stocks/index/BSE/{symbol} - BSE index data (SENSEX, BSE100)",
+                "NSE": "/stocks/index/NSE/{symbol} - NSE index data (NIFTY, BANKNIFTY)"
             }
         },
         "documentation": "/docs - Interactive API documentation",

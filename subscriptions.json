@@ -150,7 +150,29 @@
       "PVR.NS",
       "RAMCOCEM.NS",
       "RAYMOND.NS",
-      "RELAXO.NS"
+      "RELAXO.NS",
+      "RENUKA.NS",
+      "SHRIRAMFIN.NS",
+      "SOBHA.NS",
+      "SOLARINDS.NS",
+      "SPARC.NS",
+      "SUNTV.NS",
+      "SUPREMEIND.NS",
+      "SYNGENE.NS",
+      "TANLA.NS",
+      "TEAMLEASE.NS",
+      "THERMAX.NS",
+      "TV18BRDCST.NS",
+      "TVSMOTOR.NS",
+      "UNIONBANK.NS",
+      "VAKRANGEE.NS",
+      "VINATIORGA.NS",
+      "VIPIND.NS",
+      "VTL.NS",
+      "WELCORP.NS",
+      "WHIRLPOOL.NS",
+      "YESBANK.NS",
+      "ZENSARTECH.NS"
     ],
     "us": [
       "AAPL",
@@ -232,7 +254,19 @@
       "MU",
       "CI",
       "SO",
-      "VRTX"
+      "VRTX",
+      "NFLX",
+      "INTC",
+      "PYPL",
+      "CMCSA",
+      "NFLX",
+      "INTC",
+      "PYPL",
+      "CMCSA",
+      "NFLX",
+      "INTC",
+      "PYPL",
+      "CMCSA"
     ]
   },
   "crypto": [
@@ -391,6 +425,54 @@
     {
       "symbol": "LSKUSDT",
       "name": "Lisk"
+    },
+    {
+      "symbol": "XEMUSDT",
+      "name": "NEM"
+    },
+    {
+      "symbol": "QTUMUSDT",
+      "name": "Qtum"
+    },
+    {
+      "symbol": "BTGUSDT",
+      "name": "Bitcoin Gold"
+    },
+    {
+      "symbol": "ZECUSDT",
+      "name": "Zcash"
+    },
+    {
+      "symbol": "DASHUSDT",
+      "name": "Dash"
+    },
+    {
+      "symbol": "XMRUSDT",
+      "name": "Monero"
+    },
+    {
+      "symbol": "ETCUSDT",
+      "name": "Ethereum Classic"
+    },
+    {
+      "symbol": "BTGUSDT",
+      "name": "Bitcoin Gold"
+    },
+    {
+      "symbol": "ZECUSDT",
+      "name": "Zcash"
+    },
+    {
+      "symbol": "DASHUSDT",
+      "name": "Dash"
+    },
+    {
+      "symbol": "XMRUSDT",
+      "name": "Monero"
+    },
+    {
+      "symbol": "BTGUSDT",
+      "name": "Bitcoin Gold"
     }
   ]
 }

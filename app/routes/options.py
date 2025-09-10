@@ -12,7 +12,7 @@ from ..schemas import IndexPriceResponse, StockQuote, FetchOptionsRequest, Fetch
 
 router = APIRouter()
 
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__), '..', '..', 'option_chain_data')
+OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'option_chain_data')
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def _expand_side(df: pd.DataFrame, side: str) -> pd.DataFrame:
@@ -47,6 +47,23 @@ def _normalize_index_name(index: str) -> str:
         return "NIFTY"
     if s in ("BANKNIFTY", "NSEBANK"):
         return "BANKNIFTY"
+    # BSE indices
+    if s in ("SENSEX", "BSESN"):
+        return "SENSEX"
+    if s in ("BANKEX", "BSEBANK"):
+        return "BANKEX"
+    if s in ("AUTO", "CNXAUTO"):
+        return "AUTO"
+    if s in ("FINANCE", "CNXFIN"):
+        return "FINANCE"
+    if s in ("IT", "CNXIT"):
+        return "IT"
+    if s in ("METAL", "CNXMETAL"):
+        return "METAL"
+    if s in ("PHARMA", "CNXPHARMA"):
+        return "PHARMA"
+    if s in ("REALTY", "CNXREALTY"):
+        return "REALTY"
     return s
 
 def calculate_pcr(df: pd.DataFrame) -> dict:
@@ -178,17 +195,35 @@ def get_available_expiries(index_name: str) -> List[str]:
 
 def fetch_index_price(index_name: str) -> dict:
     try:
-        quote = nse_quote(index_name)
-        if not quote or 'lastPrice' not in quote:
-            raise HTTPException(status_code=404, detail=f"No data for index {index_name}")
-        last_price = float(str(quote['lastPrice']).replace(',', ''))
-        return {
-            'symbol': index_name,
-            'lastPrice': last_price,
-            'pChange': float(quote.get('pChange', 0)),
-            'change': float(quote.get('change', 0)),
-            'timestamp': quote.get('secDate', datetime.now().strftime("%d %b %Y %H:%M:%S"))
+        # Map NSE index names to Yahoo Finance symbols
+        index_mapping = {
+            'NIFTY': '^NSEI',
+            'BANKNIFTY': '^NSEBANK',
+            'NIFTY50': '^NSEI',
+            'NSEI': '^NSEI',
+            'NSEBANK': '^NSEBANK'
         }
+        
+        yf_symbol = index_mapping.get(index_name.upper(), f'^{index_name.upper()}')
+        
+        from ..providers import yfinance_provider
+        # Use sync version
+        import asyncio
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        quote = loop.run_until_complete(yfinance_provider.get_quote(yf_symbol))
+        loop.close()
+        
+        if quote:
+            return {
+                'symbol': index_name,
+                'lastPrice': quote['price'],
+                'pChange': 0.0,  # yfinance doesn't provide pChange in this format
+                'change': 0.0,
+                'timestamp': quote['timestamp']
+            }
+        else:
+            raise HTTPException(status_code=404, detail=f"No data for index {index_name}")
     except HTTPException:
         raise
     except Exception as e:
@@ -196,24 +231,31 @@ def fetch_index_price(index_name: str) -> dict:
 
 def fetch_stock_price(stock_symbol: str) -> dict:
     try:
-        quote = nse_quote(stock_symbol)
-        info = quote.get('info', {})
-        price_info = quote.get('priceInfo', {})
-        if not info or not price_info:
+        # For NSE stocks, append .NS if not already present
+        if not stock_symbol.upper().endswith('.NS'):
+            yf_symbol = f"{stock_symbol.upper()}.NS"
+        else:
+            yf_symbol = stock_symbol.upper()
+        
+        from ..providers import yfinance_provider
+        # Use sync version
+        import asyncio
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        quote = loop.run_until_complete(yfinance_provider.get_quote(yf_symbol))
+        loop.close()
+        
+        if quote:
+            return {
+                'symbol': stock_symbol,
+                'companyName': stock_symbol,  # yfinance doesn't provide company name in this format
+                'lastPrice': quote['price'],
+                'pChange': 0.0,
+                'change': 0.0,
+                'timestamp': quote['timestamp']
+            }
+        else:
             raise HTTPException(status_code=404, detail=f"No data for stock {stock_symbol}")
-        last_price = price_info.get('lastPrice')
-        try:
-            last_price = float(last_price) if last_price is not None else None
-        except Exception:
-            last_price = None
-        return {
-            'symbol': info.get('symbol'),
-            'companyName': info.get('companyName'),
-            'lastPrice': last_price,
-            'pChange': float(price_info.get('pChange', 0)) if price_info.get('pChange') is not None else None,
-            'change': float(price_info.get('change', 0)) if price_info.get('change') is not None else None,
-            'timestamp': quote.get('metadata', {}).get('lastUpdateTime', datetime.now().strftime("%d-%b-%Y %H:%M:%S"))
-        }
     except HTTPException:
         raise
     except Exception as e:
@@ -767,6 +809,16 @@ async def api_get_option_historical(
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid expiry date format: {expiry}. Use DDMMYY format (e.g. 160925)")
     
+    # Check if expiry is in the future
+    try:
+        expiry_date = datetime.strptime(nse_expiry, "%d-%b-%Y")
+        current_date = datetime.now()
+        if expiry_date > current_date:
+            raise HTTPException(status_code=400, detail=f"Cannot get historical data for future expiry date: {nse_expiry}")
+    except ValueError:
+        # If parsing fails, assume it's valid
+        pass
+    
     # Construct the option symbol for yfinance
     # Format: INDEXYYMMDDSTRIKECPE (e.g., NIFTY25SEP24850CE)
     try:
@@ -795,29 +847,269 @@ async def api_get_option_historical(
             strike_int = int(strike)
             yf_symbol = f"{index_name}{yf_expiry}{strike_int}{option_type}.NS"
             
-            # Try to get historical data
-            try:
-                from ..providers import yfinance_provider
-                data = await yfinance_provider.get_historical(yf_symbol, period)
-                
-                if data:
-                    return OptionHistoricalData(
-                        symbol=symbol,
-                        strike=strike,
-                        expiry=nse_expiry,
-                        option_type=option_type,
-                        period=period,
-                        data=data,
-                        timestamp=datetime.now().isoformat()
-                    )
-                else:
-                    raise HTTPException(status_code=404, detail=f"No historical data found for {yf_symbol}")
-                    
-            except Exception as e:
-                raise HTTPException(status_code=500, detail=f"Failed to fetch historical data: {str(e)}")
+            # Instead of yfinance, check for stored CSV data
+            # Note: Stored CSV has current data, not historical time series
+            # For historical data, you would need to store time series data separately
+            
+            # For now, return error as historical time series is not implemented
+            raise HTTPException(status_code=501, detail="Historical time series data for options is not implemented. Use current option chain data from stored CSVs.")
         else:
             raise HTTPException(status_code=400, detail="Invalid expiry format")
             
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/live-chain", response_model=Dict[str, Any])
+def api_get_live_option_chain(
+    index: str = Query(..., description="Index symbol, e.g. NIFTY"),
+    expiry: str = Query(None, description="Specific expiry date, if not provided uses nearest")
+):
+    """
+    Fetch fresh option chain data without saving to CSV.
+    Returns the processed DataFrame as JSON.
+    """
+    idx = _normalize_index_name(index)
+    try:
+        resp = option_chain(idx)
+        expiries = resp['records'].get('expiryDates', [])
+        if not expiries:
+            raise HTTPException(status_code=404, detail=f"No expiries found for {idx}")
+        
+        selected_expiry = expiry if expiry and expiry in expiries else expiries[0]
+        df_processed = _prepare_option_chain_df(resp, selected_expiry)
+        
+        # Convert to dict for JSON response
+        data = {
+            'index': idx,
+            'expiry': selected_expiry,
+            'underlying_value': float(resp['records'].get('underlyingValue', 0)),
+            'data': df_processed.to_dict('records'),
+            'timestamp': datetime.now().isoformat()
+        }
+        return data
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/live-analytics", response_model=Dict[str, Any])
+def api_get_live_analytics(
+    index: str = Query(..., description="Index symbol, e.g. NIFTY"),
+    expiry: str = Query(None, description="Specific expiry date, if not provided uses nearest"),
+    limit: int = Query(500, gt=0, le=5000)
+):
+    """
+    Fetch fresh option chain data and compute analytics without saving to CSV.
+    """
+    idx = _normalize_index_name(index)
+    try:
+        resp = option_chain(idx)
+        expiries = resp['records'].get('expiryDates', [])
+        if not expiries:
+            raise HTTPException(status_code=404, detail=f"No expiries found for {idx}")
+        
+        selected_expiry = expiry if expiry and expiry in expiries else expiries[0]
+        df_processed = _prepare_option_chain_df(resp, selected_expiry)
+        
+        # Apply limit
+        if limit:
+            df_processed = df_processed.head(limit)
+        
+        # Compute analytics
+        pcr = calculate_pcr(df_processed)
+        top_oi = find_high_oi_strikes(df_processed, top_n=5)
+        max_pain = calculate_max_pain(df_processed)
+        
+        data = {
+            'index': idx,
+            'expiry': selected_expiry,
+            'underlying_value': float(resp['records'].get('underlyingValue', 0)),
+            'pcr': pcr,
+            'top_oi': top_oi,
+            'max_pain': max_pain,
+            'timestamp': datetime.now().isoformat()
+        }
+        return data
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/live-expiries", response_model=List[str])
+def api_get_live_expiries(index: str = Query(..., description="Index symbol, e.g. NIFTY")):
+    """
+    Fetch fresh list of available expiries without using stored data.
+    """
+    idx = _normalize_index_name(index)
+    expiries = get_available_expiries(idx)
+    if not expiries:
+        raise HTTPException(status_code=404, detail=f"No expiries found for {idx}")
+    return expiries
+
+@router.get("/live-price", response_model=Dict[str, Any])
+def api_get_live_option_price(
+    index: str = Query(..., description="Index symbol, e.g. NIFTY"),
+    strike: float = Query(..., description="Strike price"),
+    expiry: str = Query(..., description="Expiry date"),
+    option_type: str = Query(..., description="Option type: CE or PE")
+):
+    """
+    Get live option price for specific strike, expiry, and type without using stored CSV.
+    """
+    idx = _normalize_index_name(index)
+    option_type = option_type.upper()
+    if option_type not in ['CE', 'PE']:
+        raise HTTPException(status_code=400, detail="Option type must be CE or PE")
+    
+    try:
+        resp = option_chain(idx)
+        expiries = resp['records'].get('expiryDates', [])
+        if expiry not in expiries:
+            raise HTTPException(status_code=404, detail=f"Expiry '{expiry}' not available")
+        
+        df_processed = _prepare_option_chain_df(resp, expiry)
+        # Find the row for the strike
+        row = df_processed[df_processed['strikePrice'] == strike]
+        if row.empty:
+            raise HTTPException(status_code=404, detail=f"Strike {strike} not found for expiry {expiry}")
+        
+        # Get the price data
+        price_data = {}
+        if option_type == 'CE':
+            price_data = {
+                'strike': strike,
+                'expiry': expiry,
+                'type': 'CE',
+                'lastPrice': row['CE_lastPrice'].iloc[0] if 'CE_lastPrice' in row.columns else None,
+                'openInterest': row['CE_openInterest'].iloc[0] if 'CE_openInterest' in row.columns else None,
+                'volume': row['CE_totalTradedVolume'].iloc[0] if 'CE_totalTradedVolume' in row.columns else None
+            }
+        else:  # PE
+            price_data = {
+                'strike': strike,
+                'expiry': expiry,
+                'type': 'PE',
+                'lastPrice': row['PE_lastPrice'].iloc[0] if 'PE_lastPrice' in row.columns else None,
+                'openInterest': row['PE_openInterest'].iloc[0] if 'PE_openInterest' in row.columns else None,
+                'volume': row['PE_totalTradedVolume'].iloc[0] if 'PE_totalTradedVolume' in row.columns else None
+            }
+        
+        return price_data
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# BSE Options Endpoints
+# Note: BSE options data may have limited availability compared to NSE
+
+@router.post("/bse/fetch", response_model=FetchResultMeta, status_code=201)
+def api_fetch_bse_options(request: FetchOptionsRequest):
+    """Fetch BSE options chain data (limited availability)"""
+    idx = _normalize_index_name(request.index)
+    
+    # Check if it's a BSE index
+    bse_indices = ['SENSEX', 'BANKEX', 'BSE100', 'BSE200', 'BSE500']
+    if idx not in bse_indices:
+        raise HTTPException(status_code=400, detail=f"BSE options only available for: {', '.join(bse_indices)}")
+    
+    try:
+        # For BSE, we'll try to use yfinance as fallback since BSE options data is limited
+        # This is a placeholder - actual BSE options data fetching would require BSE API access
+        raise HTTPException(status_code=501, detail="BSE options data fetching not yet implemented. BSE options data requires specialized BSE API access.")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/bse/fetch/json", response_model=DirectOptionsData)
+def api_fetch_bse_options_json(request: FetchOptionsRequest):
+    """Fetch BSE options data and return JSON directly (limited availability)"""
+    idx = _normalize_index_name(request.index)
+    
+    # Check if it's a BSE index
+    bse_indices = ['SENSEX', 'BANKEX', 'BSE100', 'BSE200', 'BSE500']
+    if idx not in bse_indices:
+        raise HTTPException(status_code=400, detail=f"BSE options only available for: {', '.join(bse_indices)}")
+    
+    try:
+        # For BSE, we'll try to use yfinance as fallback since BSE options data is limited
+        # This is a placeholder - actual BSE options data fetching would require BSE API access
+        raise HTTPException(status_code=501, detail="BSE options data fetching not yet implemented. BSE options data requires specialized BSE API access.")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/bse/live-chain", response_model=Dict[str, Any])
+def api_get_bse_live_chain(
+    index: str = Query(..., description="BSE Index symbol, e.g. SENSEX, BANKEX"),
+    num_strikes: int = Query(10, description="Number of strikes around ATM")
+):
+    """Get live BSE options chain (limited availability)"""
+    idx = _normalize_index_name(index)
+    
+    # Check if it's a BSE index
+    bse_indices = ['SENSEX', 'BANKEX', 'BSE100', 'BSE200', 'BSE500']
+    if idx not in bse_indices:
+        raise HTTPException(status_code=400, detail=f"BSE options only available for: {', '.join(bse_indices)}")
+    
+    try:
+        # For BSE, we'll try to use yfinance as fallback since BSE options data is limited
+        # This is a placeholder - actual BSE options data fetching would require BSE API access
+        raise HTTPException(status_code=501, detail="BSE options data fetching not yet implemented. BSE options data requires specialized BSE API access.")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/bse/live-analytics", response_model=AnalyticsResponse)
+def api_get_bse_live_analytics(
+    index: str = Query(..., description="BSE Index symbol, e.g. SENSEX, BANKEX")
+):
+    """Get live BSE options analytics (limited availability)"""
+    idx = _normalize_index_name(index)
+    
+    # Check if it's a BSE index
+    bse_indices = ['SENSEX', 'BANKEX', 'BSE100', 'BSE200', 'BSE500']
+    if idx not in bse_indices:
+        raise HTTPException(status_code=400, detail=f"BSE options only available for: {', '.join(bse_indices)}")
+    
+    try:
+        # For BSE, we'll try to use yfinance as fallback since BSE options data is limited
+        # This is a placeholder - actual BSE options data fetching would require BSE API access
+        raise HTTPException(status_code=501, detail="BSE options analytics not yet implemented. BSE options data requires specialized BSE API access.")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/bse/live-price", response_model=Dict[str, Any])
+def api_get_bse_live_option_price(
+    index: str = Query(..., description="BSE Index symbol, e.g. SENSEX"),
+    strike: float = Query(..., description="Strike price"),
+    expiry: str = Query(..., description="Expiry date"),
+    option_type: str = Query(..., description="Option type: CE or PE")
+):
+    """Get live BSE option price (limited availability)"""
+    idx = _normalize_index_name(index)
+    
+    # Check if it's a BSE index
+    bse_indices = ['SENSEX', 'BANKEX', 'BSE100', 'BSE200', 'BSE500']
+    if idx not in bse_indices:
+        raise HTTPException(status_code=400, detail=f"BSE options only available for: {', '.join(bse_indices)}")
+    
+    try:
+        # For BSE, we'll try to use yfinance as fallback since BSE options data is limited
+        # This is a placeholder - actual BSE options data fetching would require BSE API access
+        raise HTTPException(status_code=501, detail="BSE options data fetching not yet implemented. BSE options data requires specialized BSE API access.")
+        
     except HTTPException:
         raise
     except Exception as e:

@@ -168,13 +168,17 @@ async def get_bse_index_quote(symbol: str):
     index_mapping = {
         'SENSEX': '^BSESN',
         'BSESN': '^BSESN',
-        'BANKEX': '^BSEBANK',
+        'BANKEX': 'BSE-BANK.BO',  # BSE Bank Index
+        'BSEBANK': 'BSE-BANK.BO',
         'AUTO': '^CNXAUTO',
         'FINANCE': '^CNXFIN',
         'IT': '^CNXIT',
         'METAL': '^CNXMETAL',
         'PHARMA': '^CNXPHARMA',
-        'REALTY': '^CNXREALTY'
+        'REALTY': '^CNXREALTY',
+        'BSE100': '^BSE100',
+        'BSE200': '^BSE200',
+        'BSE500': '^BSE500'
     }
     
     symbol = symbol.upper()
@@ -200,13 +204,81 @@ async def get_bse_index_historical(symbol: str, period: str = Query("1d", descri
     index_mapping = {
         'SENSEX': '^BSESN',
         'BSESN': '^BSESN',
-        'BANKEX': '^BSEBANK',
+        'BANKEX': 'BSE-BANK.BO',  # BSE Bank Index
+        'BSEBANK': 'BSE-BANK.BO',
         'AUTO': '^CNXAUTO',
         'FINANCE': '^CNXFIN',
         'IT': '^CNXIT',
         'METAL': '^CNXMETAL',
         'PHARMA': '^CNXPHARMA',
-        'REALTY': '^CNXREALTY'
+        'REALTY': '^CNXREALTY',
+        'BSE100': '^BSE100',
+        'BSE200': '^BSE200',
+        'BSE500': '^BSE500'
+    }
+    
+    symbol = symbol.upper()
+    yf_symbol = index_mapping.get(symbol, f'^{symbol}')
+    
+    try:
+        data = await yfinance_provider.get_historical(yf_symbol, period)
+        if data:
+            return HistoricalData(symbol=symbol, period=period, data=data)
+        else:
+            raise HTTPException(status_code=404, detail="No historical data found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/index/NSE/{symbol}", response_model=StockQuote)
+async def get_nse_index_quote(symbol: str):
+    """Get NSE index quote (e.g. NIFTY, BANKNIFTY)"""
+    # Map common names to Yahoo Finance symbols
+    index_mapping = {
+        'NIFTY': '^NSEI',
+        'NIFTY50': '^NSEI',
+        'NSEI': '^NSEI',
+        'BANKNIFTY': '^NSEBANK',
+        'NSEBANK': '^NSEBANK',
+        'NIFTYIT': '^CNXIT',
+        'NIFTYAUTO': '^CNXAUTO',
+        'NIFTYFINANCE': '^CNXFIN',
+        'NIFTYMETAL': '^CNXMETAL',
+        'NIFTYPHARMA': '^CNXPHARMA',
+        'NIFTYREALTY': '^CNXREALTY'
+    }
+    
+    symbol = symbol.upper()
+    yf_symbol = index_mapping.get(symbol, f'^{symbol}')
+    
+    try:
+        quote = await yfinance_provider.get_quote(yf_symbol)
+        if quote:
+            return StockQuote(
+                symbol=symbol,
+                lastPrice=quote['price'],
+                timestamp=quote['timestamp']
+            )
+        else:
+            raise HTTPException(status_code=404, detail="Failed to fetch NSE index quote")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/index/NSE/{symbol}/historical", response_model=HistoricalData)
+async def get_nse_index_historical(symbol: str, period: str = Query("1d", description="Period: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max")):
+    """Get historical data for NSE index"""
+    # Map common names to Yahoo Finance symbols
+    index_mapping = {
+        'NIFTY': '^NSEI',
+        'NIFTY50': '^NSEI',
+        'NSEI': '^NSEI',
+        'BANKNIFTY': '^NSEBANK',
+        'NSEBANK': '^NSEBANK',
+        'NIFTYIT': '^CNXIT',
+        'NIFTYAUTO': '^CNXAUTO',
+        'NIFTYFINANCE': '^CNXFIN',
+        'NIFTYMETAL': '^CNXMETAL',
+        'NIFTYPHARMA': '^CNXPHARMA',
+        'NIFTYREALTY': '^CNXREALTY'
     }
     
     symbol = symbol.upper()

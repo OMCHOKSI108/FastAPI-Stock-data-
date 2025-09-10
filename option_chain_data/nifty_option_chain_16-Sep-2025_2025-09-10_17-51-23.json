@@ -1,0 +1,12 @@
+{
+  "createdAtUTC": "2025-09-10T12:21:23.439240",
+  "indexName": "NIFTY",
+  "nearestExpiry": "16-Sep-2025",
+  "underlyingValue": 24979.1,
+  "atmStrike": 25000,
+  "selectedStrikesRange": [
+    23750,
+    26250
+  ],
+  "totalStrikesFetched": 51
+}

@@ -1,0 +1,12 @@
+{
+  "createdAtUTC": "2025-09-10T12:21:34.664118",
+  "indexName": "FINNIFTY",
+  "nearestExpiry": "30-Sep-2025",
+  "underlyingValue": 26125.55,
+  "atmStrike": 26150,
+  "selectedStrikesRange": [
+    24900,
+    27600
+  ],
+  "totalStrikesFetched": 51
+}

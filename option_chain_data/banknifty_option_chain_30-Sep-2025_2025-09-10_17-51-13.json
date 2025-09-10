@@ -1,8 +1,8 @@
 {
-  "createdAtUTC": "2025-09-10T03:52:00.431204",
+  "createdAtUTC": "2025-09-10T12:21:13.853889",
   "indexName": "BANKNIFTY",
   "nearestExpiry": "30-Sep-2025",
-  "underlyingValue": 54467.25,
+  "underlyingValue": 54536.65,
   "atmStrike": 54500,
   "selectedStrikesRange": [
     52000,

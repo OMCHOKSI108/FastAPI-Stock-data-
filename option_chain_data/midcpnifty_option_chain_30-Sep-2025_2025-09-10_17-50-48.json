@@ -1,0 +1,12 @@
+{
+  "createdAtUTC": "2025-09-10T12:20:48.124405",
+  "indexName": "MIDCPNIFTY",
+  "nearestExpiry": "30-Sep-2025",
+  "underlyingValue": 13050.1,
+  "atmStrike": 13050,
+  "selectedStrikesRange": [
+    12425,
+    13675
+  ],
+  "totalStrikesFetched": 51
+}
