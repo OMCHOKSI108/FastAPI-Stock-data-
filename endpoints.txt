@@ -1,0 +1,161 @@
+FastStockAPI - Endpoints Reference
+
+Base docs: /docs (interactive)
+Health: GET /health -> {"status":"ok"}
+Root: GET / -> project manifest with endpoints list
+
+--- Stocks (/stocks)
+GET /stocks/indian/list
+  - Description: List subscribed Indian stock symbols
+  - Example: curl -sS https://<HOST>/stocks/indian/list
+
+GET /stocks/us/list
+  - Description: List subscribed US stock symbols
+  - Example: curl -sS https://<HOST>/stocks/us/list
+
+GET /stocks/list
+  - Description: All available stocks (Indian + US)
+  - Example: curl -sS https://<HOST>/stocks/list
+
+GET /stocks/quote/IND/{symbol}
+  - Description: Get Indian stock quote for PATH symbol
+  - Example: curl -sS "https://<HOST>/stocks/quote/IND/RELIANCE"
+
+GET /stocks/historical/IND/{symbol}?period=1d
+  - Description: Historical data for an Indian stock (yfinance periods)
+  - Example: curl -sS "https://<HOST>/stocks/historical/IND/RELIANCE?period=1mo"
+
+GET /stocks/quote/US/{symbol}
+  - Description: Get US stock quote
+  - Example: curl -sS "https://<HOST>/stocks/quote/US/AAPL"
+
+GET /stocks/historical/US/{symbol}?period=1d
+  - Description: Historical data for a US stock
+  - Example: curl -sS "https://<HOST>/stocks/historical/US/AAPL?period=1mo"
+
+GET /stocks/index/US/{symbol}
+  - Description: US index quote (map friendly names)
+  - Example: curl -sS "https://<HOST>/stocks/index/US/SP500"
+
+GET /stocks/index/US/{symbol}/historical?period=1d
+  - Description: Historical data for US index
+  - Example: curl -sS "https://<HOST>/stocks/index/US/SP500/historical?period=1mo"
+
+GET /stocks/index/BSE/{symbol}
+  - Description: BSE index quote (SENSEX etc)
+  - Example: curl -sS "https://<HOST>/stocks/index/BSE/SENSEX"
+
+GET /stocks/index/BSE/{symbol}/historical?period=1d
+  - Description: Historical data for BSE index
+  - Example: curl -sS "https://<HOST>/stocks/index/BSE/SENSEX/historical?period=1mo"
+
+--- Crypto (/crypto)
+GET /crypto/list
+  - Description: Available cryptocurrency symbols (from subscriptions.json)
+  - Example: curl -sS https://<HOST>/crypto/list
+
+GET /crypto/quote/{symbol}
+  - Description: Get current crypto price (Binance)
+  - Example: curl -sS "https://<HOST>/crypto/quote/BTC"
+
+GET /crypto/historical/{symbol}?interval=1d&limit=100
+  - Description: Historical OHLC data for a crypto symbol
+  - Example: curl -sS "https://<HOST>/crypto/historical/BTC?interval=1d&limit=30"
+
+--- Options (/options)
+GET /options/expiries?index=NIFTY
+  - Description: Get available expiries for an index (NIFTY / BANKNIFTY)
+  - Example: curl -sS "https://<HOST>/options/expiries?index=NIFTY"
+
+GET /options/index-price?index=NIFTY
+  - Description: Current index price (from nse_quote)
+  - Example: curl -sS "https://<HOST>/options/index-price?index=NIFTY"
+
+GET /options/stock-price?symbol=RELIANCE
+  - Description: Current stock price (NSE) for a symbol
+  - Example: curl -sS "https://<HOST>/options/stock-price?symbol=RELIANCE"
+
+POST /options/fetch
+  - Description: Fetch nearest-expiry option chain and save CSV + metadata (legacy snapshot behavior)
+  - Request JSON: {"index": "NIFTY", "num_strikes": 25}
+  - Example: curl -X POST -H "Content-Type: application/json" -d "{\"index\":\"NIFTY\",\"num_strikes\":25}" https://<HOST>/options/fetch
+  - Response: 201 Created with metadata JSON (createdAtUTC, atmStrike, etc.)
+
+POST /options/fetch/expiry
+  - Description: Fetch specific expiry option chain and save CSV + metadata
+  - Request JSON: {"index": "NIFTY", "expiry": "160925", "num_strikes": 25}
+  - Example: curl -X POST -H "Content-Type: application/json" -d "{\"index\":\"NIFTY\",\"expiry\":\"160925\",\"num_strikes\":25}" https://<HOST>/options/fetch/expiry
+  - Response: 201 Created with metadata JSON
+
+POST /options/fetch/json
+  - Description: NEW - Fetch nearest-expiry options and return JSON immediately (no CSV saved)
+  - Request JSON: {"index": "NIFTY", "num_strikes": 25}
+  - Example: curl -X POST -H "Content-Type: application/json" -d "{\"index\":\"NIFTY\",\"num_strikes\":12}" https://<HOST>/options/fetch/json
+  - Response: DirectOptionsData (index, expiry, underlying_value, options[], timestamp)
+
+POST /options/fetch/expiry/json
+  - Description: NEW - Fetch specific expiry options and return JSON immediately (no CSV saved)
+  - Request JSON: {"index": "NIFTY", "expiry": "160925", "num_strikes": 12}
+  - Example: curl -X POST -H "Content-Type: application/json" -d "{\"index\":\"NIFTY\",\"expiry\":\"160925\",\"num_strikes\":12}" https://<HOST>/options/fetch/expiry/json
+  - Response: DirectOptionsData
+
+GET /options/analytics?index=NIFTY&limit=500
+  - Description: Compute analytics (PCR, max-pain, top OI) from latest saved CSV snapshot
+  - Example: curl -sS "https://<HOST>/options/analytics?index=NIFTY"
+
+GET /options/option-price?index=NIFTY&strike=24000&expiry=160925&option_type=CE
+  - Description: Get a specific option contract's latest price/oi/volume
+  - Example: curl -sS "https://<HOST>/options/option-price?index=NIFTY&strike=24000&expiry=160925&option_type=CE"
+
+GET /options/direct-data?index=NIFTY&expiry=160925&num_strikes=25
+  - Description: Get options data directly (query params) without saving CSV
+  - Example: curl -sS "https://<HOST>/options/direct-data?index=NIFTY&expiry=160925&num_strikes=25"
+
+GET /options/strike-data?index=NIFTY&strike=24000&expiry=160925&option_type=BOTH
+  - Description: Get CE/PE data for a specific strike and expiry
+  - Example: curl -sS "https://<HOST>/options/strike-data?index=NIFTY&strike=24000&expiry=160925&option_type=BOTH"
+
+GET /options/historical/{symbol}?strike=24000&expiry=160925&option_type=CE&period=1d
+  - Description: Fetch historical time-series for a specific option contract (uses yfinance provider)
+  - Example: curl -sS "https://<HOST>/options/historical/NIFTY?strike=24000&expiry=160925&option_type=CE&period=1mo"
+
+--- Analytics (/analytics)
+GET /analytics/pcr?index=NIFTY&expiry=160925&limit=500
+  - Description: Put-Call Ratio from latest saved CSV
+  - Example: curl -sS "https://<HOST>/analytics/pcr?index=NIFTY"
+
+GET /analytics/max-pain?index=NIFTY&expiry=160925&limit=500
+  - Description: Max pain calculation from latest saved CSV
+  - Example: curl -sS "https://<HOST>/analytics/max-pain?index=NIFTY"
+
+GET /analytics/top-oi?index=NIFTY&expiry=160925&top_n=5&limit=500
+  - Description: Top open-interest strikes from latest saved CSV
+  - Example: curl -sS "https://<HOST>/analytics/top-oi?index=NIFTY"
+
+GET /analytics/summary?index=NIFTY&expiry=160925&limit=500
+  - Description: Full analytics summary (meta, pcr, top_oi, max_pain)
+  - Example: curl -sS "https://<HOST>/analytics/summary?index=NIFTY"
+
+--- Forex (/forex)
+GET /forex/pairs
+  - Description: List available forex pairs
+  - Example: curl -sS "https://<HOST>/forex/pairs"
+
+GET /forex/quote?symbol=EURUSD
+  - Description: Current forex quote for pair
+  - Example: curl -sS "https://<HOST>/forex/quote?symbol=EURUSD"
+
+GET /forex/historical?symbol=EURUSD&period=1d
+  - Description: Historical forex data for a pair
+  - Example: curl -sS "https://<HOST>/forex/historical?symbol=EURUSD&period=1mo"
+
+GET /forex/quotes?symbols=EURUSD,GBPUSD
+  - Description: Get current quotes for multiple pairs (comma-separated)
+  - Example: curl -sS "https://<HOST>/forex/quotes?symbols=EURUSD,GBPUSD"
+
+--- Notes
+- Replace <HOST> with your server host (e.g. https://fastapi-stock-data.onrender.com or http://localhost:8000).
+- Options expiry accepted formats: DDMMYY (e.g. 160925) or DD-MMM-YYYY (e.g. 16-Sep-2025) where applicable. POST JSON bodies use keys exactly as shown (index, expiry, num_strikes).
+- Legacy CSV behavior: POST /options/fetch and POST /options/fetch/expiry save CSV snapshots to the repository's option_chain_data/ directory and produce metadata JSON alongside the saved CSV.
+
+
