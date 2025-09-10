@@ -2,7 +2,7 @@
 
 Welcome to **FastStockAPI**! This comprehensive guide will help you get started with our powerful financial data API that provides real-time and historical data for stocks, cryptocurrencies, options, indices, and forex markets.
 
-## 🚀 What is FastStockAPI?
+##  What is FastStockAPI?
 
 FastStockAPI is a high-performance FastAPI-based service that aggregates financial market data from multiple sources:
 
@@ -22,7 +22,7 @@ Before you start, make sure you have:
 - **Git** (for cloning the repository)
 - Basic knowledge of REST APIs
 
-## 🛠️ Installation & Setup
+##  Installation & Setup
 
 ### Option 1: Use the Live API (Recommended)
 
@@ -483,7 +483,7 @@ def get_market_sentiment():
 - **Logs**: Check server logs for detailed error information
 - **GitHub Issues**: Report bugs and request features
 
-## 🚀 Next Steps
+##  Next Steps
 
 Now that you know the basics, explore these advanced topics:
 
@@ -492,7 +492,7 @@ Now that you know the basics, explore these advanced topics:
 3. **[Deployment Guide](deployment.md)**: Production deployment
 4. **[Analytics](api/analytics.md)**: Advanced trading analytics
 
-## 📞 Support
+##  Support
 
 - **📧 Email**: support@faststockapi.com
 - **💬 GitHub**: [Create an issue](https://github.com/your-repo/issues)
@@ -500,7 +500,7 @@ Now that you know the basics, explore these advanced topics:
 
 ---
 
-**Happy coding with FastStockAPI! 🚀📈**
+**Happy coding with FastStockAPI! 📈**
 
 ## Python Examples
 

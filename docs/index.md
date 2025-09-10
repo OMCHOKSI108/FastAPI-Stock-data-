@@ -49,7 +49,7 @@ Welcome to **FastStockAPI**, a powerful and comprehensive FastAPI-based financia
 - **Top OI**: `/analytics/top-oi?index=NIFTY&expiry=160925` - Top open interest
 - **Summary**: `/analytics/summary?index=NIFTY&expiry=160925` - Complete analytics
 
-## 🛠️ Quick Start
+##  Quick Start
 
 ### Base URL
 ```
@@ -85,7 +85,7 @@ curl "http://localhost:8000/options/index-price?index=NIFTY"
 curl "http://localhost:8000/options/direct-data?index=NIFTY&expiry=160925&num_strikes=10"
 ```
 
-## 📚 Documentation
+##  Documentation
 
 - **[Getting Started](getting-started.md)**: Installation and setup guide
 - **[API Reference](api/)**: Complete endpoint documentation
@@ -119,7 +119,7 @@ Visit `/docs` for interactive Swagger UI documentation with live API testing.
 - **Major Pairs**: USD/INR, EUR/USD, GBP/USD, USD/JPY, etc.
 - **Real-time Rates**: Updated every minute
 
-## 🚀 Deployment
+##  Deployment
 
 ### Local Development
 ```bash
@@ -175,11 +175,11 @@ docker run -p 8000:8000 faststockapi
 4. Add tests if applicable
 5. Submit a pull request
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 📞 Support
+##  Support
 
 For support and questions:
 - 📧 Email: support@faststockapi.com

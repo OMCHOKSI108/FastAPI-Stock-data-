@@ -2,7 +2,7 @@
 
 This comprehensive guide provides practical examples for using FastStockAPI across different programming languages and use cases.
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Base URL
 ```
@@ -718,7 +718,7 @@ def monitored_api_call(endpoint, **kwargs):
         raise
 ```
 
-## 🚀 Production Deployment
+##  Production Deployment
 
 ### Docker Deployment
 ```dockerfile

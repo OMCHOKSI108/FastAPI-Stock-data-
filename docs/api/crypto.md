@@ -669,7 +669,7 @@ Use our test script to verify all endpoints:
 python test_api_fixes.py
 ```
 
-## 📚 Related Documentation
+##  Related Documentation
 
 - [Cryptocurrency Symbols](../symbols/cryptocurrencies.md) - List of supported symbols
 - [Getting Started](../getting-started.md) - Quick start guide

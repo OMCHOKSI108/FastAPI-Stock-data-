@@ -2,7 +2,7 @@
 
 This comprehensive guide covers multiple deployment options for FastStockAPI, from local development to production environments.
 
-## 🚀 Quick Deployment Options
+##  Quick Deployment Options
 
 ### Option 1: Railway (Recommended for Beginners)
 ```bash
@@ -1161,7 +1161,7 @@ async def add_process_time_header(request, call_next):
     return response
 ```
 
-## 🚀 CI/CD Pipeline
+##  CI/CD Pipeline
 
 ### GitHub Actions Example
 
@@ -1279,7 +1279,7 @@ python --version
 pip list
 ```
 
-## 📞 Support
+##  Support
 
 - **GitHub Issues**: [Report bugs](https://github.com/OMCHOKSI108/FastAPI-Stock-data-/issues)
 - **Documentation**: [MkDocs site](https://your-docs-site.com)
